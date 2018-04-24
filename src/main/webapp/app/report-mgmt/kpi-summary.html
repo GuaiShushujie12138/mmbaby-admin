@@ -1,0 +1,646 @@
+<div class="wrapper wrapper-content animated fadeInRight" id="gridcontroller">
+  <style type="text/css">
+    .tooltip {
+      width: 500px;
+    }
+  </style>
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">
+      <span class="label label-primary"><i class="fa fa-cloud"></i>查询条件</span>
+      <div style="float: left" ng-if="vm.dataFilterMsg!=''">
+        <span>数据权限限制:{{vm.dataFilterMsg}}&nbsp;&nbsp;</span>
+      </div>
+      <div style="float: left" ng-if="vm.filterMsg!=''">
+        <span>&nbsp;&nbsp;筛选条件:{{vm.filterMsg}}</span>
+      </div>
+      <div class="ibox-tools dropdown " dropdown="">
+        <a class="chevron-up" style="color: #1ab394;"> <i class="fa fa-chevron-up"></i>展开更多</a>
+      </div>
+
+    </div>
+    <div class="ibox-content m-b-sm border-bottom">
+      <form class="form-horizontal" ng-submit="submit(vm.type)">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="col-lg-4 control-label">时间</label>
+              <div class="col-lg-8">
+                <input date-range-picker class="form-control date-picker" type="text"
+                       ng-model="vm.validateDateRange"
+                       name="cus.create_time" options="vm.opts" data-op="between" clearable="true"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="col-lg-4 control-label">业务员</label>
+              <div class="col-lg-8">
+                <select chosen class="col-lg-5 form-control" name="t.userid"
+                        ng-model="vm.userId"
+                        ng-options="item.id+'' as item.realName for item in vm.authUserList"
+                        data-op="equal">
+                  <option value=''>全部</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="btn-group pull-right" role="group" ng-if="vm.kpiView">
+              <button class="btn btn-primary btn-w-sm" type="submit">查询</button>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="btn-group pull-right" role="group" ng-if="vm.downloadKpiData">
+              <button class="btn btn-primary btn-w-sm" data-ng-click="downloadKpiSummary()">导出绩效</button>
+            </div>
+            <div class="btn-group pull-right" role="group" ng-if="vm.downloadVisitData">
+              <button class="btn btn-primary btn-w-sm" data-ng-click="downloadByVisitMessage()">导出拜访
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+      </form>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="tabs-container">
+        <uib-tabset>
+          <uib-tab heading="买家数据" active="true" data-filter="" ng-if="vm.type == 1 || vm.type == 3"
+                   ng-click="tabQuery($event , 1)">
+            <div class="panel-body">
+              <div class="row" style="overflow: auto;">
+                <div class="col-sm-12">
+                  <table datatable="ng" width="100%" dt-options="dtOptionsBuyer"
+                         dt-column-defs="dtColumnDefsBuyer"
+                         class="table table-striped table-bordered table-hover"
+                         dt-instance="dtInstanceBuyer">
+                    <thead>
+                    <tr>
+                      <th colspan="15">
+                        <span>{{vm.defaultStr}}</span>
+                        <a ng-click="changeDept($event,vm.canClickDeptId,1,vm.canClickDeptStr);">{{vm.canClickDeptStr
+                          }}{{vm.banner.length==0?"":">"}}</a>
+                        <a ng-repeat="item in vm.banner"
+                           ng-click="changeDept($event,item.id,1,item.name);">
+                          {{item.name}}{{$last?"":">"}}
+                        </a>
+                      </th>
+                    </tr>
+                    <tr>
+
+                      <th rowspan="2">编号</th>
+                      <th rowspan="2" class="vertical-middle">名称</th>
+                      <th colspan="4" class="vertical-middle">订单</th>
+                      <th colspan="5" class="vertical-middle">客户</th>
+                      <th colspan="4" class="vertical-middle">需求</th>
+                    </tr>
+                    <tr>
+                      <!--订单数据-->
+                      <th>订单总额
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="归属在该业务员名下客户作为买家时的订单总金额"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>跟进订单额
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="名下客户作为增量订单（含营收）买家的所有订单总额"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>营收订单额
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="名下客户作为营收订单买家的所有订单总额"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+
+                      <th>营收利润
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="名下客户作为营收订单买家的所有订单利润"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+
+                      <!--客户数据-->
+                      <th>成交营收买家数
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right" uib-tooltip="名下多少客户作为买家产生了订单">
+                          <i class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>首单营收买家数
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="订单是首单的买家数量"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>注册买家
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="潜在客户注册链尚网或链尚网app"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+
+                      <th>拜访客户数
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right" uib-tooltip="拜访客户的数量"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>发布需求买家数
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right" uib-tooltip="名下发布采购需求的买家数量"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+
+                      <!--需求数据-->
+                      <th>发布需求数
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right" uib-tooltip="名下买家发布的采购需求数量"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>找版成功需求数
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="名下买家发布的采购需求被找版成功的数量"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>审核通过找版
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="名下买家发布的采购需求被找版成功且专家组审核通过的数量"><i
+                                class="fa fa-info-circle red"></i></button>
+                      </th>
+
+                      <th>匹配成功需求数
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="top"
+                                uib-tooltip="名下买家发布的采购需求匹配成功的数量"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in vm.datas" ng-if="!item.count">
+                      <td>{{ item.id }}</td>
+                      <td>
+                        <span ng-if="item.type==0">{{item.userName}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <!--0代表个人-->
+                        <span ng-if="item.type==1"><a href=""
+                                                      ng-click="changeDept($event , item.id , 1,item.userName);">{{ item.userName }}</a>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <!--1表示大区或部门-->
+                      </td>
+                      <!--<td>{{ item.mobile }}</td>-->
+                      <!--订单数据-->
+                      <!--订单总额-->
+                      <td ng-if="vm.canQuery"><a target="_blank"
+                             ng-href="/#/trade-mgmt/trade-query?wordType=BuyerTradeAmount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.buyerTradeAmount }}</a></td>
+
+                      <td ng-if="!vm.canQuery">
+                        <span>{{ item.buyerTradeAmount }}</span>
+                      </td>
+
+                      <!--跟进订单总额-->
+                      <td ng-if="vm.canQuery"><a target="_blank"
+                             ng-href="/#/trade-mgmt/trade-query?wordType=BuyerFollowUpTradeAmount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.buyerFollowUpTradeAmount }}</a></td>
+
+                      <td ng-if="!vm.canQuery">
+                        <span>{{ item.buyerFollowUpTradeAmount }}</span>
+                      </td>
+                      <!--营收订单总额-->
+                      <td ng-if="vm.canQuery"><a target="_blank"
+                             ng-href="/#/trade-mgmt/trade-query?wordType=BuyerRevenueTradeAmount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.buyerRevenueTradeAmount }}</a></td>
+
+                      <td ng-if="!vm.canQuery">
+                        <span>{{ item.buyerRevenueTradeAmount }}</span>
+                      </td>
+                      <!--营收利润-->
+                      <td ng-if="vm.canQuery"><a target="_blank"
+                             ng-href="/#/trade-mgmt/trade-query?wordType=BuyerRevenueTradeAmount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.buyerRevenueAmount }}</a></td>
+
+                      <td ng-if="!vm.canQuery">
+                        <span>{{ item.buyerRevenueAmount }}</span>
+                      </td>
+
+                      <!--客户数据-->
+                      <!--成交买家数-->
+                      <td>
+                        <a target="_blank"
+                           ng-href="/#/customer-mgmt/customer-query?wordType=BuyerTradeUserCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.buyerTradeUserCount }}</a></td>
+                      <!--首单买家数-->
+                      <td>
+                        <a target="_blank"
+                           ng-href="/#/customer-mgmt/customer-query?wordType=FirstTradeBuyerCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.firstTradeBuyerCount }}</a></td>
+                      <!--注册买家数-->
+                      <td>
+                        <a target="_blank"
+                           ng-href="/#/customer-mgmt/customer-query?wordType=BuyerRegisterCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.buyerRegisterCount }}</a></td>
+
+                      <!--拜访客户数-->
+                      <td>
+                        <a target="_blank"
+                           ng-href="/#/customer-mgmt/customer-query?wordType=BuyerVisitCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.buyerVisitCount }}</a></td>
+                      <!--发布需求买家数-->
+                      <td>
+                        <a target="_blank"
+                           ng-href="/#/customer-mgmt/customer-query?wordType=BuyerDemandUserCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.buyerDemandUserCount }}</a></td>
+
+                      <!--需求数据-->
+                      <!--发布需求数-->
+                      <td ng-if="vm.canLookDemand"><a target="_blank"
+                             ng-href="/#/demand-mgmt/demand-list?wordType=BuyerDemandCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.buyerDemandCount }}</a></td>
+
+                      <td ng-if="!vm.canLookDemand">
+                        <span>
+                          {{ item.buyerDemandCount }}
+                        </span>
+                      </td>
+
+                      <!--找版成功需求数-->
+                      <td ng-if="vm.canLookDemand"><a target="_blank"
+                             ng-href="/#/demand-mgmt/demand-list?wordType=BuyerPickSuccessDemandCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.buyerPickSuccessDemandCount }}</a></td>
+
+                      <td ng-if="!vm.canLookDemand">
+                        <span>
+                          {{ item.buyerPickSuccessDemandCount }}
+                        </span>
+                      </td>
+
+                      <!-- 审核通过找版-->
+                      <td ng-if="vm.canLookDemand"><a target="_blank"
+                                                      ng-href="/#/demand-mgmt/demand-list?wordType=BuyerFeedbackAuditSuccessCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.buyerFeedbackAuditSuccessCount }}</a></td>
+                      <td ng-if="!vm.canLookDemand">
+                        <span>
+                          {{ item.buyerFeedbackAuditSuccessCount }}
+                        </span>
+                      </td>
+
+
+
+                      <!--匹配成功需求数-->
+                      <td ng-if="vm.canLookDemand"><a target="_blank"
+                             ng-href="/#/demand-mgmt/demand-list?wordType=BuyerMatchSuccessDemandCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.buyerMatchSuccessDemandCount }}</a></td>
+
+                      <td ng-if="!vm.canLookDemand">
+                        <span>
+                          {{ item.buyerMatchSuccessDemandCount }}
+                        </span>
+                      </td>
+                    </tr>
+                    </tbody>
+
+                    <tfoot>
+                    <tr ng-if="vm.sumData!=null" style="font-weight: bold;color:black">
+                      <td>-</td>
+                      <td class="vertical-middle">合计</td>
+                      <!--订单数据-->
+                      <td>{{ vm.sumData.buyerTradeAmount }}</td>
+                      <td>{{ vm.sumData.buyerFollowUpTradeAmount }}</td>
+                      <td>{{ vm.sumData.buyerRevenueTradeAmount }}</td>
+                      <td>{{ vm.sumData.buyerRevenueAmount }}</td>
+
+                      <!--客户数据-->
+                      <td>{{ vm.sumData.buyerTradeUserCount }}</td>
+                      <td>{{ vm.sumData.firstTradeBuyerCount }}</td>
+                      <td>{{ vm.sumData.buyerRegisterCount }}</td>
+                      <td>{{ vm.sumData.buyerVisitCount }}</td>
+                      <td>{{ vm.sumData.buyerDemandUserCount }}</td>
+
+                      <!--需求数据-->
+                      <td>{{ vm.sumData.buyerDemandCount }}</td>
+                      <td>{{ vm.sumData.buyerPickSuccessDemandCount }}</td>
+                      <td>{{ vm.sumData.buyerFeedbackAuditSuccessCount }}</td>
+                      <td>{{ vm.sumData.buyerMatchSuccessDemandCount }}</td>
+                    </tr>
+                    </tfoot>
+
+                  </table>
+                </div>
+              </div>
+            </div>
+          </uib-tab>
+          <uib-tab heading="卖家数据" ng-if="vm.type == 2 || vm.type == 3"
+                   ng-click="tabQuery($event , 2)">
+            <div class="panel-body">
+              <div class="row" style="overflow:auto">
+                <div class="col-sm-12">
+                  <table datatable="ng" width="100%" dt-options="dtOptionsSeller"
+                         dt-column-defs="dtColumnDefsSeller"
+                         class="table table-striped table-bordered table-hover"
+                         dt-instance="dtInstanceSeller">
+                    <thead>
+                    <tr>
+                      <th colspan="17">
+                        <span>{{vm.defaultStr}}</span>
+                        <a ng-click="changeDept($event,vm.canClickDeptId,2,vm.canClickDeptStr);">{{vm.canClickDeptStr
+                          }}{{vm.banner.length==0?"":">"}}</a>
+                        <a ng-repeat="item in vm.banner"
+                           ng-click="changeDept($event,item.id,2,item.name);">
+                          {{item.name}}{{$last?"":">"}}
+                        </a>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th rowspan="2">编号</th>
+                      <th rowspan="2" class="vertical-middle">名称</th>
+                      <th colspan="4" class="vertical-middle">订单</th>
+                      <th colspan="5" class="vertical-middle">客户</th>
+                      <th colspan="6" class="vertical-middle">需求</th>
+                    </tr>
+                    <tr>
+
+                      <!--<th>手机号</th>-->
+                      <!--订单数据-->
+                      <th>订单总额
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="归属在该业务员名下客户作为卖家时的订单总金额"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>跟进订单额
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="名下客户作为增量订单（含营收）卖家的所有订单总额"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>营收订单额
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="名下客户作为营收订单卖家的所有订单总额"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+
+                      <th>营收订单利润
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="名下客户作为营收订单卖家的所有订单利润"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+
+                      <!--客户数据-->
+                      <th>成交卖家数
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right" uib-tooltip="达成交易的卖家数量"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>首单卖家数
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right" uib-tooltip="订单是首单的卖家数量"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>注册卖家
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="潜在客户开店了（已开店的转入业务员名下不算）"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>拜访客户数
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right" uib-tooltip="拜访客户的数量"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>抢单卖家数
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right" uib-tooltip="抢单的卖家的数量"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+
+                      <!--需求数据-->
+                      <th>公海抢入
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right" uib-tooltip="公海抢入了多少条需求"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>后台分配
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right" uib-tooltip="后台分配给了该业务员多少条需求">
+                          <i class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>持有需求
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right" uib-tooltip="公海抢入+后台分配"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+                      <th>找版成功需求数
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="名下买家发布的采购需求被找版成功的数量"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+
+                      <th>审核通过找版
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="right"
+                                uib-tooltip="业务员找版成功且专家组审核通过的数量"><i
+                                class="fa fa-info-circle red"></i></button>
+                      </th>
+
+
+                      <th>匹配成功需求数
+                        <button class="btn  btn-link" type="button"
+                                tooltip-placement="top"
+                                uib-tooltip="名下买家发布的采购需求匹配成功的数量"><i
+                            class="fa fa-info-circle red"></i></button>
+                      </th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in vm.datas" ng-if="!item.count">
+                      <td>{{ item.id }}</td>
+                      <td>
+                        <span ng-if="item.type == 0">{{item.userName}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <span ng-if="item.type == 1"><a href=""
+                                                        ng-click="changeDept($event , item.id , 2,item.userName);">{{ item.userName }}</a>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      </td>
+                      <!--<td>{{ item.mobile }}</td>-->
+                      <!--订单数据-->
+
+                      <td ng-if="vm.canQuery"><a target="_blank"
+                             ng-href="/#/trade-mgmt/trade-query?wordType=SellerTradeAmount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.sellerTradeAmount}}</a></td>
+
+                      <td ng-if="!vm.canQuery">
+                        <span>{{ item.sellerTradeAmount}}</span>
+                      </td>
+
+                      <td ng-if="vm.canQuery"><a target="_blank"
+                             ng-href="/#/trade-mgmt/trade-query?wordType=SellerFollowUpTradeAmount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.sellerFollowUpTradeAmount }}</a></td>
+
+                      <td ng-if="!vm.canQuery">
+                        <span>{{ item.sellerFollowUpTradeAmount}}</span>
+                      </td>
+
+                      <td ng-if="vm.canQuery"><a target="_blank"
+                             ng-href="/#/trade-mgmt/trade-query?wordType=SellerRevenueTradeAmount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.sellerRevenueTradeAmount }}</a></td>
+
+                      <td ng-if="!vm.canQuery">
+                        <span>{{ item.sellerRevenueTradeAmount}}</span>
+                      </td>
+
+                      <td ng-if="vm.canQuery"><a target="_blank"
+                             ng-href="/#/trade-mgmt/trade-query?wordType=SellerRevenueTradeAmount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.sellerRevenueAmount }}</a></td>
+
+                      <td ng-if="!vm.canQuery">
+                        <span>{{ item.sellerRevenueAmount}}</span>
+                      </td>
+
+                      <!--客户数据-->
+                      <!--成交卖家数-->
+                      <td><a target="_blank"
+                             ng-href="/#/customer-mgmt/customer-query?wordType=DealSellerCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.dealSellerCount }}</a></td>
+                      <!--首单卖家数-->
+                      <td><a target="_blank"
+                             ng-href="/#/customer-mgmt/customer-query?wordType=FirstTradeSellerCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                        {{ item.firstTradeSellerCount }}</a></td>
+                      <!--注册卖家数-->
+                      <td>
+                        <a target="_blank"
+                           ng-href="/#/customer-mgmt/customer-query?wordType=SellerRegisterCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.sellerRegisterCount }}</a></td>
+                      <!--拜访客户数-->
+                      <td>
+                        <a target="_blank"
+                           ng-href="/#/customer-mgmt/customer-query?wordType=SellerVisitCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.sellerVisitCount }}</a>
+                      </td>
+                      <!--抢单卖家数-->
+                      <td>
+                        <a target="_blank"
+                           ng-href="/#/customer-mgmt/customer-query?wordType=ReplySellerCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.replySellerCount }}</a>
+                      </td>
+
+                      <!--需求数据-->
+                      <!--公海抢入-->
+                      <td ng-if="vm.canLookDemand">
+                        <a target="_blank"
+                           ng-href="/#/demand-mgmt/demand-list?wordType=SellerPublicDemandCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.sellerPublicDemandCount }}</a></td>
+
+                      <td ng-if="!vm.canLookDemand">
+                        <span>
+                          {{ item.sellerPublicDemandCount }}
+                        </span>
+                      </td>
+                      <!--后台分配-->
+                      <td ng-if="vm.canLookDemand">
+                        <a target="_blank"
+                           ng-href="/#/demand-mgmt/demand-list?wordType=SellerAllocatedDemandCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.sellerAllocatedDemandCount }}</a></td>
+
+                      <td ng-if="!vm.canLookDemand">
+                        <span>
+                          {{ item.sellerAllocatedDemandCount }}
+                        </span>
+                      </td>
+                      <!--持有需求-->
+                      <td ng-if="vm.canLookDemand">
+                        <a target="_blank"
+                           ng-href="/#/demand-mgmt/demand-list?wordType=SellerPrivateDemandCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.sellerPrivateDemandCount }}</a></td>
+
+                      <td ng-if="!vm.canLookDemand">
+                        <span>
+                          {{ item.sellerPrivateDemandCount }}
+                        </span>
+                      </td>
+
+                      <!--找版成功需求数-->
+                      <td ng-if="vm.canLookDemand">
+                        <a target="_blank"
+                           ng-href="/#/demand-mgmt/demand-list?wordType=SellerPickSuccessDemandCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.sellerPickSuccessDemandCount }}</a></td>
+
+                      <td ng-if="!vm.canLookDemand">
+                        <span>
+                          {{ item.sellerPickSuccessDemandCount }}
+                        </span>
+                      </td>
+
+                      <!--审核通过找版  -->
+                      <td ng-if="vm.canLookDemand">
+                        <a target="_blank"
+                           ng-href="/#/demand-mgmt/demand-list?wordType=SellerFeedbackAuditSuccessCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.sellerFeedbackAuditSuccessCount }}</a></td>
+
+                      <td ng-if="!vm.canLookDemand">
+                        <span>
+                          {{ item.sellerFeedbackAuditSuccessCount }}
+                        </span>
+                      </td>
+
+                      <!--匹配成功需求数-->
+                      <td ng-if="vm.canLookDemand">
+                        <a target="_blank"
+                           ng-href="/#/demand-mgmt/demand-list?wordType=SellerMatchSuccessDemandCount&id={{item.id}}&itemType={{item.type}}&beginTime={{vm.startDate}}&endTime={{vm.endDate}}&userId={{vm.userId}}&regionId={{item.regionId}}">
+                          {{ item.sellerMatchSuccessDemandCount }}</a></td>
+
+                      <td ng-if="!vm.canLookDemand">
+                        <span>
+                          {{ item.sellerMatchSuccessDemandCount }}
+                        </span>
+                      </td>
+                    </tr>
+
+
+                    </tbody>
+                    <tfoot>
+                    <tr ng-if="vm.sumData!=null" style="font-weight: bold;color:black;">
+                      <td>-</td>
+                      <td class="vertical-middle">合计</td>
+                      <!--订单数据-->
+                      <td>{{ vm.sumData.sellerTradeAmount }}</td>
+                      <td>{{ vm.sumData.sellerFollowUpTradeAmount }}</td>
+                      <td>{{ vm.sumData.sellerRevenueTradeAmount }}</td>
+                      <td>{{ vm.sumData.sellerRevenueAmount }}</td>
+
+                      <!--客户数据-->
+                      <td>{{ vm.sumData.dealSellerCount }}</td>
+                      <td>{{ vm.sumData.firstTradeSellerCount }}</td>
+                      <td>{{ vm.sumData.sellerRegisterCount }}</td>
+                      <td>{{ vm.sumData.sellerVisitCount }}</td>
+                      <td>{{ vm.sumData.replySellerCount }}</td>
+
+                      <!--需求数据-->
+                      <td>{{ vm.sumData.sellerPublicDemandCount }}</td>
+                      <td>{{ vm.sumData.sellerAllocatedDemandCount }}</td>
+                      <td>{{ vm.sumData.sellerPrivateDemandCount }}</td>
+                      <td>{{ vm.sumData.sellerPickSuccessDemandCount }}</td>
+                      <td>{{ vm.sumData.sellerFeedbackAuditSuccessCount }}</td>
+                      <td>{{ vm.sumData.sellerMatchSuccessDemandCount }}</td>
+
+                    </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </uib-tab>
+        </uib-tabset>
+
+      </div>
+    </div>
+  </div>
+</div>

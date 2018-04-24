@@ -1,0 +1,22 @@
+<div class="modal-dialog no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">分配供应商</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-lg-12">
+                    <select chosen class="col-lg-5 form-control" data-placeholder="请选择" name="businessUserEmployeeNo"
+                            ng-model="businessUserEmployeeNo"
+                            ng-options="supplier.employeeNo as supplier.name for supplier in sellerList">
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确认</button>
+    </div>
+</div>

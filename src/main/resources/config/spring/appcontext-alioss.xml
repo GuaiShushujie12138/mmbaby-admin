@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+
+    <!--<bean id="imageService" class="com.lianshang.common.utils.image.impl.ImageServiceImpl">-->
+        <!--<property name="aliOSSApi" ref="aliOSSApi"/>-->
+        <!--<property name="allowFileTypes">-->
+            <!--<list>-->
+                <!--<value>jpg</value>-->
+                <!--<value>png</value>-->
+                <!--<value>jpeg</value>-->
+            <!--</list>-->
+        <!--</property>-->
+        <!--<property name="bucketName" value="${image-service.alioss.bucketName}"/>-->
+        <!--<property name="categoryUrlMapping">-->
+            <!--<map>-->
+                <!--<entry key="avatar" value="data/user/a"/>-->
+                <!--<entry key="licence" value="data/user/c"/>-->
+                <!--<entry key="organization" value="data/user/c"/>-->
+                <!--<entry key="qualification" value="data/user/c"/>-->
+                <!--<entry key="patent" value="data/user/c"/>-->
+                <!--<entry key="trademark" value="data/user/c"/>-->
+                <!--<entry key="business_logo" value="data/user/s"/>-->
+                <!--<entry key="goods" value="data/goods"/>-->
+                <!--<entry key="goods_details" value="data/goods"/>-->
+                <!--<entry key="goods_desc" value="data/goods/desc"/>-->
+                <!--<entry key="demand" value="data/user/d"/>-->
+                <!--<entry key="demand_detail" value="data/user/d"/>-->
+                <!--<entry key="voice" value="voice/user/d"/>-->
+                <!--<entry key="shop_qrcode" value="data/user/q"/>-->
+                <!--<entry key="generic" value="data/common"/>-->
+            <!--</map>-->
+        <!--</property>-->
+    <!--</bean>-->
+</beans>

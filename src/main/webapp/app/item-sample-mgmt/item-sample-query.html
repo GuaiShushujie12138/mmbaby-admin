@@ -1,0 +1,97 @@
+<div class="wrapper wrapper-content animated fadeInRight" id="gridcontroller">
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">
+      <span class="label label-primary"><i class="fa fa-cloud"></i>查询条件</span>
+
+    </div>
+    <div class="ibox-content m-b-sm border-bottom">
+      <form class="form-horizontal" ng-submit="submit($event)">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="col-lg-4 control-label">角色编号</label>
+              <div class="col-lg-8">
+                <div class="input-icon right">
+                  <i class="icon-op op-equal pull-right"></i>
+                  <input type="text" name="id" placeholder="" class="form-control"
+                         ng-model="vm.id" data-op="equal">
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="col-lg-4 control-label">角色名称</label>
+              <div class="col-lg-8">
+                <div class="input-icon right">
+                  <i class="icon-op op-like pull-right"></i>
+                  <input type="text" name="role_name" class="form-control"
+                         ng-model="vm.role_name" data-op="like">
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="btn-group pull-right" role="group">
+              <button class="btn btn-primary btn-w-sm" ng-disabled="queryBtnDisabled" type="submit">查询</button>
+            </div>
+          </div>
+        </div>
+
+
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="tabs-container">
+
+        <ul class="nav nav-tabs" id="dataGridTabs">
+          <li class="active" data-filter="" ng-click="tabQuery($event)">
+            <a data-toggle="tab" aria-expanded="true" href="javascript:void(0)"> 全部</a>
+          </li>
+          <li class=""
+              data-filter="%5b%7b%22field%22%3a%22validity%22%2c%22value%22%3a%221%22%2c%22op%22%3a%22equal%22%7d%5d"
+              ng-click="tabQuery($event)">
+            <a data-toggle="tab" aria-expanded="false" href="javascript:void(0)"> 正常</a>
+          </li>
+
+
+          <li class=""
+              data-filter="%5b%7b%22field%22%3a%22validity%22%2c%22value%22%3a%220%22%2c%22op%22%3a%22equal%22%7d%5d"
+              ng-click="tabQuery($event)">
+            <a data-toggle="tab" aria-expanded="false" href="javascript:void(0)"> 禁用</a>
+          </li>
+
+
+        </ul>
+        <div class="datagrid-buttons" id="datagridButtons">
+          <div class="btn-group pull-right" role="group" >
+            <button class="btn btn-success btn-w-sm" type="button" ng-click="addRole()"><i class="fa fa-plus-square-o">新增</i></button>
+          </div>
+        </div>
+
+        <div class="tab-content">
+
+
+          <div id="tab-1" class="tab-pane active">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <table datatable="" width="100%" dt-options="dtOptions" dt-columns="dtColumns" dt-instance="dtInstance" data-order='[[ 0, "desc" ]]'
+                         class="table table-striped table-bordered table-hover">
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

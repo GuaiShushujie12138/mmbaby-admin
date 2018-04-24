@@ -1,0 +1,878 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <style type="text/css">
+        .ibox-title {
+            border-style: none;
+        }
+
+        /*.well .row{*/
+        /*border-bottom:lightgreen 1px solid;*/
+        /*}*/
+        .form-control-static {
+            padding-top: 7px;
+        }
+
+        .logisticsTable {
+            border: 1px solid #dcdada;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .logisticsTable th {
+            background-color: #eceeef;
+        }
+
+        .logisticsTable td, th {
+            padding: 10px 30px;
+            align-content: center;
+            font-size: 13px;
+            color: #676a6c;
+        }
+
+        .logisticsShow span {
+            font-size: 15px;
+        }
+
+        .logisticsShow .padding {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+    </style>
+
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+
+        <h4 class="modal-title">
+            订单详情
+        </h4>
+    </div>
+
+    <div class="modal-body">
+        <div class="tabs-container">
+            <div class="row m-t-sm">
+                <div class="col-lg-12">
+                    <div class="panel blank-panel">
+                        <div class="panel-heading">
+                            <div class="panel-options">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="app/trade-mgmt/modal/trade-detail.html#tab-1" data-toggle="tab" aria-expanded="true">订单详情</a>
+                                    </li>
+                                    <li><a href="app/trade-mgmt/modal/trade-detail.html#tab-4" data-toggle="tab" aria-expanded="true">订单日志</a></li>
+                                    <li><a href="app/trade-mgmt/modal/trade-detail.html#tab-2" data-toggle="tab" aria-expanded="false">物流信息</a></li>
+                                    <li><a href="app/trade-mgmt/modal/trade-detail.html#tab-3" data-toggle="tab" aria-expanded="false">验布坊库存</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-body" style="margin-top:15px">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab-1">
+                                    <div class="row" style="padding:15px;">
+                                        <div class="col-sm-1">货物情况:</div>
+                                        <div class="col-sm-2">
+                                            <span>商家发货卷数</span>
+                                            <span style="color:red">{{data.rollPosition.sellerDeliveryRollNum}}</span>
+                                            <span>/{{data.rollPosition.sellerDeliveryRollAllNum}}</span>
+                                        </div>
+                                        <div class="col-sm-2">
+                                           <span>验布坊发货卷数</span>
+                                           <span style="color:red">{{data.rollPosition.clothDeliveryRollNum}}</span>
+                                           <span>/{{data.rollPosition.clothDeliveryRollAllNum}}</span>
+                                        </div>
+                                        <div class="col-sm-2">验布坊库存卷数 {{data.rollPosition.clothInventoryRollNum}}</div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                订单信息
+                                            </div>
+                                            <div class="panel-body" style="overflow:auto">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                订单编号
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static" ng-bind="rowObj.tradeId"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                订单状态
+                                                            </label>
+
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static"
+                                                                   ng-bind="data.status"></p>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                订单审核状态
+                                                            </label>
+
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static"
+                                                                   ng-bind="data.auditStatusText"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                下单时间
+                                                            </label>
+
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static"
+                                                                   ng-bind="data.createTime"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                付款时间
+                                                            </label>
+
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static"
+                                                                   ng-bind="data.payTime"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">验布状态</label>
+
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static"
+                                                                   ng-bind="rowObj.reduceOrderStatusText"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="hr-line-dashed" ng-show="showBuyerInfo"></div>
+                                                <div class="row" ng-show="showBuyerInfo">
+
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                买家链尚ID
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                <span class="form-control-static"
+                                                      ng-bind="data.lsBuyerId"></span>
+                                                                <label ng-if="data.isBuyerFirst"
+                                                                       class="btn btn-danger btn-circle">首单</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                买家用户名
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                <span class="form-control-static"
+                                                      ng-bind="data.buyerName"></span>&nbsp;&nbsp;
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                买家注册手机
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                <span class="form-control-static"
+                                                      ng-bind="data.buyerMobile"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="hr-line-dashed" ng-show="showBuyerInfo || showSellerInfo"></div>
+                                                <div class="row">
+
+                                                    <div class="col-sm-4" ng-show="showBuyerInfo">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                买家运营
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static"
+                                                                   ng-bind="rowObj.buyerOperatorName"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4" ng-show="showSellerInfo">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                卖家链尚ID
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                <span class="form-control-static"
+                                                      ng-bind="data.lsSellerId"></span>
+                                                                <label ng-if="data.isSellerFirst"
+                                                                       class="btn btn-info btn-circle">首单</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4" ng-show="showSellerInfo">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                店铺名
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                <span class="form-control-static"
+                                                      ng-bind="data.sellerName"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="hr-line-dashed" ng-show="showSellerInfo"></div>
+                                                <div class="row" ng-show="showSellerInfo">
+
+                                                    <div class="col-sm-4" >
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                卖家注册手机
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static"
+                                                                   ng-bind="rowObj.sellerMobile"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                供给顾问
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                <span class="form-control-static"
+                                                      ng-bind="data.sellerOperatorName"></span>&nbsp;&nbsp;
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                订单卖家运营
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                <span class="form-control-static"
+                                                      ng-bind="tradeModal.sellerOperatorName"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="row">
+
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                关联需求
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static" ng-if="data.relatedDemandId != ''">
+                                                                    <!--<span ng-repeat="demandId in relatedDemandId">
+                                                                        <a ng-href="{{domain}}demand/{{demandId}}"
+                                                                           target="_blank" class="text-danger">{{demandId
+                                                                            }}</a>
+                                                                        &nbsp;
+                                                                    </span>-->
+                                                                    <a ng-href="{{domain}}demand/{{data.relatedDemandId}}"
+                                                                       target="_blank" class="text-danger">{{data.relatedDemandId}}</a>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                订单来源
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                <span class="form-control-static"
+                                                      ng-bind="data.orderSource"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                返单订单号
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                <span class="form-control-static"
+                                                      ng-bind="data.oriReorderTradeId"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                码单编号
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static">
+                                                    <span class="form-control-static"
+                                                          ng-bind="data.packingSlipId"></span>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                询价单编号
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static">
+                                                    <span class="form-control-static"
+                                                          ng-bind="data.requestInquiryId"></span>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                订单货品类别
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static">
+                                                    <span ng-if="data.requestInquiryType !== 0" class=""
+                                                          ng-bind="data.requestInquiryType && (data.requestInquiryType === 2?'米样单':'大货单')"></span>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                支付信息
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                商品金额
+                                                            </label>
+
+                                                            <div class="col-lg-7">
+
+                                                                <p class="form-control-static" ng-bind="data.totalFee"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                调整金额
+                                                            </label>
+
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static"
+                                                                   ng-bind="data.modifyFee"></p>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                平台优惠
+                                                            </label>
+
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static"
+                                                                   ng-bind="data.couponFee"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                应付金额
+                                                            </label>
+
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static"
+                                                                   ng-bind="data.payableFee"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                实付金额
+                                                            </label>
+
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static"
+                                                                   ng-bind="data.paymentFee"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">已退款金额</label>
+
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static" ng-bind="data.refundFee"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="row">
+
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                营收订单
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static" ng-bind="data.isRevenue"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                营收金额
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                <span class="form-control-static"
+                                                      ng-bind="data.gainsFee"></span>&nbsp;&nbsp;
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                营收备注
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                <span class="form-control-static"
+                                                      ng-bind="data.gainsMemo"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="hr-line-dashed"></div>
+                                                <div class="row">
+
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                支付方式
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static" ng-bind="data.payType"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-4" ng-show="showSellerInfo">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                收款人
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                <span class="form-control-static"
+                                                      ng-bind="data.accountName"></span>&nbsp;&nbsp;
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--<div class="col-sm-4">-->
+                                                    <!--<div class="form-group">-->
+                                                    <!--<label class="col-lg-5 control-label">-->
+                                                    <!--跟进订单-->
+                                                    <!--</label>-->
+                                                    <!--<div class="col-lg-7">-->
+                                                    <!--<span class="form-control-static"-->
+                                                    <!--ng-bind="data.isFollowUp"></span>&nbsp;&nbsp;-->
+                                                    <!--</div>-->
+                                                    <!--</div>-->
+                                                    <!--</div>-->
+
+                                                </div>
+
+                                                <div class="hr-line-dashed"></div>
+
+                                                <div class="row">
+
+                                                    <div class="col-sm-4" ng-show="showSellerInfo">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                银行账号
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                                <p class="form-control-static" ng-bind="data.accountNo"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4" ng-show="showSellerInfo">
+                                                        <div class="form-group">
+                                                            <label class="col-lg-5 control-label">
+                                                                开户银行
+                                                            </label>
+                                                            <div class="col-lg-7">
+                                                <span class="form-control-static"
+                                                      ng-bind="data.accountBankName"></span>&nbsp;&nbsp;
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="panel-body" ng-show="showBuyerInfo">
+
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">物流配送信息</div>
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-lg-8">
+                                                            <div class="hr-line-dashed"></div>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label class="col-lg-5 control-label">物流公司</label>
+
+                                                                        <div class="col-lg-7">
+
+                                                                            <p class="form-control-static"
+                                                                               ng-bind="data.tradeLogistics.logisticsCompanyName"></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label class="col-lg-5 control-label">
+                                                                            物流单号
+                                                                        </label>
+
+                                                                        <div class="col-lg-7">
+                                                                            <p class="form-control-static"
+                                                                               ng-bind="data.tradeLogistics.logisticsSn"></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label class="col-lg-5 control-label">
+                                                                            出库时间
+                                                                        </label>
+
+                                                                        <div class="col-lg-7">
+                                                                            <p class="form-control-static"
+                                                                               ng-bind="data.tradeLogistics.deliveryTime"></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label class="col-lg-5 control-label">物流费用</label>
+
+                                                                        <div class="col-lg-7">
+                                                                            <p class="form-control-static"
+                                                                               ng-bind="data.tradeLogistics.logisticsFee"></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label class="col-lg-5 control-label">
+                                                                            出库卷数
+                                                                        </label>
+
+                                                                        <div class="col-lg-7">
+                                                                            <p class="form-control-static"
+                                                                               ng-bind="data.tradeLogistics.rollQuantity"></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label class="col-lg-5 control-label">收货人</label>
+
+                                                                        <div class="col-lg-7">
+                                                                            <p class="form-control-static"
+                                                                               ng-bind="data.tradeLogistics.buyerName"></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label class="col-lg-5 control-label">联系电话</label>
+
+                                                                        <div class="col-lg-7">
+                                                                            <p class="form-control-static"
+                                                                               ng-bind="data.tradeLogistics.mobile"></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label class="col-lg-5 control-label">物流地址</label>
+
+                                                                        <div class="col-lg-7">
+                                                                            <p class="form-control-static"
+                                                                               ng-bind="data.tradeLogistics.fullAddress"></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label class="col-lg-5 control-label">详细地址</label>
+
+                                                                        <div class="col-lg-7">
+                                                                            <p class="form-control-static"
+                                                                               ng-bind="data.tradeLogistics.address"></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4" style="overflow:auto">
+                                                            <a ng-href="{{data.tradeLogistics.logisticsCertificate}}" target="_blank">
+                                                                <img style="width: 300px;height:300px;" ng-src="{{data.tradeLogistics.logisticsCertificate}}" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <div class="ibox-title">
+                                            <h5>订单商品</h5>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="ibox">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <table datatable="" width="100%" dt-options="dtOptions"
+                                                                   dt-columns="dtColumns" dt-instance="dtInstance"
+                                                                   class="table table-striped table-bordered table-hover">
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab-2">
+                                    <div class="row logisticsShow" ng-repeat="logistics in logisticsList">
+                                        <div class="row" style="padding:0 50px">
+                                            <div class="col-sm-12 padding">
+                                                <span style="font-size:20px;font-weight: 900">物流&nbsp{{$index+1}}:{{logistics.title}}</span>
+                                            </div>
+                                            <div class="col-sm-3 padding">
+                                                <span>发货类型:{{logistics.deliveryTypeName}}</span>
+                                            </div>
+                                            <div class="col-sm-3 padding" ng-if="logistics.type!=20">
+                                                <span>物流公司:{{logistics.logisticsCompanyName}}</span>
+                                            </div>
+                                            <div class="col-sm-3 padding" ng-if="logistics.type!=20">
+                                                <span>物流单号:{{logistics.logisticsSn===""?"无":logistics.logisticsSn}}</span>
+                                            </div>
+                                            <div class="col-sm-3 padding">
+                                                <span>发货时间:{{logistics.deliveryTime}}</span>
+                                            </div>
+                                            <div class="col-sm-12 padding" ng-if="logistics.type!=20">
+                                                <span>收货地址:{{logistics.receiverName}}{{logistics.receiverDetailAddress}}</span>
+                                            </div>
+
+                                            <div class="col-sm-12 padding" ng-if="logistics.type!=20">
+                                                <div style="height:20px;line-height: 20px;font-size: 15px;">物流凭证:</div>
+
+                                                <uib-carousel class="td-carousel" >
+                                                    <uib-slide ng-repeat="pic in logistics.logisticsCertificateList track by $index" class="{{$index == 0 ? 'active':''}}" data="{{$index}}">
+                                                        <a href="{{pic}}" class="swipebox" target="_blank">
+                                                            <img ng-src="{{pic}}" />
+                                                        </a>
+                                                    </uib-slide>
+                                                </uib-carousel>
+
+                                            </div>
+                                            <div class="col-sm-12 padding">
+                                                <span>发货卷数:{{logistics.rollQuantity}}</span>
+                                            </div>
+                                            <div class="col-sm-12 padding" ng-hide="!logistics.deliveryRemark">
+                                                <span>发货说明:{{logistics.deliveryRemark}}</span>
+                                            </div>
+                                            <div class="col-sm-12 padding"
+                                                 ng-if="logistics.type==10||logistics.type==20">
+                                                <div style="font-size:15px">发货明细:</div>
+                                                <table ng-if="logistics.deliveryDetail.length!=0" border="1"
+                                                       class="logisticsTable">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>颜色</th>
+                                                        <th>色号</th>
+                                                        <th>数量</th>
+                                                        <th>单位</th>
+                                                        <th>合计</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="detail in logistics.deliveryDetail">
+                                                        <td>{{detail.colorName}}</td>
+                                                        <td>{{detail.colorNo}}</td>
+                                                        <td>{{detail.amountText}}</td>
+                                                        <td>{{detail.measurementUnit}}</td>
+                                                        <td>{{detail.totalAmount}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-sm-12 padding"
+                                                 ng-if="logistics.type==30">
+                                                <div style="font-size:15px">发货明细:</div>
+                                                <table ng-if="logistics.deliveryDetail.length!=0" border="1"
+                                                       class="logisticsTable">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>唯一码ID</th>
+                                                        <th>颜色</th>
+                                                        <th>客供</th>
+                                                        <th>操作</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="detail in logistics.deliveryDetail">
+                                                        <td>{{detail.rollCode}}</td>
+                                                        <td>{{detail.colorName}}</td>
+                                                        <td>{{detail.rollAmount}}</td>
+                                                        <td ng-if="detail.hasClothReport"><a ng-href="{{detail.clothReportUrl}}" target="_blank">查看报告</a></td>
+                                                        <td ng-if="!detail.hasClothReport">无</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                    </div>
+
+
+                                </div>
+                                <div class="tab-pane" id="tab-3">
+                                    <div>
+                                        <div class="ibox-title">
+                                            <h5>订单商品</h5>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="ibox">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <table datatable width="100%" dt-options="stockOptions"
+                                                                   dt-columns="stockColumns" dt-instance="stockInstance"
+                                                                   class="table table-striped table-bordered table-hover">
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab-4">
+                                    <div class="panel-body" style="overflow:auto">
+                                        <table border="1" width="100%" class="table table-bordered table-hover">
+                                            <tr>
+                                                <th>操作类型</th>
+                                                <th>Flag</th>
+                                                <th>备注</th>
+                                                <th>来源</th>
+                                                <th>操作人</th>
+                                                <th>IP地址</th>
+                                                <th>操作时间</th>
+                                                <!--，标记类别，备注，来源，操作人，操作时间-->
+                                            </tr>
+                                            <tr ng-repeat="itemLog in tradeLog track by $index">
+                                                <td>{{itemLog.operateTypeText}}</td>
+                                                <td><span class='remark'><label class="memo{{itemLog.flag}}">&nbsp;&nbsp;</label></span></td>
+                                                <td>{{itemLog.memo}}</td>
+                                                <td>{{itemLog.platformName}}</td>
+                                                <td>{{itemLog.createId}}</td>
+                                                <td>{{itemLog.ipAddress}}</td>
+                                                <td>{{itemLog.createTime| date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">关闭
+        </button>
+    </div>
+</div>

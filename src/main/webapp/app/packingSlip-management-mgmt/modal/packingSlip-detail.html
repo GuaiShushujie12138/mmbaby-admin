@@ -1,0 +1,613 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <style type="text/css">
+        .ibox-title {
+            border-style: none;
+        }
+        .form-control-static {
+            padding-top: 7px;
+        }
+        .row {
+            margin-bottom: 10px;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+    </style>
+
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+
+        <h4 class="modal-title">
+            码单详情
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="tabs-container">
+
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        码单编号:
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static" ng-bind="packingSlip.packingSlipId"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        生成时间:
+                                    </label>
+
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                           ng-bind="packingSlip.createTime"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        状态:
+                                    </label>
+
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                           ng-bind="packingSlip.statusName"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        对应询价单编号:
+                                    </label>
+
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                           ng-bind="packingSlip.requestInquiryId"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        对应订单号:
+                                    </label>
+
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                           ng-bind="packingSlip.tradeId === 0? '暂无':packingSlip.tradeId"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">真实卖家:</label>
+
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                           ng-bind="packingSlip.realSellerName"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        真实卖家ID:
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                           ng-bind="packingSlip.realSellerId"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        真实卖家手机号:
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                              ng-bind="packingSlip.realSellerMobile"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" >
+
+                            <div class="col-sm-4" >
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        卖家个人收款账号:
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                           ng-bind="packingSlip.realSellerIndividualAccountNo"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        卖家企业收款账号:
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                              ng-bind="packingSlip.realSellerEnterpriseAccountNo"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        真实买家:
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                           ng-bind="packingSlip.realBuyerName"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        真实买家ID:
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                              ng-bind="packingSlip.realBuyerId"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        真实买家手机号:
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                              ng-bind="packingSlip.realBuyerMobile"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        码单发起人:
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                           ng-bind="packingSlip.crmSellerUserFullName"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        询价单发起人:
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                              ng-bind="packingSlip.crmBuyerUserFullName"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        码单信息
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <img ng-src="{{packingSlip.imagePath}}" style="width: 100px;" />
+                            </div>
+
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        <p class="form-control-static"
+                                           ng-bind="packingSlip.itemName"></p>
+                                        <p ng-bind="'商品编码：' + packingSlip.itemId"></p>
+                                        <p ng-bind="'链尚货号：' + packingSlip.lsItemCode"></p>
+                                        <p ng-bind="'商品货号：' + packingSlip.itemCode"></p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        商品类型:
+                                    </label>
+
+                                    <div class="col-lg-7">
+                                        <span class="form-control-static"
+                                           ng-bind="packingSlip.itemSourceTypeName"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="col-sm-4">-->
+                                <!--<div class="form-group">-->
+                                    <!--<label class="col-lg-5 control-label">-->
+                                        <!--上传人:-->
+                                    <!--</label>-->
+
+                                    <!--<div class="col-lg-7">-->
+                                        <!--<span class="form-control-static"-->
+                                           <!--ng-bind="packingSlip.itemOperator"></span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">报价业务员</label>
+
+                                    <div class="col-lg-7">
+                                        <p class="form-control-static" ng-bind="packingSlip.itemOwner"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 面料商品信息 -->
+                        <div class="fabric" ng-if="material === 1">
+                            <!-- table-section -->
+                            <div class="row">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>颜色</th>
+                                        <th>色号</th>
+                                        <th>类型</th>
+                                        <th>数量</th>
+                                        <th>数量合计</th>
+                                        <th>数量单位</th>
+                                        <th>采购价</th>
+                                        <th>采购金额</th>
+                                        <th>链尚价</th>
+                                        <th>链尚金额</th>
+                                        <th>销售价</th>
+                                        <th>销售金额</th>
+                                        <th>价格单位</th>
+                                    </tr>
+
+                                    <tr ng-repeat="x in fabric.skuList">
+                                        <td>{{x.colorName}}</td>
+                                        <td>{{x.colorNo}}</td>
+                                        <td>{{x.typeName}}</td>
+                                        <td>
+                                            <div style="word-break: break-all; white-space: pre-wrap;">{{x.amountText}}</div>
+                                        </td>
+                                        <td>{{x.allAmount}}</td>
+                                        <td>{{x.measurementUnit}}</td>
+                                        <td ng-if="hasRoleToPrice">{{x.procurementPrice | number : 2}}</td>
+                                        <td ng-if="!hasRoleToPrice">***</td>
+                                        <td ng-if="!hasRoleToPrice">***</td>
+                                        <td ng-if="hasRoleToPrice">{{x.procurementFee | number : 2}}</td>
+                                        <td>{{x.standPrice | number : 2}}</td>
+                                        <td>{{x.standFee | number : 2}}</td>
+                                        <td>{{x.salePrice | number : 2}}</td>
+                                        <td>{{x.saleFee | number : 2}}</td>
+                                        <td>{{x.priceUnit}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>合计</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td ng-if="hasRoleToPrice">{{accessorySkuInfo.sumProcurementFee | number : 2}}</td>
+                                        <td ng-if="!hasRoleToPrice">***</td>
+                                        <td></td>
+                                        <td>{{fabricSkuInfo.sumStandFee | number : 2}}</td>
+                                        <td></td>
+                                        <td>{{fabricSkuInfo.sumSaleFee | number : 2}}</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">
+                                            卖家纸质码单：
+                                        </label>
+
+                                        <div class="col-lg-2" ng-repeat="x in packingSlip.packingSlipPicPath">
+                                            <img ng-src="{{x}}" ng-click="clickImg($event,x)" style="height: 100px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-5 control-label">
+                                            短驳物流：
+                                        </label>
+                                        <div class="col-lg-7">
+                                            <p class="form-control-static" ng-if="packingSlip.needLogitics">需要</p>
+                                            <p class="form-control-static" ng-if="!packingSlip.needLogitics">不需要</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="packingSlip.needLogitics">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-5 control-label">
+                                            拉货地址：
+                                        </label>
+                                        <div class="col-lg-7">
+                                            <p class="form-control-static">{{packingSlip.sendProvinceName+packingSlip.sendCityName+packingSlip.sendDistrictName+packingSlip.sendAddress}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-5 control-label">
+                                            退货地址：
+                                        </label>
+                                        <div class="col-lg-7">
+                                            <p class="form-control-static">{{packingSlip.receiveProvinceName+packingSlip.receiveCityName+packingSlip.receiveDistrictName+packingSlip.receiveAddress}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-5 control-label">
+                                            纸管空差：
+                                        </label>
+                                        <div class="col-lg-7">
+                                            <p class="form-control-static" ng-bind="packingSlip.paperTubeAndShortFall"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-5 control-label">
+                                            备注：
+                                        </label>
+                                        <div class="col-lg-7">
+                                            <p class="form-control-static" ng-bind="packingSlip.remark"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  辅料商品信息 -->
+                        <div class="accessory" ng-if="material === 2">
+                            <!-- table-section -->
+                            <div class="row">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>颜色</th>
+                                        <th>规格</th>
+                                        <th>类型</th>
+                                        <th>数量</th>
+                                        <th>数量合计</th>
+                                        <th>数量单位</th>
+                                        <th>采购价</th>
+                                        <th>采购金额</th>
+                                        <th>链尚价</th>
+                                        <th>链尚金额</th>
+                                        <th>销售价</th>
+                                        <th>销售金额</th>
+                                        <th>价格单位</th>
+                                    </tr>
+
+                                    <tr ng-repeat="x in accessory.skuList">
+                                        <td>{{x.colorName}}</td>
+                                        <td>{{x.specification}}</td>
+                                        <td>{{x.typeName}}</td>
+                                        <td>{{x.amountText}}</td>
+                                        <td>{{x.allAmount}}</td>
+                                        <td>{{x.measurementUnit}}</td>
+                                        <td ng-if="hasRoleToPrice">{{x.procurementPrice | number : 2}}</td>
+                                        <td ng-if="!hasRoleToPrice">***</td>
+                                        <td ng-if="!hasRoleToPrice">***</td>
+                                        <td ng-if="hasRoleToPrice">{{x.procurementFee | number : 2}}</td>
+                                        <td>{{x.standPrice | number : 2}}</td>
+                                        <td>{{x.standFee | number : 2}}</td>
+                                        <td>{{x.salePrice | number : 2}}</td>
+                                        <td>{{x.saleFee | number : 2}}</td>
+                                        <td>{{x.priceUnit}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>合计</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td ng-if="hasRoleToPrice">{{accessorySkuInfo.sumProcurementFee | number : 2}}</td>
+                                        <td ng-if="!hasRoleToPrice">***</td>
+                                        <td></td>
+                                        <td>{{accessorySkuInfo.sumStandFee | number : 2}}</td>
+                                        <td></td>
+                                        <td>{{accessorySkuInfo.sumSaleFee | number : 2}}</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">
+                                            卖家纸质码单：
+                                        </label>
+
+                                        <div class="col-lg-2" ng-repeat="x in packingSlip.packingSlipPicPath">
+                                            <img ng-src="{{x}}" ng-click="clickImg($event,x)" style="height: 100px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-5 control-label">
+                                            短驳物流：
+                                        </label>
+                                        <div class="col-lg-7">
+                                            <p class="form-control-static" ng-if="packingSlip.needLogitics">需要</p>
+                                            <p class="form-control-static" ng-if="!packingSlip.needLogitics">不需要</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-5 control-label">
+                                            退货地址：
+                                        </label>
+                                        <div class="col-lg-7">
+                                            <p class="form-control-static">{{packingSlip.receiveProvinceName+packingSlip.receiveCityName+packingSlip.receiveDistrictName+packingSlip.receiveAddress}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-lg-5 control-label">
+                                            备注：
+                                        </label>
+                                        <div class="col-lg-7">
+                                            <p class="form-control-static" ng-bind="packingSlip.remark"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="panel panel-default" ng-if="material === 1">
+                    <div class="panel-heading">商品信息</div>
+                    <div class="panel-body">
+                        <ul class="row">
+                            <li class="col-sm-3" ng-repeat="x in fabric.itemProperties">
+                                <span>{{x.propertyName}}:</span>
+                                <span>{{x.values[0].valueName}}</span>
+                            </li>
+                            <li class="col-sm-3">
+                                <span>产地:</span>
+                                <span ng-bind="fabric.producingArea"></span>
+                            </li>
+                        </ul>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        商品卖点：
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <p class="form-control-static" ng-bind="fabric.sellerPoint"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="panel panel-default" ng-if="material === 2">
+                    <div class="panel-heading">商品信息</div>
+                    <div class="panel-body">
+                        <ul class="row">
+                            <li class="col-sm-3" ng-repeat="x in accessory.itemProperties">
+                                <span>{{x.propertyName}}:</span>
+                                <span>{{x.values[0].valueName}}</span>
+                            </li>
+                            <li class="col-sm-3">
+                                <span>产地:</span>
+                                <span ng-bind="fabric.producingArea"></span>
+                            </li>
+                        </ul>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-5 control-label">
+                                        商品卖点：
+                                    </label>
+                                    <div class="col-lg-7">
+                                        <p class="form-control-static" ng-bind="fabric.sellerPoint"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">关闭
+    </button>
+</div>
+</div>

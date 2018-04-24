@@ -1,0 +1,27 @@
+<div class="modal-dialog no-margins">
+    <div class="modal-header">
+        <h4 class="modal-title">操作确认</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <!--<span>是否确认标记收样?</span>-->
+                    <label><input type="radio" name="receiveSampleStatus" icheck
+                                  ng-model="modal.receiveSampleStatus" ng-value="1" required/>收到实样</label>
+                    <label><input type="radio" name="receiveSampleStatus" icheck ng-value="2"
+                                  ng-model="modal.receiveSampleStatus"/>未收到实样</label>
+                </div>
+            </div>
+            <div class="row" ng-if="modal.receiveSampleStatus==2">
+                <div class="col-sm-12">
+                    <textarea  name="remark" class="form-control" ng-model="modal.remark"  rows="5" maxlength="60"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确定</button>
+    </div>
+</div>

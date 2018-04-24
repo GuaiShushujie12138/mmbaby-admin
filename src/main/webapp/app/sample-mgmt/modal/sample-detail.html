@@ -1,0 +1,436 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <style type="text/css">
+    .ibox-title {
+      border-style: none;
+    }
+    .form-control-static {
+      padding-top: 7px;
+    }
+  </style>
+
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+
+    <h4 class="modal-title">
+      样卡详情
+    </h4>
+  </div>
+  <div class="modal-body">
+    <div class="tabs-container">
+
+      <div class="panel-body">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            样卡信息
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="col-lg-5 control-label">
+                    样卡ID
+                  </label>
+                  <div class="col-lg-7">
+                    <p class="form-control-static" ng-bind="sampleDetail.sampleCode"></p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="col-lg-5 control-label">
+                    生产时间
+                  </label>
+
+                  <div class="col-lg-7">
+                    <p class="form-control-static" ng-bind="sampleDetail.createTimeText"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="col-lg-5 control-label">
+                    地区
+                  </label>
+                  <div class="col-lg-7">
+                    <p class="form-control-static"
+                       ng-bind="sampleDetail.regionName"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+
+
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="col-lg-5 control-label">
+                    状态:
+                  </label>
+
+                  <div class="col-lg-7">
+                    <p class="form-control-static"
+                       ng-bind="sampleDetail.statusName"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="col-lg-5 control-label">
+                    <p class="form-control-static"
+                       ng-bind="sampleDetail.ownerShowName"></p>
+                  </label>
+                  <div class="col-lg-7">
+                    <p class="form-control-static"
+                       ng-bind="sampleDetail.sampleOwnerName"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="col-lg-5 control-label">
+                    spuName:
+                  </label>
+                  <div class="col-lg-7">
+                    <p class="form-control-static"
+                       ng-bind="spuName"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="row">
+
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="col-lg-5 control-label">
+                    样卡来源:
+                  </label>
+                  <div class="col-lg-7">
+                      <p class="form-control-static" ng-bind="sampleDetail.sampleFromSource">
+                      </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="col-lg-5 control-label">
+                    买家运营:
+                  </label>
+                  <div class="col-lg-7">
+                      <p class="form-control-static" ng-bind="sampleDetail.buyerOperatorName"></p>&nbsp;&nbsp;
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="col-lg-5 control-label">
+                    需求ID:
+                  </label>
+                  <div class="col-lg-7">
+                      <a href="javascript:void(0);" ng-click="jumpToDemandList($location)"><p class="form-control-static"
+                            ng-bind="sampleDetail.lastDemandId == 0?'':sampleDetail.lastDemandId"></p></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="row">
+
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="col-lg-5 control-label">
+                    卖家运营:
+                  </label>
+                  <div class="col-lg-7">
+                    <p class="form-control-static"
+                       ng-bind="sampleDetail.sellerOperatorName"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <a class="col-lg-5 control-label" href="javascript:void(0);" ng-click="queryLog(4)">
+                    来源日志
+                  </a>
+                  <div class="col-lg-7">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                店铺信息
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label class="col-lg-5 control-label">
+                        店铺名称:
+                      </label>
+                      <div class="col-lg-7">
+                        <p class="form-control-static" ng-bind="sampleDetail.shopName"></p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label class="col-lg-5 control-label">
+                        卖家注册手机号:
+                      </label>
+
+                      <div class="col-lg-7">
+                        <p class="form-control-static" ng-bind="phoneNumber"></p>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label class="col-lg-5 control-label">
+                        店铺ID:
+                      </label>
+
+                      <div class="col-lg-7">
+                        <p class="form-control-static" ng-bind="sampleDetail.shopId"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label class="col-lg-5 control-label">
+                        店铺地址:
+                      </label>
+
+                      <div class="col-lg-7">
+                        <p class="form-control-static" ng-bind="sampleDetail.shopAddress"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                商品信息
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <div class="col-lg-8">
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-lg-5 control-label">
+                            商品ID:
+                          </label>
+                          <div class="col-lg-7">
+                            <p class="form-control-static" ng-bind="sampleDetail.itemId"></p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-lg-5 control-label">
+                            面料结构:
+                          </label>
+
+                          <div class="col-lg-7">
+                            <p class="form-control-static" ng-bind="sampleDetail.fabricStructure"></p>
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-lg-5 control-label">
+                            品名:
+                          </label>
+
+                          <div class="col-lg-7">
+                            <p class="form-control-static" ng-bind="sampleDetail.varietyName"></p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-lg-5 control-label">
+                            主要成分:
+                          </label>
+
+                          <div class="col-lg-7">
+                            <p class="form-control-static" ng-bind="sampleDetail.ingredientCategory"></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-lg-5 control-label">
+                            样卡价:
+                          </label>
+
+                          <div class="col-lg-7">
+                            <p class="form-control-static" ng-bind="sampleDetail.colorStandPriceText"></p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-lg-5 control-label">
+                            成分含量:
+                          </label>
+
+                          <div class="col-lg-7">
+                            <p class="form-control-static" ng-bind="sampleDetail.ingredientSubdivided"></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-lg-5 control-label">
+                            样布采购价:
+                          </label>
+
+                          <div class="col-lg-7">
+                            <p class="form-control-static" ng-bind="sampleDetail.swatchPriceText"></p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-lg-5 control-label">
+                            规格参数:
+                          </label>
+
+                          <div class="col-lg-7">
+                            <p class="form-control-static" ng-bind="sampleDetail.specification"></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-lg-5 control-label">
+                            大货采购价:
+                          </label>
+
+                          <div class="col-lg-7">
+                            <p class="form-control-static" ng-bind="sampleDetail.largeCargoPriceText"></p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-lg-5 control-label">
+                            克重:
+                          </label>
+
+                          <div class="col-lg-7">
+                            <p class="form-control-static" ng-bind="sampleDetail.gramWeight"></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-lg-5 control-label">
+                            货号:
+                          </label>
+
+                          <div class="col-lg-7">
+                            <p class="form-control-static" ng-bind="sampleDetail.itemCode"></p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="col-lg-5 control-label">
+                            门幅:
+                          </label>
+
+                          <div class="col-lg-7">
+                            <p class="form-control-static" ng-bind="sampleDetail.breadth"></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="ibox-content">
+                      <uib-carousel interval="main.slideInterval" >
+                        <uib-slide  ng-repeat="pic in picList">
+                          <img ng-src="{{pic}}" style="margin:auto;">
+                        </uib-slide>
+                      </uib-carousel>
+                    </div>
+
+                  </div>
+                </div>
+
+            </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+  </div>
+
+</div>
+
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">关闭
+  </button>
+</div>
+</div>
+
+
+
+<div id="blueimp-gallery" class="blueimp-gallery">
+  <div class="slides"></div>
+  <h3 class="title"></h3>
+  <a class="prev">‹</a>
+  <a class="next">›</a>
+  <a class="close">×</a>
+  <a class="play-pause"></a>
+  <ol class="indicator"></ol>
+</div>

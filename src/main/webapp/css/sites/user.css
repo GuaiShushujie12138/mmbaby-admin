@@ -1,0 +1,76 @@
+.rank-icon {
+    width: 16px !important;
+    height: 16px !important;
+    display: inline-block !important;
+    margin-left: 0 !important;
+}
+
+.rank-user-1, .rank-shop-1 {
+    background: url(../../img/sites/rank/heart-16-16.gif);
+    background-image: -webkit-image-set(url(../../img/sites/rank/heart-16-16.gif) 1x, url(../../img/sites/rank/heart-32-32.gif) 2x);
+    background-image: -moz-image-set(url(../../img/sites/rank/heart-16-16.gif) 1x, url(../../img/sites/rank/heart-32-32.gif) 2x);
+    background-image: -ms-image-set(url(../../img/sites/rank/heart-16-16.gif) 1x, url(../../img/sites/rank/heart-32-32.gif) 2x);
+    background-image: -o-image-set(url(../../img/sites/rank/heart-16-16.gif) 1x, url(../../img/sites/rank/heart-32-32.gif) 2x);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+.rank-user-2 {
+    background: url(../../img/sites/rank/diamond-yellow-16-16.gif);
+    background-image: -webkit-image-set(url(../../img/sites/rank/diamond-yellow-16-16.gif) 1x, url(../../img/sites/rank/diamond-yellow-32-32.gif) 2x);
+    background-image: -moz-image-set(url(../../img/sites/rank/diamond-yellow-16-16.gif) 1x, url(../../img/sites/rank/diamond-yellow-32-32.gif) 2x);
+    background-image: -ms-image-set(url(../../img/sites/rank/diamond-yellow-16-16.gif) 1x, url(../../img/sites/rank/diamond-yellow-32-32.gif) 2x);
+    background-image: -o-image-set(url(../../img/sites/rank/diamond-yellow-16-16.gif) 1x, url(../../img/sites/rank/diamond-yellow-32-32.gif) 2x);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+.rank-shop-2 {
+    background: url(../../img/sites/rank/diamond-16-16.gif);
+    background-image: -webkit-image-set(url(../../img/sites/rank/diamond-16-16.gif) 1x, url(../../img/sites/rank/diamond-32-32.gif) 2x);
+    background-image: -moz-image-set(url(../../img/sites/rank/diamond-16-16.gif) 1x, url(../../img/sites/rank/diamond-32-32.gif) 2x);
+    background-image: -ms-image-set(url(../../img/sites/rank/diamond-16-16.gif) 1x, url(../../img/sites/rank/diamond-32-32.gif) 2x);
+    background-image: -o-image-set(url(../../img/sites/rank/diamond-16-16.gif) 1x, url(../../img/sites/rank/diamond-32-32.gif) 2x);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+.rank-user-3 {
+    background: url(../../img/sites/rank/crown-silver-purple-16-16.gif);
+    background-image: -webkit-image-set(url(../../img/sites/rank/crown-silver-purple-16-16.gif) 1x, url(../../img/sites/rank/crown-silver-purple-32-32.gif) 2x);
+    background-image: -moz-image-set(url(../../img/sites/rank/crown-silver-purple-16-16.gif) 1x, url(../../img/sites/rank/crown-silver-purple-32-32.gif) 2x);
+    background-image: -ms-image-set(url(../../img/sites/rank/crown-silver-purple-16-16.gif) 1x, url(../../img/sites/rank/crown-silver-purple-32-32.gif) 2x);
+    background-image: -o-image-set(url(../../img/sites/rank/crown-silver-purple-16-16.gif) 1x, url(../../img/sites/rank/crown-silver-purple-32-32.gif) 2x);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+.rank-shop-3 {
+    background: url(../../img/sites/rank/crown-16-16.gif);
+    background-image: -webkit-image-set(url(../../img/sites/rank/crown-16-16.gif) 1x, url(../../img/sites/rank/crown-32-32.gif) 2x);
+    background-image: -moz-image-set(url(../../img/sites/rank/crown-16-16.gif) 1x, url(../../img/sites/rank/crown-32-32.gif) 2x);
+    background-image: -ms-image-set(url(../../img/sites/rank/crown-16-16.gif) 1x, url(../../img/sites/rank/crown-32-32.gif) 2x);
+    background-image: -o-image-set(url(../../img/sites/rank/crown-16-16.gif) 1x, url(../../img/sites/rank/crown-32-32.gif) 2x);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+.rank-user-4 {
+    background: url(../../img/sites/rank/crown-golden-red-16-16.gif);
+    background-image: -webkit-image-set(url(../../img/sites/rank/crown-golden-red-16-16.gif) 1x, url(../../img/sites/rank/crown-golden-red-32-32.gif) 2x);
+    background-image: -moz-image-set(url(../../img/sites/rank/crown-golden-red-16-16.gif) 1x, url(../../img/sites/rank/crown-golden-red-32-32.gif) 2x);
+    background-image: -ms-image-set(url(../../img/sites/rank/crown-golden-red-16-16.gif) 1x, url(../../img/sites/rank/crown-golden-red-32-32.gif) 2x);
+    background-image: -o-image-set(url(../../img/sites/rank/crown-golden-red-16-16.gif) 1x, url(../../img/sites/rank/crown-golden-red-32-32.gif) 2x);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+.rank-shop-4 {
+    background: url(../../img/sites/rank/crown2-16-16.gif);
+    background-image: -webkit-image-set(url(../../img/sites/rank/crown2-16-16.gif) 1x, url(../../img/sites/rank/crown2-32-32.gif) 2x);
+    background-image: -moz-image-set(url(../../img/sites/rank/crown2-16-16.gif) 1x, url(../../img/sites/rank/crown2-32-32.gif) 2x);
+    background-image: -ms-image-set(url(../../img/sites/rank/crown2-16-16.gif) 1x, url(../../img/sites/rank/crown2-32-32.gif) 2x);
+    background-image: -o-image-set(url(../../img/sites/rank/crown2-16-16.gif) 1x, url(../../img/sites/rank/crown2-32-32.gif) 2x);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}

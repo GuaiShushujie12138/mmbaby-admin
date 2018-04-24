@@ -1,0 +1,363 @@
+<style>
+    .hide {
+        display: none;
+    }
+</style>
+
+<div class="wrapper wrapper-content animated fadeInRight" id="gridcontroller">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <span class="label label-primary"><i class="fa fa-cloud"></i>查询条件</span>
+
+            <div class="ibox-tools dropdown " dropdown="">
+                <!--<a style="color: #1ab394;"> <i class="fa  fa-eraser"></i>清除条件</a>-->
+                <a class="chevron-up" style="color: #1ab394;"> <i class="fa fa-chevron-up"></i>展开更多</a>
+            </div>
+        </div>
+        <div class="ibox-content m-b-sm border-bottom">
+            <form class="form-horizontal" ng-submit="submit($event)">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">订单编号</label>
+                            <div class="col-lg-8">
+                                <div class="input-icon right">
+                                    <i class="icon-op op-equal pull-right"></i>
+                                    <input type="text" name="trade.trade_id" placeholder=""
+                                           class="form-control" ng-model="vm.tradeId"
+                                           data-op="equal">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">需求编号</label>
+                            <div class="col-lg-8">
+                                <div class="input-icon right">
+                                    <i class="icon-op op-equal pull-right"></i>
+                                    <input type="text" name="demandId" class="form-control"
+                                           ng-model="vm.demandId" data-op="equal">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <label class="col-lg-4 control-label">商品来源</label>
+                        <div class="col-lg-8">
+                            <select class="form-control" name="niceItem"
+                                    data-op="equal"
+                                    ng-model="vm.niceItem"
+                                    ng-options="item.key as item.value for item in vm.niceItemSelect">
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--<div class="col-sm-4">-->
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-lg-4 control-label">跟进订单</label>-->
+                            <!--<div class="col-lg-8">-->
+                                <!--<div class="input-icon right">-->
+                                    <!--<select class="col-lg-5 form-control" ng-model="vm.isFollowUp"-->
+                                            <!--data-op=">" name="trade.follow_up">-->
+                                        <!--<option value="">所有</option>-->
+                                        <!--<option value="1">是</option>-->
+                                        <!--<option value="0">否</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                </div>
+                <div class="row" ng-show="canQuery && canQueryBuyer">
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">买家用户名</label>
+                            <div class="col-lg-8">
+                                <div class="input-icon right">
+                                    <i class="icon-op op-equal pull-right"></i>
+                                    <input type="text" name="trade.user_name" class="form-control"
+                                           ng-model="vm.buyerName" data-op="equal">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">买家注册手机</label>
+                            <div class="col-lg-8">
+                                <div class="input-icon right">
+                                    <i class="icon-op op-equal pull-right"></i>
+                                    <input type="text" name="trade.mobileno" placeholder=""
+                                           class="form-control" ng-model="vm.buyerMobile"
+                                           data-op="equal">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">买家运营</label>
+                            <div class="col-lg-8">
+                                <div class="input-icon right">
+                                    <select chosen class="col-lg-5 form-control"
+                                            name="lkt.buyer_user_id"
+                                            ng-model="vm.buyerOperatorId"
+                                            ng-options="item.id+'' as item.realName for item in buyerOperatorList"
+                                            data-op="equal">
+                                        <option value=''>所有</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="canQuery && canQuerySeller">
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">卖家店铺名</label>
+                            <div class="col-lg-8">
+                                <div class="input-icon right">
+                                    <i class="icon-op op-equal pull-right"></i>
+                                    <input type="text" name="shop.shop_name" placeholder=""
+                                           class="form-control" ng-model="vm.shopName"
+                                           data-op="equal">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">卖家注册手机</label>
+                            <div class="col-lg-8">
+                                <div class="input-icon right">
+                                    <i class="icon-op op-equal pull-right"></i>
+                                    <input type="text" name="seller.mobile" placeholder=""
+                                           class="form-control" ng-model="vm.sellerName"
+                                           data-op="equal" queryBuilder>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">卖家运营</label>
+                            <div class="col-lg-8">
+                                <div class="input-icon right">
+                                    <select chosen class="col-lg-5 form-control"
+                                            name="lkt.seller_user_id"
+                                            ng-model="vm.sellerOperatorId"
+                                            ng-options="item.id+'' as item.realName for item in sellerOperatorList"
+                                            data-op="equal">
+                                        <option value=''>所有</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">订单状态</label>
+                            <div class="col-lg-8">
+                                <select class="form-control" name="trade.status"
+                                        ng-model="vm.tradeStatus"
+                                        ng-options="item.key as item.value for item in vm.tradeStatusSelect"
+                                        data-op="equal">
+                                    <option value=''>所有</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">审核状态</label>
+                            <div class="col-lg-8">
+                                <select class="form-control" name="auditStatus"
+                                        ng-model="vm.auditStatus"
+                                        ng-options="item.key as item.value for item in vm.auditStatusSelect"
+                                        data-op="equal">
+                                    <option value=''>所有</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">日期类型</label>
+                            <div class="col-lg-8">
+                                <label><input type="radio" name="isPay" icheck value="false"
+                                              ng-model="vm.paySwitch" ng-checked="true" required/>下单</label>
+                                <label><input type="radio" name="isPay" icheck value="true"
+                                              ng-model="vm.paySwitch"/>支付/退款</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">有效日期</label>
+                            <div class="col-lg-8">
+                                <input data-op="between" date-range-picker name="trade.create_time"
+                                       type="text" class="form-control date-picker"
+                                       ng-model="vm.validateDateRange" readonly="readonly"
+                                       options="vm.opts"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">营收订单</label>
+                            <div class="col-lg-8">
+                                <select class="form-control" name="trade.gains_fee"
+                                        ng-model="vm.gains"
+                                        ng-options="item.key as item.value for item in vm.gainsSelect">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">询价单ID:</label>
+                            <div class="col-lg-8">
+                                <div class="input-icon right">
+                                    <input type="text" name="ri.request_inquiry_id" placeholder=""
+                                           class="form-control"
+                                           data-op="equal">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">码单ID：</label>
+                            <div class="col-lg-8">
+                                <div class="input-icon right">
+                                    <input type="text" name="ps.packing_slip_id" placeholder=""
+                                           class="form-control"
+                                           data-op="equal">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">货品类别：</label>
+                            <div class="col-lg-8">
+                                <select class="col-lg-5 form-control" ng-model="vm.itemType"
+                                        name="orderType" data-op="equal"
+                                >
+                                    <option value="">请选择</option>
+                                    <option value="3">大货单</option>
+                                    <option value="2">米样单</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">支付方式:</label>
+                            <div class="col-lg-8">
+                                <select class="col-lg-5 form-control" ng-model="vm.payType"
+                                        name="pay_type" data-op="equal"
+                                >
+                                    <option value="">全部</option>
+                                    <option value="1">线上支付</option>
+                                    <option value="2">线下支付</option>
+                                    <option value="6">白条支付</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8  pull-right text-right">
+                        <button class="btn btn-w-m btn-primary" type="submit"
+                                ng-disabled="queryBtnDisabled">
+                            查询
+                        </button>
+
+                        <label style="margin-right: 1em"
+                               class="btn btn-w-m btn-success"
+                               ng-click="download('buyer')"
+                               ng-if="canDownloadBuyer"
+                        >
+                            下载（买）
+                        </label>
+
+                        <label style="margin-right: 1em"
+                               class="btn btn-w-m btn-success"
+                               ng-click="download('seller')"
+                               ng-if="canDownloadSeller"
+                        >
+                            下载（卖）
+                        </label>
+
+                        <label style="margin-right: 1em"
+                               class="btn btn-w-m btn-success"
+                               ng-click="download()"
+                               ng-if="canDownLoad"
+                        >
+                            下载（全）
+                        </label >
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row" style="overflow:auto">
+                        <div class="col-sm-12">
+                            <table datatable="" scrollfixed="" dt-options="dtOptions"
+                                   dt-columns="dtColumns" dt-instance="dtInstance"
+                                   data-order='[[ 5, "desc" ]]'
+                                   class="table table-striped table-bordered table-hover table-valign">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

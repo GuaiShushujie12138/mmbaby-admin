@@ -1,0 +1,85 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">添加回访</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" style="width:17.66666667%"><span style="color:red">*</span>回访类型:</label>
+                        <div class="col-md-8">
+                            <select class="form-control" name="type"
+                                    ng-model="type" ng-options="item.key as item.value for item in typeList">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" style="width:17.66666667%"><span style="color:red">*</span>回访电话:</label>
+                        <div class="col-lg-8">
+                            <label ng-if="registerMobile">
+                                <input type="radio" name="mobile" ng-model="mobile"
+                                       ng-checked="true" ng-click="getVisitMobile($event,registerMobile)" required/>注册手机{{registerMobile}}</label>
+                            <label ng-if="contactMobile && registerMobile != contactMobile" style="margin-left:10px">
+                                <input type="radio" name="mobile" ng-click="getVisitMobile($event,contactMobile)" ng-model="mobile" ng-checked="false"/>联系人手机{{contactMobile}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" style="width:17.66666667%"><span style="color:red">*</span>呼叫情况:</label>
+                        <div class="col-lg-8">
+                            <label>
+                                <input type="radio" name="result" value='10' ng-model="callResult"
+                                       required>已接通</label>
+                            <label>
+                                <input type="radio" name="result" value='20' ng-model="callResult" ng-click="changeCallResult(callResult)"
+                                        required/>无效号码</label>
+                            <label>
+                                <input type="radio" name="result" value='30' ng-model="callResult" ng-click="changeCallResult(callResult)"
+                                       required/>无人接听</label>
+                            <label>
+                                <input type="radio" name="result" value='40' ng-model="callResult" ng-click="changeCallResult(callResult)"
+                                        required/>链尚员工</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12" ng-if="callResult=='10'">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" style="width:17.66666667%"><span style="color:red">*</span>回访结果:</label>
+                        <div class="col-md-9" style="width:82%">
+                            <div class="col-md-4" ng-repeat="visitResult in visitResultList">
+                                <label class="control-label" style="font-weight: 400;">{{visitResult.name}}
+                                    <input type="checkbox" name="visitResult" ng-click="getVisitResultId($event,visitResult.id)"/>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group" ng-show="callResult=='10'">
+                        <label class="col-md-2 control-label" style="width:17.66666667%"><span style="color:red">*</span>回访内容:</label>
+                        <div class="col-md-8" style="width:82%">
+                            <textarea name="description" placeholder="请输入回访内容" class="form-control" ng-model="csInquiry"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group" ng-show="callResult!='10'">
+                        <label class="col-md-2 control-label" style="width:17.66666667%">备注:</label>
+                        <div class="col-md-8" style="width:82%">
+                            <textarea name="description" placeholder="请输入备注" class="form-control" ng-model="csInquiry"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确定</button>
+    </div>
+</div>

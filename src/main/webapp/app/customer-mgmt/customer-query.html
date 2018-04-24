@@ -1,0 +1,320 @@
+<div class="wrapper wrapper-content animated fadeInRight" id="gridcontroller">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <span class="label label-primary"><i class="fa fa-cloud"></i>查询条件</span>
+            <div style="float: left" ng-if="vm.dataPrivilegeMessage!=''">
+                <span>数据权限限制:{{vm.dataPrivilegeMessage}}</span>
+            </div>
+            <div class="ibox-tools dropdown " dropdown="">
+                <!--<a style="color: #1ab394;"> <i class="fa  fa-eraser"></i>清除条件</a>-->
+                <a class="chevron-up" style="color: #1ab394;"> <i class="fa fa-chevron-up"></i>展开更多</a>
+            </div>
+        </div>
+        <div class="tabs-container">
+            <div class="tab-content">
+                <uib-tabset>
+                    <uib-tab heading="按基础信息查询" ng-click="clickConTab($event)">
+                        <div class="panel-body">
+                            <div class="ibox-content m-b-sm border-bottom">
+                                <form name="form1" class="form-horizontal" ng-submit="submit($event,true)">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">CRM客户ID</label>
+                                                <div class="col-lg-8">
+                                                    <div class="input-icon right">
+                                                        <i class="icon-op op-equal pull-right"></i>
+                                                        <input type="text" name="cus.id" placeholder=""
+                                                               class="form-control" data-op="equal">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">链尚客户ID</label>
+                                                <div class="col-lg-8">
+                                                    <div class="input-icon right">
+                                                        <i class="icon-op op-equal pull-right"></i>
+                                                        <input type="text" name="cus.bind_user_id"
+                                                               ng-model="vm.bindUserId" placeholder=""
+                                                               class="form-control" data-op="equal">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">注册手机号</label>
+                                                <div class="col-lg-8">
+                                                    <div class="input-icon right">
+                                                        <i class="icon-op op-equal pull-right"></i>
+                                                        <input type="text" name="cus.mobile" placeholder=""
+                                                               class="form-control" data-op="equal">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">联系人姓名</label>
+                                                <div class="col-lg-8">
+                                                    <div class="input-icon right">
+                                                        <i class="icon-op op-equal pull-right"></i>
+                                                        <input type="text" name="con.contact_name" placeholder=""
+                                                               class="form-control" data-op="equal">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">联系人手机</label>
+                                                <div class="col-lg-8">
+                                                    <div class="input-icon right">
+                                                        <i class="icon-op op-equal pull-right"></i>
+                                                        <input type="text" name="con.contact_mobile" placeholder=""
+                                                               class="form-control" data-op="equal">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">公司名</label>
+                                                <div class="col-lg-8">
+                                                    <div class="input-icon right">
+                                                        <i class="icon-op op-equal pull-right"></i>
+                                                        <input type="text" name="cus.company_name"
+                                                               ng-model="vm.companyName" placeholder=""
+                                                               class="form-control" data-op="equal">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">卖家等级</label>
+                                                <div class="col-lg-8">
+                                                    <select class="col-lg-5 form-control"
+                                                            name="cus.seller_level" data-op="equal"
+                                                            ng-model="vm.sellerLevel"
+                                                            ng-options="item.key+'' as item.value for item in vm.customerLevel">
+                                                        <option value="">全部</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">买家等级</label>
+                                                <div class="col-lg-8">
+                                                    <select class="col-lg-5 form-control"
+                                                            name="cus.buyer_level" data-op="equal"
+                                                            ng-model="vm.buyerLevel"
+                                                            ng-options="item.key+'' as item.value for item in vm.customerLevel">
+                                                        <option value="">全部</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">组织形式</label>
+                                                <div class="col-lg-8">
+                                                    <select class="col-lg-5 form-control" ng-model="vm.nature"
+                                                            name="shop.shop_type" data-op="equal">
+                                                        <option value="">全部</option>
+                                                        <option value="1">企业</option>
+                                                        <option value="2">个人</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">卖家分配状态</label>
+                                                <div class="col-lg-8">
+                                                    <select class="col-lg-5 form-control"
+                                                            name="cus.is_has_selleroperator" data-op="equal"
+                                                            ng-model="vm.hasSelleroperator">
+                                                        <option value="">全部</option>
+                                                        <option value="0">未分配</option>
+                                                        <option value="1">已分配</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">买家分配状态</label>
+                                                <div class="col-lg-8">
+                                                    <select class="col-lg-5 form-control"
+                                                            name="cus.is_has_buyeroperator" data-op="equal"
+                                                            ng-model="vm.hasBuyeroperator">
+                                                        <option value="">全部</option>
+                                                        <option value="0">未分配</option>
+                                                        <option value="1">已分配</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">所属大区</label>
+                                                <div class="col-lg-8">
+                                                    <select class="col-lg-5 form-control" ng-model="vm.regionId"
+                                                            name="cus.region_id" data-op="equal"
+                                                            ng-options="item.code+'' as item.name for item in vm.topRegionList">
+                                                        <option value="">全部</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">创建时间</label>
+                                                <div class="col-lg-8">
+                                                    <input date-range-picker class="form-control date-picker"
+                                                           type="text" ng-model="vm.validateDateRange"
+                                                           name="cus.create_time" options="vm.opts" data-op="between"
+                                                           clearable="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-4  pull-right">
+
+                                            <label style="margin-right: 1em" class="btn btn-w-m btn-success "
+                                               ng-click="gainInPublic()" ng-if="vm.customerInPublic">
+                                                公海拣入
+                                            </label>
+                                            <button class="btn btn-w-m btn-primary" type="submit"
+                                                    ng-disabled="queryBtnDisabled" id="btnQuery1">
+                                                查询
+                                            </button>
+
+
+
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <uib-tab heading="按业务员查询" ng-click="clickConTab2($event)">
+                        <div class="panel-body">
+                            <div class="ibox-content m-b-sm border-bottom">
+                                <form name="form2" class="form-horizontal" ng-submit="submit2($event)">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="col-lg-4 control-label">业务员</label>
+                                                <div class="col-lg-8">
+                                                    <select chosen class="col-lg-5 form-control" ng-model="vm.userId"
+                                                            ng-options="item.id+'' as item.realName for item in vm.authUserList">
+                                                        <option value=''>请选择</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <span class="col-sm-6">
+                                                    <button class="btn btn-w-m btn-primary pull-right" type="submit"
+                                                            ng-disabled="queryBtnDisabled2" id="btnQuery2">查询
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="tabs-container">
+                <div class="row" ng-if="vm.table1_show == 1">
+
+                    <ul class="nav nav-tabs" id="dataGridTabs">
+                        <li class="active" data-filter="" ng-click="tabQuery($event)">
+                            <a data-toggle="tab" aria-expanded="true" href="javascript:void(0)"> 全部</a>
+                        </li>
+
+                        <li class=""
+                            data-filter="%5b%7b%22field%22%3a%22cus.is_buyer%22%2c%22value%22%3a%221%22%2c%22op%22%3a%22equal%22%7d%5d"
+                            ng-click="tabQuery($event)">
+                            <a data-toggle="tab" aria-expanded="false" href="javascript:void(0)"> 买家</a>
+                        </li>
+
+                        <li class=""
+                            data-filter="%5b%7b%22field%22%3a%22cus.is_seller%22%2c%22value%22%3a%221%22%2c%22op%22%3a%22equal%22%7d%5d"
+                            ng-click="tabQuery($event)">
+                            <a data-toggle="tab" aria-expanded="false" href="javascript:void(0)"> 卖家</a>
+                        </li>
+
+                        <!--<li class=""-->
+                        <!--data-filter="%5b%7b%22field%22%3a%22cus.is_has_selleroperator%22%2c%22value%22%3a%220%22%2c%22op%22%3a%22equal%22%7d%2c%7b%22field%22%3a%22cus.is_has_buyeroperator%22%2c%22value%22%3a%220%22%2c%22op%22%3a%22equal%22%7d%5d"-->
+                        <!--ng-click="tabQuery($event)">-->
+                        <!--<a data-toggle="tab" aria-expanded="false" href="javascript:void(0)"> 未分配</a>-->
+                        <!--</li>-->
+                    </ul>
+
+                </div>
+
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-4">
+                                </div>
+                                <div class="col-sm-4">
+                                    <button id="    dis" class="btn btn-danger btn-w-sm pull-right" ng-if="vm.assignCustomer"
+                                            ng-click="allocateBatch()"  ng-if="vm.assignCustomer">批量分配
+                                    </button>
+                                    &nbsp;&nbsp;
+
+                                    <button style="margin-right: 1em" id="add" class="btn btn-danger btn-w-sm pull-right" ng-if="vm.level"
+                                            ng-click="setlevel()">设置等级
+                                    </button>
+                                </div>
+
+
+                            </div>
+                            <div class="row"  style="overflow-x:auto">
+                                <div class="col-sm-12">
+                                    <table datatable="" width="100%" dt-options="dtOptions" dt-columns="dtColumns"
+                                           dt-instance="dtInstance"
+                                           class="table table-striped table-bordered table-hover"
+                                           data-order='[[ 2, "desc" ]]'>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

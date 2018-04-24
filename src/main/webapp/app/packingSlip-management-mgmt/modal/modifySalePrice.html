@@ -1,0 +1,120 @@
+<style>
+    .modal-dialog {
+        width: 1000px;
+    }
+    /*table {*/
+        /*table-layout: fixed;*/
+    /*}*/
+    .requestInquiryId{
+        color:#1c84c6;
+    }
+    .batchChangeValue{
+        width:100px;
+        vertical-align: middle;
+    }
+    .btn-dif{
+        margin-left:10px;
+        line-height:12px;
+        height:22px;
+    }
+    .marginRight{
+        margin-right:15px;
+    }
+    .form-group{
+        margin-bottom:25px;
+    }
+</style>
+
+<div class="modal-dialog no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">修改销售价</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <p><span>询价单：</span>
+                    <span class="requestInquiryId">{{requestInquiryId}}</span>
+                </p>
+                <p><span>是否为白条用户:</span><span>{{isEfCustomer?'是':'否'}}</span></p>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">改价模式:</label>
+                    <div class="col-lg-8">
+                        <label class="marginRight"><input type="radio" name="pattern" value="1" ng-checked="true" ng-click="changePattern()" required/>销售价</label>
+                        <label><input type="radio" name="pattern" value="2" ng-click="changePattern()" />营收比例</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label" ng-if="pattern==1">销售价:</label>
+                    <label class="col-lg-3 control-label" ng-if="pattern==2">营收比例:</label>
+                    <div class="col-lg-8 marginTop">
+                        <input class="batchChangeValue" onkeyup="value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')" ng-model="batchChangeValue" type="text" value=" " />
+                        <button class="btn btn-default btn-sm active btn-dif" ng-click="batchSetting()">批量设置</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered">
+                <tr>
+                    <th>颜色</th>
+                    <th>色号</th>
+                    <th>类型</th>
+                    <th>数量</th>
+                    <th>数量合计</th>
+                    <th>数量单位</th>
+                    <th>链尚价</th>
+                    <th>链尚金额</th>
+                    <th>销售价</th>
+                    <th>营收比例</th>
+                    <th>销售金额</th>
+                    <th>价格单位</th>
+                </tr>
+
+                <tr ng-repeat="x in salePriceList.list">
+                    <td>{{x.color}}</td>
+                    <td>{{x.colorNo}}</td>
+                    <td>{{x.type}}</td>
+                    <td>
+                        <div style="word-break: break-all; white-space: pre-wrap;">{{x.amount}}</div>
+                    </td>
+                    <td>{{x.totalAmount}}</td>
+                    <td>{{x.measurementUnit}}</td>
+                    <td>{{x.lsPrice | number: 2}}</td>
+                    <td>{{x.lsFee | number: 2}}</td>
+                    <td ng-if="pattern==1">
+                        <input type="number" name="priceData" ng-change="changeSalePrice(x.detailId)" ng-model="x.salePrice" />
+                    </td>
+                    <td ng-if="pattern==2">{{x.salePrice}}</td>
+                    <td ng-if="pattern==1">{{x.proportion}}%</td>
+                    <td ng-if="pattern==2">
+                        <input type="number" name="" ng-change="changeProportionPrice(x.detailId)" ng-model="x.proportion"/>%
+                    </td>
+                    <td>{{x.saleFee | number: 2}}</td>
+                    <td>{{x.priceUnit}}</td>
+                </tr>
+
+                <tr>
+                    <td>合计</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{skuInfo.sumLsFee | number: 2}}</td>
+                    <td></td>
+                    <td>{{skuInfo.revenueRatio + '%'}}</td>
+                    <td>{{skuInfo.sumSaleFee | number: 2}}</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确认</button>
+    </div>
+</div>

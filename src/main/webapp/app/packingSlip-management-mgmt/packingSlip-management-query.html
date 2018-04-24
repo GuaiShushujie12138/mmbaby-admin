@@ -1,0 +1,246 @@
+<style>
+    .crmBuyerObj,.crmSellerObj{
+        line-height: 20px;
+        height: 20px;
+        overflow: hidden;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+<div class="wrapper wrapper-content animated fadeInRight" id="sampleController">
+    <div class="row">
+        <!--<div class="col-lg-3">-->
+            <!--<div class="ibox-title">-->
+                <!--<span class="label label-primary"><i class="fa fa-cloud"></i>组织架构(部门)</span>-->
+
+            <!--</div>-->
+            <!--<div class="ibox-content m-b-sm border-bottom">-->
+                <!--<div class="row">-->
+                    <!--<div js-tree="treeConfig" ng-model="treeData" tree="treeInstance" should-apply="true" tree-events="select_node:selectTreeNode"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-primary"><i class="fa fa-cloud"></i>查询条件</span>
+
+                    <div class="ibox-tools dropdown " dropdown="">
+                        <a class="chevron-up" style="color: #1ab394;"> <i class="fa fa-chevron-up"></i>展开更多</a>
+                    </div>
+                </div>
+                <div class="ibox-content m-b-sm border-bottom">
+                    <form class="form-horizontal" ng-submit="submit($event)">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">码单ID:</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-icon right">
+                                            <input type="text" name="ps.packing_slip_id" placeholder=""
+                                                   class="form-control" ng-model="packingSlip.slipId"
+                                                   data-op="equal">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">码单发起人：</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-icon right">
+                                            <select chosen class="col-lg-5 form-control" name="ps.crm_seller_id"
+                                                    ng-model="vm.crmSellerId"
+                                                    ng-options="item.id+'' as item.realName for item in operatorList"
+                                                    data-op="equal">
+                                            </select>
+                                        </div>
+
+                                        <!--<div class="input-icon right form-control col-lg-5" style="border: 0;">-->
+                                            <!--<span name="" ng-if="crmSellerObj.name" class="crmSellerObj col-sm-7" ng-bind="crmSellerObj.name"></span>-->
+                                            <!--<span name="" ng-if="!crmSellerObj.name" ng-bind="crmSellerObj.name"></span>-->
+                                            <!--<span ng-click="selectCrmSeller()" style="color: blue;cursor:pointer;">请选择</span>-->
+                                            <!--<span ng-click="clearCrmSeller()" style="cursor:pointer;">清空</span>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">询价单发起人：</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-icon right">
+                                            <select chosen class="col-lg-5 form-control" name="ps.crm_buyer_id"
+                                                    ng-model="vm.crmBuyerId"
+                                                    ng-options="item.id+'' as item.realName for item in operatorList"
+                                                    data-op="equal">
+                                            </select>
+                                        </div>
+
+                                        <!--<div class="input-icon right form-control col-lg-5" style="border: 0;">-->
+                                            <!--<span name="" ng-if="crmBuyerObj.name" class="crmBuyerObj col-sm-7" ng-bind="crmBuyerObj.name"></span>-->
+                                            <!--<span name="" ng-if="!crmBuyerObj.name" ng-bind="crmBuyerObj.name"></span>-->
+                                            <!--<span ng-click="selectCrmBuyer()" style="color: blue; cursor:pointer;">请选择</span>-->
+                                            <!--<span ng-click="clearCrmBuyer()" style="cursor:pointer;">清空</span>-->
+                                        <!--</div>-->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">生成时间:</label>
+                                    <div class="col-lg-8">
+                                        <input data-op="between" date-range-picker name="ps.create_time"
+                                               type="text" class="form-control date-picker"
+                                               ng-model="sample.createTime" readonly="readonly"
+                                               options="vm.opts"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">状态</label>
+                                    <div class="col-lg-8">
+                                        <select class="col-lg-5 form-control"
+                                                data-op="equal" name="ps.status">
+                                            <option value="">全部</option>
+                                            <option value="10">待确认链尚价</option>
+                                            <option value="20">待确认销售价</option>
+                                            <option value="40">待下单</option>
+                                            <option value="50">已下单</option>
+                                            <option value="60">已失效</option>
+                                            <option value="70">已过期</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--<div class="col-sm-4">-->
+                                <!--<div class="form-group">-->
+                                    <!--<label class="col-lg-4 control-label">是否分配:</label>-->
+                                    <!--<div class="col-lg-8">-->
+                                        <!--<select class="col-lg-5 form-control"-->
+                                                <!--ng-model='inquiry.allocationStatus'data-op="{{inquiry.allocationStatus}}" name="ps.crm_seller_id">-->
+                                            <!--<option value="">全部</option>-->
+                                            <!--<option value="isnotnull">已分配</option>-->
+                                            <!--<option value="isnull">未分配</option>-->
+                                        <!--</select>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">商品所在地:</label>
+                                    <div class="col-lg-8">
+                                        <select class="col-lg-5 form-control" ng-model="itemPlace"
+                                                name="iteminfo.ls_isbn_code">
+                                            <option value="">请选择</option>
+                                            <option value="S">华南</option>
+                                            <option value="E">华东</option>
+                                            <option value="null">无</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">订单ID：</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-icon right">
+                                            <input type="text" name="ps.trade_id" placeholder=""
+                                                   class="form-control" ng-model="packingSlip.tradeId"
+                                                   data-op="equal">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">询价单ID：</label>
+                                    <div class="col-lg-8">
+                                        <div class="input-icon right">
+                                            <input type="text" name="ps.request_inquiry_id" placeholder=""
+                                                   class="form-control" ng-model="packingSlip.requestInquiryId"
+                                                   data-op="equal">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-lg-4 control-label">货品类别：</label>
+                                    <div class="col-lg-8">
+                                        <select class="col-lg-5 form-control" ng-model="vm.itemType"
+                                                name="ri.type" data-op="equal"
+                                        >
+                                            <option value="">请选择</option>
+                                            <option value="3">大货单</option>
+                                            <option value="2">米样单</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+
+                                    <div class="col-lg-12">
+                                        <button style="margin-left: 20px;" class="btn btn-w-m btn-primary pull-right" type="submit"
+                                                ng-disabled="queryBtnDisabled">
+                                            查询
+                                        </button>
+
+                                        <button class="btn btn-w-m btn-primary pull-right" ng-click="exportPackingSlip()"
+                                                >
+                                            导出码单
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="row" style="overflow:auto">
+                                <div class="col-sm-12">
+                                    <table datatable="" scrollfixed="" dt-options="dtOptions"
+                                           dt-columns="dtColumns" dt-instance="dtInstance"
+                                           data-order='[[ 2, "desc" ]]'
+                                           class="table table-striped table-bordered table-hover table-valign">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

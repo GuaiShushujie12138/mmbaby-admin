@@ -1,0 +1,70 @@
+@charset "UTF-8";
+/*需求列表*/
+.vertical{
+    vertical-align:middle;
+}
+.ding_width{
+    width:200px;
+}
+.demand_img{
+ width:200px;
+ height:200px;
+}
+.show_hide{
+    margin-left: 0px;
+    margin-top: 19px;
+}
+.demand_all span,.demand_all a{
+    display:block;
+    text-align:center;
+}
+.demand_all th{
+    text-align:center;
+}
+.demand_id{
+    padding-top:8px;
+    position:relative;
+}
+.demand_id_img{
+    display:inline-block;
+    width:60px;
+    height:60px;
+    border:1px solid #ccc;
+}
+.demand_id_num{
+    font-style:normal;
+}
+.vertical{
+    vertical-align:middle;
+}
+.col-sm-6 .issue_data{
+    margin-left:-19%;
+}
+#datepicker input{
+    padding:16px 12px;
+}
+.do_something{
+    border-top:1px solid #1c84c6;
+}
+.do_something button{
+    display:block;
+    padding:4px;
+    width:60%;
+    margin:8px auto; 
+}
+.do_something .title{
+    display:block;
+    width:100%;
+    height:35px;
+    line-height:35px;
+    background:#1c84c6;
+    color:#fff;
+    margin-bottom:25%;
+}
+.spacing{
+    margin-top:15px;
+}
+.spacing_bottom{
+    display:inline-block;
+    margin-bottom:8px;
+}

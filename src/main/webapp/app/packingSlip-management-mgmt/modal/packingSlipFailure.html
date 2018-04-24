@@ -1,0 +1,66 @@
+<style>
+    .supper-title {
+        line-height: 34px;
+        text-align: right;
+        font-size: 15px;
+    }
+
+    .supper-title i {
+        color: red;
+    }
+</style>
+<div class="no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">请选择码单失效原因</h4>
+    </div>
+    <div class="modal-body" style="padding: 30px 50px;">
+
+        <div class="row" style="line-height: 30px;">
+            <div class="col-sm-1">
+                <input type="checkbox" ng-value="1" name="failureReason" class="failureReason">
+            </div>
+            <div class="col-sm-10 failureText">
+                供应商价格变动
+            </div>
+        </div>
+
+        <div class="row" style="line-height: 30px;">
+            <div class="col-sm-1">
+                <input type="checkbox" ng-value="2" name="failureReason" class="failureReason">
+            </div>
+            <div class="col-sm-10 failureText" >
+                供应商库存变动
+            </div>
+        </div>
+
+
+        <div class="row" style="line-height: 30px;">
+            <div class="col-sm-1">
+                <input type="checkbox" ng-value="3" name="failureReason"  class="failureReason">
+            </div>
+            <div class="col-sm-10 failureText">
+                销售反馈结束码单
+            </div>
+        </div>
+
+        <div class="row" style="line-height: 30px;">
+            <div class="col-sm-1">
+                <input type="checkbox" ng-value="4" name="failureReason" class="failureReason">
+            </div>
+            <div class="col-sm-2">
+                其他
+            </div>
+            <div class="col-sm-2">
+                <input type="text" id="failureText" class="form-control"
+                       style="margin-left:20px;height: 28px;width:300px">
+            </div>
+        </div>
+
+    </div>
+    <!-- footer -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">关闭</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确认添加</button>
+    </div>
+</div>

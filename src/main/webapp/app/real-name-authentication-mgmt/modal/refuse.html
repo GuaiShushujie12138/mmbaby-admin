@@ -1,0 +1,32 @@
+<style>
+    .textAreaStyle{
+        margin-top:20px;
+    }
+</style>
+<div class="modal-dialog no-margins">
+    <div class="modal-header">
+        <h4 class="modal-title">拒绝原因</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <select class="col-lg-5 form-control refuseReason" ng-model="refuseType">
+                    <option value="10">名片照与姓名不一致</option>
+                    <option value="20">名片照内容不正确／不清晰</option>
+                    <option value="30">环境照内容不正确／不清晰</option>
+                    <option value="40">营业执照内容不正确／不清晰</option>
+                    <option value="50">营业执照与法人姓名不一致</option>
+                    <option value="60">请提交名片或确认函+门头照</option>
+                    <option value="900">其他</option>
+                </select>
+            </div>
+            <div class="row" ng-show="refuseType == 900">
+                <textarea class="col-lg-5 form-control textAreaStyle reasonContent" placeholder="请输入其他原因" ng-model="refuseReason"/>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确定</button>
+    </div>
+</div>

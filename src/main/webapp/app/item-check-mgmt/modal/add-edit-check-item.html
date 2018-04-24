@@ -1,0 +1,500 @@
+<style>
+    #addEditModal{
+    	z-index: 1039;
+    }
+    #addEditModal input[name='needEdit'] {
+        margin-top: 7px;
+        margin-left: 15px;
+        width: auto;
+        z-index: 9999;
+    }
+
+    .form-group {
+        position: relative;
+    }
+
+    .form-group .checkbox {
+        position: absolute;
+        left: 20px;
+    }
+
+    .form-group b{
+        color: red;
+    }
+</style>
+
+<div class="modal-dialog no-margins" id="addEditModal">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">{{title}}</h4>
+        <h4 ng-if="state == 3">说明: 标记的字段会在CRM提示业务员这些字段需要修改</h4>
+    </div>
+    <div class="modal-body" >
+        <form class="form-horizontal">
+            <div class="row">
+                <div >
+                    <input class="col-lg-1 checkbox"   type="checkbox" name="sellerInfoShenhe" ng-model="checkMap.realShopId" ng-show="state == 3">
+                    <div class="col-lg-8">
+                        <h3>真实卖家信息</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">手机号<b>*</b></label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right">
+                                <input type="text" name="mobile" placeholder="" class="form-control"
+                                       ng-change="changePhone()" ng-model="sellerInfo.mobile">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <div class="col-lg-8 col-lg-offset-4">
+                            <!--<label class="col-lg-4 control-label">手机号<b>*</b></label>-->
+                            <div class="input-icon right" ng-if="customerExit">
+                                <span>该客户已存在<span style="color: blue;cursor:pointer;" class="" ng-click="editCustomerInfo()">编辑客户资料</span></span>
+                            </div>
+
+                            <div class="input-icon right" ng-if="addCustomer">
+                                <span>该客户不存在，请填写新客户资料</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">联系人<b>*</b></label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right">
+                                <input type="text" name="contactName" class="form-control"
+                                       ng-model="sellerInfo.contactName" ng-disabled="notEditable"  required>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">公司名称<b>*</b></label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right">
+                                <input type="text" name="companyName" class="form-control"
+                                       ng-model="sellerInfo.companyName" ng-disabled="notEditable"  required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">店铺名称<b>*</b></label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right">
+                                <input type="text" name="shopName" class="form-control"
+                                       ng-model="sellerInfo.shopName" ng-disabled="notEditable"  required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">店铺地址<b>*</b></label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right" id="cxSelect">
+                                <select class="province col-lg-4"
+                                        ng-disabled="notEditable"
+                                        ng-change="changeProvince(selectedValue)"
+                                        ng-model="sellerInfo.provinceId"
+                                        ng-options="item.id as item.name for item in provinceList">
+                                    <option value="">请选择</option>
+                                </select>
+                                <select class="city col-lg-4"
+                                        ng-disabled="notEditable"
+                                        ng-change="changeCity()"
+                                        ng-model="sellerInfo.cityId"
+                                        ng-options="item.id as item.name for item in cityList">
+                                    <option value="">请选择</option>
+                                </select>
+                                <select class="area col-lg-4"
+                                        ng-disabled="notEditable"
+                                        ng-model="sellerInfo.districtId"
+                                        ng-options="item.id as item.name for item in districtList"
+                                >
+                                    <option value="">请选择</option> <!-- 为什么value设置为空的时候,请选择没有显示出来 -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label"></label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right">
+                                <input type="text" name="shopAddress" class="form-control"
+                                       ng-model="sellerInfo.address" ng-disabled="notEditable" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-if="!notEditable">
+                        <div class="col-lg-12">
+                            <div class="right" style="text-align: right">
+                                <button type="button" class="btn btn-w-sm btn-primary" ng-click="submitSellerInfo()" ng-disabled="okBtnDisabled">提交卖家信息</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </form>
+
+        <form class="form-horizontal">
+            <div class="row">
+                <div >
+                    <div class="col-lg-8">
+                        <h3>商品信息</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="row">-->
+                <!--<div class="col-sm-10">-->
+                    <!--<div class="form-group" >-->
+                        <!--<label class="col-lg-4 control-label">商品状态<b>*</b></label>-->
+                        <!--<div class="col-lg-8">-->
+                            <!--<div class="col-lg-15" ng-if="true">-->
+                                <!--<label><input type="radio" name="isAudit" icheck value="false"-->
+                                              <!--ng-model="" ng-checked="true" required/>上架(审核通过)</label>-->
+                                <!--<label><input type="radio" name="isAudit" icheck value="true"-->
+                                              <!--ng-model=""/>下架(审核通过)</label>-->
+                                <!--<label><input type="radio" name="isAudit" icheck value="true"-->
+                                              <!--ng-model=""/>驳回</label>-->
+                            <!--</div>-->
+
+                            <!--<div class="col-lg-12" ng-if="false">-->
+                                <!--<label class="col-lg-4"><input type="radio" name="isAudit" icheck value="false"-->
+                                              <!--ng-model="" ng-checked="true" required/>上架</label>-->
+                                <!--<label class="col-lg-4"><input type="radio" name="isAudit" icheck value="false"-->
+                                              <!--ng-model="" ng-checked="true" required/>下架</label>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group" >
+                        <label class="col-lg-4 control-label">商品分类<b>*</b></label>
+                        <div class="col-lg-8">
+                            <div class="col-lg-12">
+                                <label class="col-lg-4">
+                                    <input type="radio" name="rootCategoryIdCheck" ng-disabled="canChooseCategory" icheck ng-value="true"
+                                           ng-change="categoryChange()" ng-model="itemInfo.rootCategoryIdCheck" ng-checked="true" required/>面料
+                                </label>
+                                <label class="col-lg-4">
+                                    <input type="radio" name="rootCategoryIdCheck" ng-disabled="canChooseCategory" icheck ng-value="false"
+                                           ng-change="categoryChange()" ng-model="itemInfo.rootCategoryIdCheck" ng-checked="false" required/>辅料
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">所属区域<b>*</b></label>
+                        <div class="col-lg-8">
+                            <select class="form-control"
+                                    name="itemCodeRegion"
+                                    ng-model="itemInfo.itemCodeRegion"
+                                    ng-disabled="canEditItemCode"
+                                    ng-options="item.id as item.name for item in itemCodeRegionList"
+                            >
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="row">-->
+                <!--<div class="col-sm-10">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-lg-4 control-label">链尚货号分类<b>*</b></label>-->
+                        <!--<div class="col-lg-8">-->
+                            <!--<select class="form-control"-->
+                                    <!--name="categoryCode"-->
+                                    <!--ng-model="itemInfo.categoryCode"-->
+                                    <!--ng-disabled="canEditItemCode"-->
+                                    <!--ng-options="item.id as item.name for item in categoryCodeList"-->
+                            <!--&gt;-->
+
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="row">-->
+                <!--<div class="col-sm-10">-->
+                    <!--<div class="form-group">-->
+                        <!--<p class="col-lg-12">tips：区域、链尚货号分类决定链尚货号，审核通过前有一次修改机会，通过后不允许修改</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div class="row" ng-if="itemInfo.rootCategoryIdCheck === true">
+                <div class="col-sm-10">
+                    <div class="form-group" >
+                        <label class="col-lg-4 control-label">有无样卡<b>*</b></label>
+                        <div class="col-lg-8">
+                            <div class="col-lg-12">
+                                <label class="col-lg-4"><input type="radio" name="hasColorStand" icheck ng-value="true"
+                                                               ng-model="itemInfo.hasColorStand" ng-checked="true" required/>有</label>
+                                <div class="input-icon right col-lg-3" ng-if="itemInfo.hasColorStand === true">
+                                    <input type="text" name="colorStandPrice" placeholder="" class="form-control"
+                                           ng-model="itemInfo.colorStandPrice"
+                                           ng-keyup="clearNoNum(itemInfo,'colorStandPrice')"
+                                    >
+                                </div>
+                                    <label class="col-lg-4"><input type="radio" name="hasColorStand" icheck ng-value="false"
+                                                               ng-model="itemInfo.hasColorStand" ng-checked="false" required/>无</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-10">
+
+                    <div class="form-group ">
+                        <input class="checkbox"   type="checkbox" name="needEdit" ng-model="checkMap.swatchProcurementPrice" ng-show="state == 3">
+                        <label ng-if="itemInfo.rootCategoryIdCheck" class="col-lg-4 control-label">样布采购价<b>*</b></label>
+                        <label ng-hide="itemInfo.rootCategoryIdCheck" class="col-lg-4 control-label">样品采购价<b>*</b></label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right col-lg-6">
+                                <input type="text"
+                                       name="roleId"
+                                       placeholder=""
+                                       class="form-control"
+                                       ng-model="itemInfo.samplePrice"
+                                       ng-keyup="clearNoNum(itemInfo,'samplePrice')"
+                                >
+                            </div>
+                            <div class="col-lg-6">
+                                <select class="form-control"
+                                        name="swatchMeasurementUnit"
+                                        ng-model="itemInfo.swatchMeasurementUnit"
+                                        ng-options="item.measureUnit as item.priceMeasureUnit for item in priceUnitList "
+                                >
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <input class=" checkbox"   type="checkbox" name="needEdit" ng-model="checkMap.largeCargoProcurementPrice" ng-show="state == 3">
+                        <label class="col-lg-4 control-label">大货采购价<b>*</b></label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right col-lg-6" >
+                                <input type="text" name="bulkPrice" placeholder="" class="form-control"
+                                       ng-model="itemInfo.bulkPrice"
+                                       ng-keyup="clearNoNum(itemInfo,'bulkPrice')"
+                                >
+                            </div>
+
+                            <div class="col-lg-6">
+                                <select class="form-control"
+                                        name="largeCargoMeasurementUnit"
+                                        ng-model="itemInfo.largeCargoMeasurementUnit"
+                                        ng-options="item.measureUnit as item.priceMeasureUnit for item in priceUnitList"
+                                >
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-10">
+
+                    <div class="form-group ">
+                        <input class="checkbox" type="checkbox" name="needEdit" ng-model="checkMap.swatchPrice" ng-show="state == 3">
+                        <label ng-if="itemInfo.rootCategoryIdCheck" class="col-lg-4 control-label">样布链尚价<b>*</b></label>
+                        <label ng-hide="itemInfo.rootCategoryIdCheck" class="col-lg-4 control-label">样品链尚价<b>*</b></label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right col-lg-6">
+                                <input type="text"
+                                       name="swatchPrice"
+                                       placeholder=""
+                                       class="form-control"
+                                       ng-model="itemInfo.swatchPrice"
+                                       ng-keyup="clearNoNum(itemInfo,'swatchPrice')"
+                                >
+                            </div>
+                            <div class="col-lg-6">
+                                <select class="form-control "
+                                        name="swatchMeasurementUnit"
+                                        ng-model="itemInfo.swatchMeasurementUnit"
+                                        ng-options="item.measureUnit as item.priceMeasureUnit for item in priceUnitList "
+                                >
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <input class=" checkbox" type="checkbox" name="needEdit" ng-model="checkMap.largeCargoPrice" ng-show="state == 3">
+                        <label class="col-lg-4 control-label">大货链尚价<b>*</b></label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right col-lg-6" >
+                                <input type="text" name="largeCargoPrice" placeholder="" class="form-control"
+                                       ng-model="itemInfo.largeCargoPrice"
+                                       ng-keyup="clearNoNum(itemInfo,'largeCargoPrice')"
+                                >
+                            </div>
+
+                            <div class="col-lg-6">
+                                <select class="form-control"
+                                        name="largeCargoMeasurementUnit"
+                                        ng-model="itemInfo.largeCargoMeasurementUnit"
+                                        ng-options="item.measureUnit as item.priceMeasureUnit for item in priceUnitList"
+                                >
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <input class=" checkbox" type="checkbox" name="needEdit" ng-model="checkMap.moq" ng-show="state == 3">
+                        <label class="col-lg-4 control-label">大货起订量<b>*</b></label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right col-lg-6" >
+                                <input type="text" name="moq" placeholder="" class="form-control"
+                                       ng-model="itemInfo.moq"
+                                       ng-keyup="clearNoNum(itemInfo,'moq')"
+                                >
+                            </div>
+
+                            <div class="col-lg-6">
+                                {{itemInfo.largeCargoMeasurementUnit}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">商品来源<b>*</b></label>
+                        <div class="col-lg-8">
+                            <select class="form-control"
+                                    name="itemSource"
+                                    ng-model="itemInfo.itemSource"
+                                    ng-options="item.id as item.name for item in itemSourceList"
+
+                            >
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">报价业务员<b>*</b></label>
+                        <div class="col-lg-8">
+                            <select chosen class="col-lg-5 form-control" name="sellerOperator"
+                                    ng-model="itemInfo.sellerOperator"
+                                    ng-options="item.id as item.realName for item in sellerOperatorList"
+                                    data-op="equal">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-10">
+
+                    <div class="form-group ">
+                        <input class=" checkbox"   type="checkbox" name="needEdit" ng-model="checkMap.largeCargoMaxPrice" ng-if="state == 3">
+
+                        <label class="col-lg-4 control-label">大货最高销售价</label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right col-lg-6">
+                                <input type="text" name="bulkMaxPrice" placeholder="" class="form-control"
+                                       ng-model="itemInfo.bulkMaxPrice"
+                                       ng-keyup="clearNoNum(itemInfo,'bulkMaxPrice')"
+                                >
+                            </div>
+                            <div class="col-lg-6">
+                                <select class="form-control "
+                                        name="largeCargoMeasurementUnit"
+                                        ng-model="itemInfo.largeCargoMeasurementUnit"
+                                        ng-options="item.measureUnit as item.priceMeasureUnit for item in priceUnitList"
+                                >
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group ">
+                        <input class=" checkbox" type="checkbox" name="needEdit" ng-model="checkMap.weightShortfall" ng-show="state == 3">
+
+                        <label class="col-lg-4 control-label">纸管空差</label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right ">
+                                <input type="text" name="" placeholder="" class="form-control"
+                                       ng-model="itemInfo.weightShortfall"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="clickNextStep()" ng-disabled="okBtnDisabled">下一步</button>
+    </div>
+</div>

@@ -1,0 +1,437 @@
+<style>
+    body {
+        font-family:"Helvetica Neue For Number", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .modal-body {
+        background-color: #f0f2f6;
+    }
+
+    .x-title {
+        line-height: 22px;
+        padding-bottom: 16px;
+        margin-right: 8px;
+        color: rgba(0, 0, 0, 0.85);
+        white-space: nowrap;
+        display: table-cell;
+        font-weight: normal;
+    }
+
+    .x-content {
+        line-height: 22px;
+        width: 100%;
+        padding-bottom: 16px;
+        color: rgba(0, 0, 0, 0.65);
+        display: table-cell;
+        font-weight: normal;
+    }
+
+    .border {
+        border: 1px solid #000;
+        padding: 2px;
+    }
+
+    .xunjiaSection {
+        background: #fff;
+        margin-top: 20px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .cardSection {
+        margin-top: 20px;
+        background-color: #fff;
+        padding: 20px;
+        margin-left: 20px;
+    }
+
+    .singleClass {
+        margin-top: 5px;
+        padding: 0px 10px;
+        background: #c6e5ff;
+        border-radius: 5px;
+    }
+
+    .doubleClass {
+        margin-top: 60px;
+        background: #e4e7eb;
+        border-radius: 5px;
+    }
+
+    .bottom20 {
+        margin-bottom: 10px;
+    }
+
+    img.col-sm-4 {
+        margin-bottom: 10px;
+    }
+</style>
+<div class=" no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">询价管理</h4>
+    </div>
+    <div class="" style="overflow: hidden;">
+        <div class="col-sm-12" style="background:#fff;">
+            <h3 style="font-size: 24px;margin-bottom: 33px;"><img style="vertical-align: -4px;width: 28px;height: 28px;border-radius: 4px;margin-right: 10px;" ng-src="../../img/item.png">商品ID:{{inquiryDetail.itemId}} <img style="width:30px;vertical-align: baseline;" ng-if="inquiryDetail.hotItem" ng-src="../../img/hotItem.png"></h3>
+
+            <div class="row" style="background:#fff;padding-left: 100px;">
+                <div class="col-sm-6"><span class="x-title">供应商：</span><span class="x-content">{{inquiryDetail.supplierName}}</span></div>
+                <div class="col-sm-6"><span  class="x-title">供应商电话：</span><span class="x-content">{{inquiryDetail.mobile}}</span></div>
+                <div class="col-sm-6"><span  class="x-title">供应商联系人：</span><span class="x-content">{{inquiryDetail.contactName}}</span></div>
+                <div class="col-sm-6"><span  class="x-title">品名：</span><span class="x-content">{{inquiryDetail.productName}}</span></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-body">
+
+        <div class="row cardSection" ng-show="rootCategoryId === 1">
+            <div class="col-sm-12">
+                <!-- 空差,米差为卖法 -->
+                <h3>空差/米差<span style="color: red;">*</span></h3>
+                <div class="row">
+                    <label class="col-sm-1" style="margin-right: -50px;"><input type="radio" name="sellType" ng-model="sellType.type" value="1"></label>
+                    <label class="col-sm-3"><div class=" x-title">纸管</div><div class=" x-content"><input ng-disabled="sellType.type != 1" type="number" class="form-control" ng-model="sellType.paperTube"></div></label>
+                    <label class="col-sm-3"><div class=" x-title">空差</div><div class=" x-content"><input ng-disabled="sellType.type != 1" type="number" class="form-control" ng-model="sellType.blankShort"></div></label>
+                </div>
+
+                <div class="row">
+                    <label class="col-sm-1" style="margin-right: -50px;"><input type="radio" name="sellType" ng-model="sellType.type" value="2"></label>
+                    <label class="col-sm-3"><div class="x-title">米差</div><div class="x-content"><input type="number" ng-disabled="sellType.type != 2" class="form-control" ng-model="sellType.meterShort"></div></label>
+                </div>
+            </div>
+        </div>
+
+        <!--  工艺相关 -->
+        <div class="row cardSection">
+            <div class="col-sm-12">
+                <h3>工艺信息</h3>
+
+                <div class="col-sm-12"  style="margin-bottom: 20px;">
+                    <div class="col-sm-3"><span class="x-title">工艺：</span><span class="x-content">无</span></div>
+                    <div class="col-sm-3"><span class="x-title">加价：</span><span class="x-content">0元</span></div>
+                </div>
+                <div class="col-sm-12" style="margin-bottom: 10px;" ng-repeat="x in itemCraftsDTOList">
+                    <div ng-if="x.editable" class="col-sm-3"><span>工艺：</span><input type="text" name="craftsName" placeholder="填写工艺名称"  ng-model="x.craftsName">
+                    </div>
+                    <div ng-if="x.editable" class="col-sm-3"><span>加价：</span><input type="number" name="price" placeholder="填写数字" ng-model="x.price">元
+                    </div>
+                    <div ng-if="!x.editable"class="col-sm-3"><span class="x-title">工艺：</span><span class="x-content">{{x.craftsName}}</span></div>
+                    <div ng-if="!x.editable"class="col-sm-3"><span class="x-title">加价：</span><span class="x-content">{{x.price}}元</span></div>
+                    <button ng-if='!x.editable' style="margin-right: 10px;" class="col-sm-1 btn btn-primary" ng-click="editCraft($index)">修改</button>
+                    <button ng-if='!x.editable' class="col-sm-1 btn btn-danger" ng-click="deleteCraft($index)">删除</button>
+                    <button ng-if='x.editable' class="col-sm-1 btn btn-info" ng-click="confirmCraft($index)">确定</button>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-w-sm btn-primary" ng-click="addCraft()">新增工艺</button>
+            </div>
+        </div>
+
+        <hr>
+        <!-- 黑色询价相关信息 -->
+        <div class="row cardSection" ng-show="rootCategoryId === 1">
+            <div class="col-sm-12">
+                <h3>黑色</h3>
+                <div class="col-sm-12 bottom20">
+                    <div class="col-sm-1 x-title">色号:</div>
+                    <div class="col-sm-2">
+                        <input type="text"
+                               name=""
+                               placeholder="请输入色号"
+                               class="form-control"
+                               ng-model="blackColorList.colorNo"
+                               ng-blur="changeBlackColor()"
+                        >
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-1 x-title">价格:样布</div>
+                    <div class="col-sm-2">
+                        <input type="number"
+                               name=""
+                               placeholder=""
+                               class="form-control"
+                               ng-model="blackColorList.swatchPrice">
+                    </div>
+
+                    <div class="col-sm-2">
+                        <select class="col-lg-5 form-control" ng-model="blackColorList.swatchMeasurementUnit"
+                                name=""
+                                ng-options="item.value as item.name for item in unitList"
+                        >
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-1 x-title">价格:大货</div>
+                    <div class="col-sm-2">
+                        <input type="number"
+                               name="ps.trade_id"
+                               placeholder=""
+                               class="form-control"
+                               ng-model="blackColorList.largeCargoPrice">
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="col-lg-5 form-control" ng-model="blackColorList.largeCargoMeasurementUnit"
+                                name=""
+                                ng-options="item.value as item.name for item in unitList"
+                        >
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <!--<span>工艺：无</span>-->
+                </div>
+                <div class="col-sm-12" style="margin-left: 15px;">
+                    <span>最近一次更新时间{{blackColorList.updateTime | date:'yyyy-MM-dd HH:mm:ss '}}</span>
+                    <span>最新维护询价人：{{blackColorList.operatorName}}</span>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!-- 白色询价相关信息 -->
+        <div class="row cardSection" ng-show="rootCategoryId === 1" >
+            <div class="col-sm-12">
+                <h3>白色</h3>
+                <div class="col-sm-12 bottom20">
+                    <div class="col-sm-1 x-title">色号:</div>
+                    <div class="col-sm-2">
+                        <input type="text"
+                               name=""
+                               placeholder="请输入色号"
+                               class="form-control"
+                               ng-model="whiteColorList.colorNo"
+                               ng-blur="changeWhiteColor()"
+                        >
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-1 x-title">价格:样布</div>
+                    <div class="col-sm-2">
+                        <input type="number"
+                               name=""
+                               placeholder=""
+                               class="form-control"
+                               ng-model="whiteColorList.swatchPrice">
+                    </div>
+
+                    <div class="col-sm-2">
+                        <select class="col-lg-5 form-control" ng-model="whiteColorList.swatchMeasurementUnit"
+                                ng-options="item.value as item.name for item in unitList"
+                                name="">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-1 x-title">价格:大货</div>
+                    <div class="col-sm-2">
+                        <input type="number"
+                               name=""
+                               placeholder=""
+                               class="form-control"
+                               ng-model="whiteColorList.largeCargoPrice">
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="col-lg-5 form-control" ng-model="whiteColorList.largeCargoMeasurementUnit"
+                                ng-options="item.value as item.name for item in unitList"
+                                name="">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <!--<span>工艺：无</span>-->
+
+                </div>
+                <div class="col-sm-12" style="margin-left: 15px;">
+                    <span>最近一次更新时间{{whiteColorList.updateTime | date:'yyyy-MM-dd HH:mm:ss '}}</span>
+                    <span>最新维护询价人：{{whiteColorList.operatorName}}</span>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!-- 杂色询价相关信息 -->
+        <div class="row cardSection" ng-show="rootCategoryId === 1">
+            <div class="col-sm-12">
+                <h3>杂色</h3>
+                <div class="row" ng-repeat="x in variegateColorList">
+                    <div class="col-sm-12 bottom20" >
+                        <div class="col-sm-1 x-title">色号:</div>
+                        <div class="col-sm-6">
+                            <input type="text"
+                                   name=""
+                                   placeholder="请输入色号"
+                                   class="form-control"
+                                   ng-model="x.colorNo"
+                                   ng-blur="changeVariegateColor()"
+                            >
+                        </div>
+                        <button class="col-sm-1 btn btn-danger" ng-click="deleteVariegate($index)">删除杂色</button>
+                    </div>
+                    <div class="col-sm-12 bottom20">
+                        <div class="col-sm-1 x-title">价格:样布</div>
+                        <div class="col-sm-2">
+                            <input type="number"
+                                   name="ps.trade_id"
+                                   placeholder=""
+                                   class="form-control"
+                                   ng-model="x.swatchPrice">
+                        </div>
+
+                        <div class="col-sm-2">
+                            <select class="col-lg-5 form-control" ng-model="x.swatchMeasurementUnit"
+                                    ng-options="item.value as item.name for item in unitList"
+                                    name="">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-1 x-title">价格:大货</div>
+                        <div class="col-sm-2">
+                            <input type="number"
+                                   name=""
+                                   placeholder=""
+                                   class="form-control"
+                                   ng-model="x.largeCargoPrice">
+                        </div>
+                        <div class="col-sm-2">
+                            <select class="col-lg-5 form-control" ng-model="x.largeCargoMeasurementUnit"
+                                    ng-options="item.value as item.name for item in unitList"
+                                    name="ri.buyer_city_id">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <!--<span>工艺：无</span>-->
+                    </div>
+                    <div class="col-sm-12" style="margin-left: 15px;">
+                        <span>最近一次更新时间{{x.updateTime | date:'yyyy-MM-dd HH:mm:ss '}}</span>
+                        <span>最新维护询价人：{{x.operatorName}}</span>
+                    </div>
+                </div>
+            </div>
+            <button type="button" style="margin-left: 30px;margin-top: 15px;" class="btn btn-w-sm btn-primary" ng-click="addVariegate()">添加杂色</button>
+        </div>
+
+        <!-- 规格询价相关信息 -->
+        <div class="row cardSection" ng-show="rootCategoryId === 2">
+            <div class="col-sm-12">
+                <h3>规格</h3>
+                <div class="row" ng-repeat="x in specificationList">
+                    <div class="col-sm-12 bottom20" >
+                        <div class="col-sm-1 x-title">规格:</div>
+                        <div class="col-sm-6">
+                            <input type="text"
+                                   name=""
+                                   placeholder="请输入规格"
+                                   class="form-control"
+                                   ng-model="x.specification"
+                                   ng-blur="changeSpecification()"
+                            >
+                        </div>
+                        <button class="col-sm-1 btn btn-danger" ng-click="deleteSpecification($index)">删除规格</button>
+                    </div>
+                    <div class="col-sm-12 bottom20">
+                        <div class="col-sm-1 x-title">价格:样品</div>
+                        <div class="col-sm-2">
+                            <input type="number"
+                                   name="ps.trade_id"
+                                   placeholder=""
+                                   class="form-control"
+                                   ng-model="x.swatchPrice">
+                        </div>
+
+                        <div class="col-sm-2">
+                            <select class="col-lg-5 form-control" ng-model="x.swatchMeasurementUnit"
+                                    ng-options="item.value as item.name for item in unitList"
+                                    name="">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-1 x-title">价格:大货</div>
+                        <div class="col-sm-2">
+                            <input type="number"
+                                   name=""
+                                   placeholder=""
+                                   class="form-control"
+                                   ng-model="x.largeCargoPrice">
+                        </div>
+                        <div class="col-sm-2">
+                            <select class="col-lg-5 form-control" ng-model="x.largeCargoMeasurementUnit"
+                                    ng-options="item.value as item.name for item in unitList"
+                                    name="ri.buyer_city_id">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <!--<span>工艺：无</span>-->
+                    </div>
+                    <div class="col-sm-12 bottom20" style="margin-left: 15px;">
+                        <span>最近一次更新时间{{x.updateTime | date:'yyyy-MM-dd HH:mm:ss '}}</span>
+                        <span>最新维护询价人：{{x.operatorName}}</span>
+                    </div>
+                </div>
+            </div>
+            <button type="button" style="margin-left: 30px;margin-top: 15px;" class="btn btn-w-sm btn-primary" ng-click="addSpecification()">添加规格</button>
+        </div>
+
+        <div class="row cardSection">
+            <div class="row">
+                <input type="checkbox" ng-model="isSetInventory" ng-change="setInventory()"  class="" style="float:left;" />
+                <h3 class="col-sm-2" style="margin-top: 0;">设定库存</h3>
+            </div>
+            <div class="col-sm-12" ng-if="isSetInventory">
+                <div class="row">
+                    <h3 class="col-sm-6">库存</h3>
+                    <div class="col-sm-6" ng-if="isSetInventory">
+                        <div class="col-sm-4">库存及价格有效期至</div>
+                        <input data-op="between" date-range-picker name="ri.create_time"
+                               type="text" class="date-picker col-sm-6"
+                               ng-model="vm.inventoryTime" readonly="readonly"
+                               options="vm.opts"
+                        />
+                    </div>
+                </div>
+                <div class="col-sm-12" style="margin-bottom: 10px;margin-left: 15px;" ng-if="whiteInquiryList.length > 0" ng-repeat="x in whiteInquiryList">
+                    <span>白</span>
+                    <span>{{rootCategoryId === 1 ?'色号：':'规格：'}}</span><span>{{rootCategoryId === 1?x.colorNo:x.specification}}</span>
+                    <input type="radio" name="" value="2" ng-model="x.inventoryStatus"/><span>足货</span>&nbsp;&nbsp;
+                    <input type="radio" name="" value="0" ng-model="x.inventoryStatus" /><span>缺货</span>&nbsp;&nbsp;
+                    <input type="radio" name="" value="1" ng-model="x.inventoryStatus" /><span>少量</span>&nbsp;&nbsp;
+                    <input type="number" name="" ng-model="x.inventory" />{{x.largeCargoMeasurementUnit}}
+                </div>
+
+                <div class="col-sm-12" style="margin-bottom: 10px;margin-left: 15px;" ng-if="blackInquiryList.length > 0" ng-repeat="x in blackInquiryList">
+                    <span>黑</span>
+                    <span>{{rootCategoryId === 1 ?'色号：':'规格：'}}</span><span>{{rootCategoryId === 1?x.colorNo:x.specification}}</span>
+                    <input type="radio" name="" value="2" ng-model="x.inventoryStatus"/><span>足货</span>&nbsp;&nbsp;
+                    <input type="radio" name="" value="0" ng-model="x.inventoryStatus" /><span>缺货</span>&nbsp;&nbsp;
+                    <input type="radio" name="" value="1" ng-model="x.inventoryStatus" /><span>少量</span>&nbsp;&nbsp;
+                    <input type="number" name="" ng-model="x.inventory" />{{x.largeCargoMeasurementUnit}}
+                </div>
+
+                <div class="col-sm-12" style="margin-bottom: 10px;margin-left: 15px;" ng-if="variegateInquiryList.length > 0" ng-repeat="x in variegateInquiryList track by $index">
+                    <span>杂</span>
+                    <span>{{rootCategoryId === 1 ?'色号：':'规格：'}}</span><span>{{rootCategoryId === 1?x.colorNo:x.specification}}</span>
+                    <input type="radio" name="" value="2" ng-model="x.inventoryStatus"/><span>足货</span>&nbsp;&nbsp;
+                    <input type="radio" name="" value="0" ng-model="x.inventoryStatus" /><span>缺货</span>&nbsp;&nbsp;
+                    <input type="radio" name="" value="1" ng-model="x.inventoryStatus" /><span>少量</span>&nbsp;&nbsp;
+                    <input type="number" name="" ng-model="x.inventory" />{{x.largeCargoMeasurementUnit}}
+                </div>
+
+                <div class="col-sm-12" style="margin-bottom: 10px;margin-left: 15px;" ng-if="specificationInquiryList.length > 0" ng-repeat="x in specificationInquiryList track by $index">
+                    <span>{{rootCategoryId === 1 ?'色号：':'规格：'}}</span><span>{{rootCategoryId === 1?x.colorNo:x.specification}}</span>
+                    <input type="radio" name="" value="2" ng-model="x.inventoryStatus"/><span>足货</span>&nbsp;&nbsp;
+                    <input type="radio" name="" value="0" ng-model="x.inventoryStatus" /><span>缺货</span>&nbsp;&nbsp;
+                    <input type="radio" name="" value="1" ng-model="x.inventoryStatus" /><span>少量</span>&nbsp;&nbsp;
+                    <input type="number" name="" ng-model="x.inventory" />{{x.largeCargoMeasurementUnit}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer" style="padding-bottom: 45px;">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="nextStep()" ng-disabled="okBtnDisabled">确定</button>
+    </div>
+</div>

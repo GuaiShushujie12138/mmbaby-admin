@@ -1,0 +1,581 @@
+<div class="modal-dialog modal-lg no-margins">
+    <style type="text/css">
+        .padding_class {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+    </style>
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">
+            客户编辑:<label class="red padding_class">{{vm.info.customerId}}</label>
+            <label ng-if="vm.info.isBuyer == 1">角色:</label>
+            <label class="label label-danger padding_class" ng-if="vm.info.isBuyer == 1">买家</label>
+            <label class="label label-danger padding_class" ng-if="vm.info.isSeller == 1">卖家</label>
+
+            <label class="red">{{vm.info.customerStatus}}</label>
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="wrapper-content animated fadeIn" style="padding: 0px 3px 15px">
+            <form id="editBuyer" class="form-horizontal" name="editBuyerForm" ng-submit="submit()">
+                <div class="tabs-container">
+
+                    <div class="panel-body">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                基本信息
+                            </div>
+                            <div class="panel-body">
+
+                                <div class="row" >
+                                    <div class="col-xs-4" ng-if="vm.info.isBuyer == 1">
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">买家等级 :</label>
+                                            <div class="col-md-8">
+                                                <select class="form-control" name="buyerLevel"
+                                                        ng-model="vm.info.buyerLevel" ng-options="item.key as item.value for item in vm.levelList">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4" ng-if="vm.info.isSeller == 1">
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">卖家等级 :</label>
+                                            <div class="col-md-8">
+                                                <select class="form-control" name="sellerLevel"
+                                                        ng-model="vm.info.sellerLevel" ng-options="item.key as item.value for item in vm.levelList">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">客户标签 :</label>
+                                            <div id="customerTagDiv">
+                                                <div name="pdiv" class="col-md-2 customerTagClass" ng-repeat="tag in tagArr">
+                                                    <input type="text" style="width: 75%;" name="tag" value="{{tag}}"/>
+                                                    <button type="button" class="close" ng-click="delTag($event)" aria-label="Close"><i class="fa fa-times"></i></button>
+                                                </div>
+                                                <button type="button" class="btn btn-primary dim" data-ng-click="addTag($event)" ng-show="tagNum < 8"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" >
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">客户来源 :</label>
+                                            <div class="col-md-8">
+                                                <select class="form-control" name="sourceType"
+                                                        ng-model="vm.info.sourceType" ng-options="item.id as item.name for item in vm.sourceTypeList">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                                <input ng-if="vm.info.sourceType == 900" class="form-control" type="text" placeholder="其他客户来源"  name="" ng-model="vm.info.sourceTypeOther" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group" style="margin-left: 40px;">
+                                        <label class="col-md-1 control-label">买家主营 :</label>
+                                        <div class="col-md-2" ng-repeat="buyerBusinessName in vm.buyerBusinessNameList">
+                                            <label class="control-label" style="font-weight: 400;">{{buyerBusinessName.name}}
+                                                <input type="checkbox" name="buyerBusinessName" data-ng-checked="isBusinessNameChecked(buyerBusinessName.id)" data-ng-click="updateBuyerBusinessName(buyerBusinessName.id)"/>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!--<div class="row">-->
+                                <!--<div class="form-group">-->
+                                <!--<label class="col-md-2 control-label">主营 :</label>-->
+                                <!--<div class="col-md-6">-->
+                                <!--{{vm.info.businessNamesContent}}-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="row">-->
+                                <!--<div class="form-group">-->
+                                <!--<label class="col-md-2 control-label">主需 :</label>-->
+                                <!--<div class="col-md-6">-->
+                                <!--{{vm.info.needNamesContent}}-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">客户简介 :</label>
+                                            <div class="col-md-10">
+                                                <textarea name="description" placeholder="客户简介" class="form-control" ng-model="vm.info.description"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                联系人信息
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">联系人姓名 :</label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="contactName" placeholder="联系人姓名" class="form-control" ng-model="vm.info.contactName" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">身份证 :</label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="identityCardNo" placeholder="身份证" class="form-control" ng-model="vm.info.identityCardNo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">联系人手机 :</label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="contactMobile" placeholder="联系人手机" class="form-control" ng-model="vm.info.contactMobile" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">联系人邮箱 :</label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="email" placeholder="联系人邮箱" class="form-control" ng-model="vm.info.email" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">联系人微信 :</label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="weixin" placeholder="联系人微信" class="form-control" ng-model="vm.info.weixin" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">联系人QQ :</label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="qq" placeholder="联系人QQ" class="form-control" ng-model="vm.info.qq" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">联系人传真 :</label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="fax" placeholder="联系人传真" class="form-control" ng-model="vm.info.fax" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">联系人部门 :</label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="dept" placeholder="联系人部门" class="form-control" ng-model="vm.info.department" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">联系人职位 :</label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="position" placeholder="联系人职位" class="form-control" ng-model="vm.info.position" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                公司信息
+                            </div>
+                            <div class="panel-body">
+                                <div class="row" ng-if="vm.compnayNameEdit == 1">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">公司名称 :</label>
+                                        <div class="col-md-6">
+                                            <input type="text" name="companyName" placeholder="公司名称" class="form-control" ng-model="vm.info.companyName" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">营业执照号 :</label>
+                                        <div class="col-md-6">
+                                            <input type="text" name="licenseNo" placeholder="营业执照号" class="form-control" ng-model="vm.info.licenseNo" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">公司电话 :</label>
+                                        <div class="col-md-6">
+                                            <input type="text" name="companyPhone" placeholder="公司电话" class="form-control" ng-model="vm.info.companyPhone" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">工厂规模 :</label>
+                                        <div class="col-md-6">
+                                            <!--<input type="text" name="membersNum" placeholder="员工数" class="form-control" ng-model="vm.info.membersNum" />-->
+                                            <select  class="form-control"
+                                                     ng-model="vm.info.companyScale"
+                                                     ng-options="item.id as item.name for item in vm.comScaleList"
+                                            >
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">年产值 :</label>
+                                        <div class="col-md-6">
+                                            <select  class="form-control"
+                                                     ng-model="vm.info.companyOutputValue"
+                                                     ng-options="item.id as item.name for item in vm.comOutputList"
+                                            >
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">公司属性 :</label>
+                                        <div class="col-md-6">
+                                            <select  class="form-control"
+                                                     ng-model="vm.info.companyType"
+                                                     ng-options="item.id as item.name for item in vm.companyTypeList"
+                                            >
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-if="vm.info.isOpenShop == 0">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">注册日期 :</label>
+                                        <div class="col-md-6">
+                                            <input type="datetime" name="companyRegDate" class="form-control date-picker" date-time
+                                                   view="date" ng-model="vm.info.companyRegDate"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">公司地址 :</label>
+                                        <div class="col-md-6">
+                                            <div class="col-xs-4">
+                                                <select class="form-control" name="com_provice"
+                                                        ng-model="vm.info.provinceId"
+                                                        ng-options="provice.id as provice.name for provice in vm.comProviceList"
+                                                        ng-change="vm.info.provinceId && comProviceChange(vm.info.provinceId)">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <select class="form-control" name="com_city"
+                                                        ng-model="vm.info.cityId"
+                                                        ng-options="city.id as city.name for city in vm.comCityList"
+                                                        ng-change="vm.info.cityId && comCityChange(vm.info.cityId)">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <select class="form-control" name="com_area"
+                                                        ng-model="vm.info.districtId"
+                                                        ng-options="area.id as area.name for area in vm.comDistrictList">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" >
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">详细地址 :</label>
+                                        <div class="col-md-6">
+                                            <input type="text" name="address" placeholder="详细地址" class="form-control" ng-model="vm.info.address" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" ng-if="vm.info.isOpenShop == 0">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">经营模式 :</label>
+                                        <div class="col-md-2">
+                                            <select class="form-control" name="companyNature"
+                                                    ng-model="vm.info.companyNature" ng-options="item.key as item.value for item in vm.natureList">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-if="vm.info.isOpenShop == 0">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">主营行业 :</label>
+                                        <div class="col-md-3" ng-repeat="classModel in vm.attchInfo.companyClassList">
+                                            <label class="control-label" style="font-weight: 400;">{{classModel.name}}
+                                                <input type="checkbox" name="companyClassModel" data-ng-checked="isSelCompanyClassModel(classModel.id)" data-ng-click="updateCompanyClassModel(classModel.id)"/>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body" ng-if="vm.info.isOpenShop == 0">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                店铺信息
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">店铺名称 :</label>
+                                        <div class="col-md-6">
+                                            <input type="text" name="shopName" placeholder="店铺名称" class="form-control" ng-model="vm.info.shopName" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="row">-->
+                                <!--<div class="form-group">-->
+                                <!--<label class="col-md-2 control-label">主营产品 待完成:</label>-->
+                                <!--<div class="col-md-6">-->
+                                <!--<input type="text" name="shopAddress" placeholder="经营地址" class="form-control" ng-model="vm.info.shopAddress" />-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">所在地 :</label>
+                                        <div class="col-md-6">
+                                            <div class="col-xs-4">
+                                                <select class="form-control" name="sel_provice"
+                                                        ng-model="vm.info.shopProvinceId"
+                                                        ng-options="provice.id as provice.name for provice in vm.shopProviceList"
+                                                        ng-change="vm.info.shopProvinceId && shopProviceChange(vm.info.shopProvinceId)">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <select class="form-control" name="sel_city"
+                                                        ng-model="vm.info.shopCityId"
+                                                        ng-options="city.id as city.name for city in vm.shopCityList"
+                                                        ng-change="vm.info.shopCityId && shopCityChange(vm.info.shopCityId)">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <select class="form-control" name="sel_area"
+                                                        ng-model="vm.info.shopDistrictId"
+                                                        ng-options="area.id as area.name for area in vm.shopDistrictList">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">详细地址 :</label>
+                                        <div class="col-md-6">
+                                            <input type="text" name="shopAddress" placeholder="详细地址" class="form-control" ng-model="vm.info.shopAddress" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">店铺简介 :</label>
+                                        <div class="col-md-6">
+                                            <textarea name="shopRemark" placeholder="店铺简介" class="form-control" ng-model="vm.info.shopRemark"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">店铺LOGO :</label>
+                                        <div class="col-md-3">
+                                            <input type="file" placeholder="店铺LOGO" class="form-control" file-model="myFile" name="myFile" num=0 />
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12" style="height: 160px;">
+                                                            <img ng-src="{{imageShowSrc[0]}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                图片信息
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">营业执照 :</label>
+                                            <div class="col-md-9">
+                                                <input type="file" placeholder="营业执照" class="form-control" file-model="myFile" name="myFile" num=1 />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12" style="height: 160px;">
+                                                                <img ng-src="{{imageShowSrc[1]}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">商家名片 :</label>
+                                            <div class="col-md-9">
+                                                <input type="file" placeholder="商家名片" class="form-control" file-model="myFile" name="myFile" num=2 />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12" style="height: 160px;">
+                                                                <img ng-src="{{imageShowSrc[2]}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">门店招牌 :</label>
+                                            <div class="col-md-9">
+                                                <input type="file" placeholder="门店招牌" class="form-control" file-model="myFile" name="myFile" num=3 />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12" style="height: 160px;">
+                                                                <img ng-src="{{imageShowSrc[3]}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">合同照片 :</label>
+                                            <div class="col-md-9">
+                                                <input type="file" placeholder="合同照片" class="form-control" file-model="myFile" name="myFile" num=4 />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12" style="height: 160px;">
+                                                                <img ng-src="{{imageShowSrc[4]}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">身份证 :</label>
+                                            <div class="col-md-9">
+                                                <input type="file" placeholder="身份证" class="form-control" file-model="myFile" name="myFile" num=5 />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12" style="height: 160px;">
+                                                                <img ng-src="{{imageShowSrc[5]}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">手持身份证 :</label>
+                                            <div class="col-md-9">
+                                                <input type="file" placeholder="手持身份证" class="form-control" file-model="myFile" name="myFile" num=6 />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12" style="height: 160px;">
+                                                                <img ng-src="{{imageShowSrc[6]}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="submit()">保存</button>
+    </div>
+</div>

@@ -1,0 +1,166 @@
+<style>
+    .packingSlip{
+        border: 1px solid #f0f0f0;
+        width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        color: #000;
+        font-size: 14px;
+    }
+    .ps-top{
+        height: 48px;
+        margin-bottom: 25px;
+    }
+    .ps-top-left{
+        float: left;
+        width: 50%;
+    }
+    .ps-top-left img{
+        float: left;
+        margin-right: 20px;
+    }
+    .ps-top-left h4{
+        line-height: 48px;
+        font-size: 24px;
+        color: #000;
+        font-weight: 700;
+        margin: 0;
+    }
+    .ps-top-right{
+        float: right;
+        width: 50%;
+        text-align: right;
+        line-height: 24px;
+    }
+    .ps-top-right p{
+        margin: 0;
+    }
+    .color-red{
+        color: #e95647;
+    }
+    .ps-header{
+        line-height: 16px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    .ps-header span{
+        display: block;
+        float: left;
+        width: 25%;
+    }
+    .table-cal{
+        padding: 0!important;
+    }
+    .table-cal .table{
+        margin: 0;
+        border: 0;
+    }
+    .table-cal .table td{
+        padding: 0;
+        border-top: 0;
+        border-right: 0;
+        text-align: center;
+        line-height: 34px;
+    }
+    .table-cal .table tr td:first-of-type {
+        border-left: 0;
+    }
+    .table-cal .table tr:last-of-type td {
+        border-bottom: 0;
+    }
+    .table td{
+        text-align: center;
+    }
+    .table th{
+        text-align: center;
+        background-color: #F5F5F6;
+    }
+    .ps-content p{
+        margin-bottom: 20px;
+    }
+    .ps-footer{
+        text-align: right;
+        font-size: 16px;
+        font-weight: 700;
+    }
+</style>
+<div class="no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">查看电子码单</h4>
+    </div>
+    <div class="modal-body" style="padding: 30px 50px;">
+        <div class="packingSlip">
+            <!-- top -->
+            <div class="ps-top">
+                <div class="ps-top-left">
+                    <img src="img/packing-slip-logo.png" alt="">
+                    <h4>出货码单</h4>
+                </div>
+                <div class="ps-top-right">
+                    <p class="color-red">编号：{{vm.packingSlipId}}</p>
+                    <p>时间：{{vm.createTime}}</p>
+                </div>
+            </div>
+            <!-- header -->
+            <div class="ps-header">
+                <span>客户名称：{{vm.realBuyerName}}</span>
+                <span>手机号：{{vm.realBuyerMobile}}</span>
+                <span>品名：{{vm.productName}}</span>
+                <span>货号：{{vm.itemCode}}</span>
+            </div>
+            <!-- table -->
+            <div class="ps-table" ng-if="vm.skuAndProperties && vm.skuAndProperties.skuList && vm.skuAndProperties.skuList.length > 0">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th ng-if="vm.rootCategoryId==1">色号</th>
+                        <th ng-if="vm.rootCategoryId==2">规格</th>
+                        <th>码单明细</th>
+                        <th>单位</th>
+                        <th>数量</th>
+                        <th>单价</th>
+                        <th>金额</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="sku in vm.skuAndProperties.skuList">
+                        <td ng-if="vm.rootCategoryId==1">{{sku.colorNo}}</td>
+                        <td ng-if="vm.rootCategoryId==2">{{sku.specification}}</td>
+                        <td class="table-cal">
+                            <table class="table table-bordered">
+                                <tr ng-repeat="quantile in (sku.amountText | quantityFilter) track by $index">
+                                    <td ng-repeat="quan in quantile track by $index" width="20">{{quan}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>{{sku.measurementUnit}}</td>
+                        <td>{{sku.allAmount}}</td>
+                        <td>{{sku.salePrice}}</td>
+                        <td>{{sku.saleFee + sku.priceUnit}}</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th><b>数量合计</b></th>
+                        <td style="text-align: center;"><b>{{vm.totalQuantity}}</b></td>
+                        <th><b>金额合计</b></th>
+                        <td colspan="3" style="text-align: center;"><b>{{vm.totalPrice}}</b></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- content -->
+            <div class="ps-content">
+                <p>纸管空差：{{vm.paperTubeAndShortFall || ''}}</p>
+                <p>
+                    <span style="margin-right: 60px;">链尚采购顾问：{{vm.crmBuyerUserName || ''}}</span>
+                    <span>制单员：{{vm.authUserName}}</span>
+                </p>
+                <p>备注：亲爱的链尚客户，请核对本单后验收。若发现质量问题，请于10天内联系，一经裁剪或超出本期限，恕不负责；非质量问题，恕不退换，谢谢合作！</p>
+            </div>
+            <!-- footer -->
+            <div class="ps-footer color-red">链尚国际贸易（上海）有限公司</div>
+        </div>
+    </div>
+</div>

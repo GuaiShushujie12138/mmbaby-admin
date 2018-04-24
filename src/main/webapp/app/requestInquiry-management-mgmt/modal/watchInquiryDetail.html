@@ -1,0 +1,196 @@
+<div class="modal-dialog no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">询价单详情</h4>
+    </div>
+    <div class="modal-body" style="background-color:#f6f6f6;font-family:黑体;height:600px;overflow-y:auto;">
+        <div class="row">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row">
+                        <img src="/img/watch_production.png" style="width:30px;height:30px;vertical-align:text-bottom">
+                        <span style="display:inline-block">商品ID:</span>
+                        <span ng-bind="inquiryDetail.itemId"></span>
+                        <img style="width:30px;vertical-align: baseline;" ng-if="inquiryDetail.hotItem" ng-src="../../img/hotItem.png">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span>供应商:</span>
+                            <span ng-bind="inquiryDetail.supplierName"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>供应商电话:</span>
+                            <span ng-bind="inquiryDetail.mobile"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>供应商联系人:</span>
+                            <span ng-bind="inquiryDetail.contactName"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>品名:</span>
+                            <span ng-bind="inquiryDetail.productName"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row">
+                        <img src="/img/watch_technology.png" style="width:30px;height:30px;vertical-align:text-bottom">
+                        <h4 style="display:inline-block">工艺信息</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6" style="text-align:center"
+                             ng-repeat="item in inquiryDetail.itemCraftsDTOList">
+                            <span>工艺:</span>
+                            <span>{{item.craftsName}}</span>
+                            <span>&nbsp&nbsp&nbsp</span>
+                            <span>加价:</span>
+                            <span>{{item.price}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row" ng-repeat="sku in blackInquiryDetail">
+                        <div class="col-sm-12">
+                            <img src="/img/watch_black.png" style="width:20px;height:20px;vertical-align:text-bottom">
+                            <h4 style="display:inline-block">黑(克)色</h4>
+                        </div>
+                        <div class="col-sm-12" style="margin-left:10px">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <span>色号:</span>
+                                    <span ng-bind="sku.colorNo"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <span>价格</span>
+                                    <span>样布:</span>
+                                    <span ng-bind="sku.swatchPrice  + '元/' + sku.swatchMeasurementUnit"></span>
+                                    <span>大货:</span>
+                                    <span ng-bind="sku.largeCargoPrice  + '元/' + sku.largeCargoMeasurementUnit"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="ibox float-e-margins" style="margin-bottom:0px">
+                                <div class="ibox-tools dropdown " dropdown="">
+                                    <a class="chevron-up" style="color: #FF5722;" data-id="{{sku.itemId}}" data-color="{{sku.colorNo}}"
+                                       ng-click="getColorHistory($event)" data-pageNum="10" > <i
+                                            class="fa fa-chevron-up"></i>展开历史记录</a>
+                                </div>
+                                <div class="ibox-content" style="border-color:#fff;display: none">
+                                    <div class="row history_list" style="padding-left:20px;padding-right:20px">
+                                    </div>
+                                    <div class="row load_more" style="text-align:center;margin-top:5px">
+                                        <button class="btn btn-sm btn-default" ng-click="loadMoreHistory($event)">加载更多</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat="sku in whiteInquiryDetail">
+                        <div class="col-sm-12">
+                            <img src="/img/watch_white.png" style="width:20px;height:20px;vertical-align:text-bottom">
+                            <h4 style="display:inline-block">白色</h4>
+                        </div>
+                        <div class="col-sm-12" style="margin-left:10px">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <span>色号:</span>
+                                    <span ng-bind="sku.colorNo"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <span>价格</span>
+                                    <span>样布:</span>
+                                    <span ng-bind="sku.swatchPrice  + '元/' + sku.swatchMeasurementUnit"></span>
+                                    <span>大货:</span>
+                                    <span ng-bind="sku.largeCargoPrice  + '元/' + sku.largeCargoMeasurementUnit"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="ibox float-e-margins" style="margin-bottom:0px">
+                                <div class="ibox-tools dropdown " dropdown="">
+                                    <a class="chevron-up" data-id="{{sku.itemId}}" data-color="{{sku.colorNo}}" data-pageNum="10"
+                                       ng-click="getColorHistory($event)" style="color: #FF5722;"> <i
+                                            class="fa fa-chevron-up"></i>展开历史记录</a>
+                                </div>
+                                <div class="ibox-content" style="border-color:#fff;display: none">
+                                    <div class="row history_list" style="padding-left:20px;padding-right:20px">
+                                    </div>
+                                    <div class="row load_more" style="text-align:center;margin-top:5px">
+                                        <button class="btn btn-sm btn-default" ng-click="loadMoreHistory($event)">加载更多</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="diffInquiryDetailList.length!=0">
+                        <div class="col-sm-12">
+                            <img src="/img/watch_color.png" style="width:20px;height:20px;vertical-align:text-bottom">
+                            <h4 style="display:inline-block">杂色</h4>
+                        </div>
+                        <div class="col-sm-12" ng-repeat="sku in diffInquiryDetailList">
+                            <div class="col-sm-12" style="margin-left:10px">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <span>色号:</span>
+                                        <span ng-bind="sku.colorNo"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <span>价格</span>
+                                        <span>样布:</span>
+                                        <span ng-bind="sku.swatchPrice  + '元/' + sku.swatchMeasurementUnit"></span>
+                                        <span>大货:</span>
+                                        <span ng-bind="sku.largeCargoPrice  + '元/' + sku.largeCargoMeasurementUnit"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="ibox float-e-margins" style="margin-bottom:0px">
+                                    <div class="ibox-tools dropdown " dropdown="">
+                                        <a class="chevron-up" data-id="{{sku.itemId}}" data-color="{{sku.colorNo}}" data-pageNum="10"
+                                           ng-click="getColorHistory($event)" style="color: #FF5722;"> <i
+                                                class="fa fa-chevron-up"></i>展开历史记录</a>
+                                    </div>
+                                    <div class="ibox-content" style="border-color:#fff;display: none">
+                                        <div class="row history_list" style="padding-left:20px;padding-right:20px">
+                                        </div>
+                                        <div class="row load_more" style="text-align:center;margin-top:5px">
+                                            <button class="btn btn-sm btn-default" ng-click="loadMoreHistory($event)">加载更多</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="text-align:center" ng-show="diffNumberHide">
+                            <button class="btn btn-md btn-primary" ng-click="getMoreColorList()">加载更多</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+    </div>
+</div>

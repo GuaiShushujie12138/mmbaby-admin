@@ -1,0 +1,68 @@
+<style>
+    .modal-dialog {
+        width: 1000px;
+    }
+</style>
+<div class="modal-dialog no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">修改链尚价</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <table class="table table-bordered" >
+                <tr>
+                    <th>颜色</th>
+                    <th>色号</th>
+                    <th>类型</th>
+                    <th>数量</th>
+                    <th>数量合计</th>
+                    <th>数量单位</th>
+                    <th>采购价</th>
+                    <th>采购金额</th>
+                    <th>链尚价</th>
+                    <th>链尚金额</th>
+                    <th>价格单位</th>
+                </tr>
+
+                <tr ng-repeat="x in lsPriceList.list">
+                    <td>{{x.color}}</td>
+                    <td>{{x.colorNo}}</td>
+                    <td>{{x.type}}</td>
+                    <td>
+                        <div style="word-break: break-all; white-space: pre-wrap;">{{x.amount}}</div>
+                    </td>
+                    <td>{{x.totalAmount}}</td>
+                    <td>{{x.measurementUnit}}</td>
+                    <td>
+                        <input type="number" name="priceProcurementData" ng-blur="changePmPrice(x.detailId)"  ng-model="x.procurementPrice" />
+                    </td>
+                    <td>{{x.procurementFee | number: 2}}</td>
+                    <td>
+                        <input type="number" name="priceData" ng-blur="changeLsPrice(x.detailId)"  ng-model="x.lsPrice" />
+                    </td>
+                    <td>{{x.lsFee | number: 2}}</td>
+                    <td>{{x.priceUnit}}</td>
+                </tr>
+
+                <tr>
+                    <td>合计</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{skuInfo.sumProcurementFee | number: 2}}</td>
+                    <td></td>
+                    <td>{{skuInfo.sumLsFee | number: 2}}</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确认</button>
+    </div>
+</div>

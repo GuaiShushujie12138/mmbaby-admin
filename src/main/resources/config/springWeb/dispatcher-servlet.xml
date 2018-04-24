@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="com.mmbaby.admin" annotation-config="true"/>
+	<!--<import resource="classpath:config/spring/data/appcontext-warehouse-logger.xml" />-->
+
+    <aop:aspectj-autoproxy />
+
+    <mvc:annotation-driven />
+
+
+    <!-- 对静态资源文件的访问，交给default servlet handler处理 -->
+    <mvc:default-servlet-handler/>
+
+    <!-- 启用spring mvc 注解 -->
+    <context:annotation-config />
+
+
+
+    <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+    <bean id="mappingJacksonHttpMessageConverter"
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>application/json;charset=UTF-8</value>
+                <value>text/html;charset=UTF-8</value>
+            </list>
+        </property>
+        <!--<property name="objectMapper">-->
+            <!--<bean class="com.lianshang.crm.admin.util.DateTimeConverter"></bean>-->
+        <!--</property>-->
+    </bean>
+
+
+    <!--<bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig"/>-->
+    <!--<bean class="com.lianshang.crm.admin.config.SwaggerConfig"/>-->
+
+    <mvc:resources mapping="/swagger/**" location="/WEB-INF/swagger/"/>
+    <!--<mvc:resources mapping="/assets/**"  location="/WEB-INF/assets/"/>-->
+    <mvc:resources location="/app/" mapping="/app/**" />
+    <mvc:resources location="/assets/" mapping="/assets/**" />
+    <mvc:resources location="/font-awesome/" mapping="/font-awesome/**" />
+    <mvc:resources location="/css/" mapping="/css/**" />
+    <mvc:resources location="/js/" mapping="/js/**" />
+    <mvc:resources location="/views/" mapping="/views/**" />
+    <mvc:default-servlet-handler />
+
+    <mvc:interceptors>
+        <bean class="com.mmbaby.admin.interceptor.RequestLoggingInterceptor"/>
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/**"/>-->
+            <!--<mvc:exclude-mapping path="/app/**" />-->
+            <!--<mvc:exclude-mapping path="/css/**" />-->
+            <!--<mvc:exclude-mapping path="/js/**" />-->
+            <!--<mvc:exclude-mapping path="/img/**" />-->
+            <!--<mvc:exclude-mapping path="/swagger/**" />-->
+            <!--<mvc:exclude-mapping path="/fonts/**" />-->
+            <!--<mvc:exclude-mapping path="/font-awesome/**" />-->
+           <!---->
+        <!--</mvc:interceptor>-->
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/bank/**"/>-->
+            <!--<mvc:mapping path="/customer/**"/>-->
+            <!--<mvc:mapping path="/demand/**"/>-->
+            <!--<mvc:mapping path="/public/**"/>-->
+            <!--<mvc:mapping path="/item/**"/>-->
+            <!--<mvc:mapping path="/kpi/**"/>-->
+            <!--<mvc:mapping path="/message/**"/>-->
+            <!--<mvc:mapping path="/notice/**"/>-->
+            <!--<mvc:mapping path="/order/**"/>-->
+            <!--<mvc:mapping path="/shop/**"/>-->
+            <!--<mvc:mapping path="/task/**"/>-->
+            <!--<mvc:mapping path="/user/**"/>-->
+            <!--<mvc:mapping path="/version/**"/>-->
+            <!--<mvc:exclude-mapping path="/customer/syncData" />-->
+            <!--<mvc:exclude-mapping path="/customer/syncCustomerRel" />-->
+            <!--<mvc:exclude-mapping path="/user/login" />-->
+            <!--<mvc:exclude-mapping path="/user/admin-do-login.do" />-->
+            <!--<mvc:exclude-mapping path="/user/check-token" />-->
+            <!--<mvc:exclude-mapping path="/user/get-yzm" />-->
+            <!--<mvc:exclude-mapping path="/user/change-password" />-->
+            <!--<mvc:exclude-mapping path="/user/modifyPassword" />-->
+
+            <!--<mvc:exclude-mapping path="/public/demand-qrcode/**" />-->
+            <!--<mvc:exclude-mapping path="/public/download-qrcode/**" />-->
+            <!--<mvc:exclude-mapping path="/public/download-wxqrcode/**" />-->
+            <!--<mvc:exclude-mapping path="/public/item-qrcode/**" />-->
+            <!--<mvc:exclude-mapping path="/public/shop-qrcode/**" />-->
+            <!--<mvc:exclude-mapping path="/version/check" />-->
+            <!--<mvc:exclude-mapping path="/swagger/**"/>-->
+            <!--<mvc:exclude-mapping path="/web/user/UserAndDeptData"/>-->
+            <!--<mvc:exclude-mapping path="/job/**"/>-->
+
+            <!--&lt;!&ndash; TODO &ndash;&gt;-->
+            <!--&lt;!&ndash;<bean class="com.lianshang.crm.admin.interceptor.RequestInitializerInterceptor"/>&ndash;&gt;-->
+        <!--</mvc:interceptor>-->
+        <!--<bean class="com.lianshang.crm.admin.interceptor.SecurityControlInterceptor" />-->
+    </mvc:interceptors>
+
+    <bean id="viewResolverJsp" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
+        <property name="order" value="1"/>
+    </bean>
+
+    <bean id="viewResolverFtl" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
+        <property name="contentType" value="text/html; charset=UTF-8"/>
+        <property name="exposeRequestAttributes" value="true" />
+        <property name="exposeSessionAttributes" value="true" />
+        <property name="exposeSpringMacroHelpers" value="true" />
+        <property name="cache" value="true" />
+        <property name="suffix" value=".ftl" />
+        <property name="order" value="0"/>
+    </bean>
+
+    <bean id="freemarkerBeansWrapper" class="freemarker.ext.beans.BeansWrapper">
+        <property name="simpleMapWrapper" value="true"/>
+    </bean>
+
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/views/"/>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="xml_escape" value-ref="fmXmlEscape" />
+            </map>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">0</prop>
+                <prop key="locale">zh_CN</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="date_format">yyyy-MM-dd</prop>
+                <prop key="number_format">#.##</prop>
+                <prop key="object_wrapper">freemarker.ext.beans.BeansWrapper</prop>
+                <!--<prop key="api_builtin_enabled">true</prop>-->
+            </props>
+        </property>
+    </bean>
+
+    <bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape"/>
+
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"/>
+
+</beans>

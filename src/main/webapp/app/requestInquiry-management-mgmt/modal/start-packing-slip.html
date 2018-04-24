@@ -1,0 +1,727 @@
+<style>
+    .product-top-img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .product-top-img img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .product-top h4 {
+        font-size: 18px;
+        margin: 0;
+        line-height: 40px;
+    }
+
+    .product-top p {
+        font-size: 14px;
+        margin: 0;
+        line-height: 30px;
+    }
+
+    .product-top p span {
+        display: block;
+        float: left;
+        width: 33%;
+        text-align: left;
+    }
+
+    .border_line {
+        padding-left: 30px;
+        padding-right: 30px;
+        border: 1px solid #e7eaec;
+        border-radius: 5px;
+    }
+
+    .img_list {
+        display: inline-block;
+        position: relative;
+        z-index: 3;
+        margin-right: 8px;
+        margin-bottom: 5px;
+    }
+
+    .img2 .img_list {
+        z-index: 2;
+    }
+
+    .img_list i.fa:before {
+        position: absolute;
+        z-index: 1;
+        right: -2px;
+        top: -6px;
+        cursor: pointer;
+        color: red;
+        display: none;
+    }
+
+    .img_list:hover i.fa:before {
+        display: inline-block;
+    }
+
+    .source_img {
+        display: none;
+        width: 300px;
+        position: absolute;
+        z-index: 99;
+        border: 3px solid #18a689;
+        left: -120px;
+        top: 80px;
+        background-color: #ffffff;
+    }
+
+    .icon_img {
+        width: 60px;
+        height: 60px;
+        border: 2px solid #ffffff;
+    }
+
+    .img_list:hover .source_img {
+        display: inline-block;
+    }
+
+    .img_list:hover .icon_img {
+        border: 2px solid #18a689;
+    }
+
+    .col-sm-1 {
+        text-align: right;
+        padding: 0;
+    }
+
+    .row {
+        margin-bottom: 15px;
+    }
+
+    .tips {
+        color: red;
+        margin-left: 30px;
+        font-size: 12px;
+    }
+
+    .img .tips {
+        line-height: 60px;
+    }
+
+    .marrig30 {
+        margin-right: 30px;
+    }
+
+    .col-sm-11 .col-sm-1 {
+        padding: 0 5px;
+    }
+
+    .table.table-bordered tbody td {
+        line-height: 34px !important;
+        text-align: center;
+    }
+
+    .table.table-bordered th {
+        text-align: center;
+    }
+
+    .table-cal {
+        padding: 0 !important;
+    }
+
+    .table-cal .table {
+        margin: 0;
+        border: 0;
+    }
+
+    .table-cal .table td {
+        padding: 0;
+        border-top: 0;
+        border-right: 0;
+    }
+
+    .table-cal .table tr td:first-of-type {
+        border-left: 0;
+    }
+
+    .table-cal .table td input {
+        border: 0;
+        text-align: center;
+        padding: 0;
+    }
+
+    .list-group.clear-list .list-group-item {
+        border-top: 1px solid #e7eaec;
+        border-bottom: 0;
+        border-right: 0;
+        border-left: 0;
+        padding: 10px 0;
+    }
+
+    .list-group-item:first-child {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    .fist-item {
+        border-top: none !important;
+    }
+
+    .list-group-item {
+        background-color: inherit;
+        border: 1px solid #e7eaec;
+        display: block;
+        margin-bottom: -1px;
+        padding: 10px 15px;
+        position: relative;
+    }
+
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+        margin-bottom: -1px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+</style>
+
+
+<div style="background-color:#fff">
+    <div class="row">
+        <div class="col-sm-1">
+            <a class="product-top-img" ng-href="{{vm.itemMainPic}}" target="_blank">
+                <img ng-src="{{vm.itemMainPic}}" alt="">
+            </a>
+        </div>
+        <div class="col-sm-11">
+            <div class="product-top">
+                <h4>{{vm.itemName}}</h4>
+
+                <p>
+                    <span>商品编号：{{vm.itemId}}</span>
+                    <span>链尚货号：{{vm.lsItemCode}}</span>
+                    <span>商品货号：{{vm.itemCode}}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 商家名片 -->
+    <div class="row">
+        <div class="col-sm-1"><b style="line-height: 60px;">商家名片：</b></div>
+        <div class="col-sm-11">
+            <div class="img">
+                    <span class="img_list" ng-repeat="img in vm.businessCardPicList track by $index">
+                        <a ng-href="{{img}}" target="_blank" title="点击图片查看大图">
+                            <img class="source_img" ng-src="{{img}}" alt="">
+                            <img class="icon_img" ng-src="{{img}}" alt="">
+                        </a>
+                        <i class="fa fa-times" ng-click="delimg(vm.businessCardPicList,$index)"></i>
+                    </span>
+                <button class="btn btn-w-sm btn-primary" id="imgUploadIdCard"><i class="fa fa-upload"></i> 上传图片
+                </button>
+                <!--<span class="tips">(最多上传3张图片)</span>-->
+            </div>
+        </div>
+    </div>
+
+    <!-- 卖家码单 -->
+    <div class="row">
+        <div class="col-sm-1"><b style="line-height: 60px;"><i style="color: red;">*</i>卖家码单：</b></div>
+        <div class="col-sm-11">
+            <div class="img img2">
+                    <span class="img_list" ng-repeat="img in vm.certificate track by $index">
+                        <a ng-href="{{img}}" target="_blank" title="点击图片查看大图">
+                            <img class="source_img" ng-src="{{img}}" alt="">
+                            <img class="icon_img" ng-src="{{img}}" alt="">
+                        </a>
+                        <i class="fa fa-times" ng-click="delimg(vm.certificate,$index)"></i>
+                    </span>
+                <button class="btn btn-w-sm btn-primary" id="packingSlipUpload"><i class="fa fa-upload"></i> 上传图片
+                </button>
+                <!--<span class="tips">(最多上传3张图片)</span>-->
+            </div>
+        </div>
+    </div>
+
+    <!-- 关联供应商 -->
+    <div class="row">
+        <div class="col-sm-1" style="line-height: 24px;"><b><i style="color: red;">*</i>关联供应商：</b></div>
+        <div class="col-sm-11">
+            <span ng-if="vm.niceShopId">{{vm.niceShopName}}</span>
+            <button ng-if="!vm.niceShopId || vm.niceShopId <= 0" class="btn btn-w-m btn-primary"
+                    ng-click="changeSupplier()"><i class="fa fa-plus"></i> 请选择供应商
+            </button>
+            <button  class="btn btn-w-m btn-primary" ng-if="!!vm.realShopId && vm.niceShopId>0"
+                     ng-click="removeSupplier()"><i class="fa fa-plus"></i> 解绑供应商
+            </button>
+        </div>
+    </div>
+
+    <!-- 真实卖家 -->
+    <div class="row" ng-if="vm.realShopId">
+        <div class="col-sm-1" style="line-height: 24px;"><b>真实卖家：</b></div>
+        <div class="col-sm-11">
+            <span>{{vm.realShopName}}</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12"><b style="color:red;">备注：打款信息以优供供应商为准，请仔细关联，避免错误打款！！！</b></div>
+    </div>
+    <div class="row" style="padding-left:80px;">
+        <div class="col-sm-5 border_line" ng-show="vm.isShowRealShop===true">
+            <ul class="list-group clear-list">
+                <li class="list-group-item fist-item" style="text-align: center">
+                    <span> 真实卖家信息</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="pull-right">{{supplierDetail.customerInfo.shopName}}</span>
+                    <span> 店铺名</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="pull-right">{{supplierDetail.customerInfo.accountNo}}</span>
+                    <span>银行卡账号</span>
+                </li>
+
+                <li class="list-group-item">
+                    <span class="pull-right">{{supplierDetail.customerInfo.accountOwner}}</span>
+                    <span>账号收款人</span>
+                </li>
+
+                <li class="list-group-item">
+                    <span class="pull-right">{{supplierDetail.customerInfo.bankFullName}}</span>
+                    <span>支行信息</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="pull-right">{{supplierDetail.customerInfo.contactName}}</span>
+                    <span>联系人</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="pull-right">{{supplierDetail.customerInfo.contactMobile}}</span>
+                    <span>电话</span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-5 border_line" style="margin-left:30px" ng-if="vm.isShowNiceShop===true">
+            <ul class="list-group clear-list">
+                <li class="list-group-item fist-item" style="text-align: center">
+                    <span> 供应商信息</span>
+                    <span style="color:red;margin-left:10px">打款信息以此为准</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="pull-right">{{supplierDetail.supplierInfo.shopName}}</span>
+                    <span>供应商姓名</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="pull-right">{{supplierDetail.supplierInfo.supplierBankAccountDtos[0] && supplierDetail.supplierInfo.supplierBankAccountDtos[0].accountNo}}</span>
+                    <span>银行卡账号</span>
+                </li>
+
+                <li class="list-group-item">
+                    <span class="pull-right">{{supplierDetail.supplierInfo.supplierBankAccountDtos[0] && supplierDetail.supplierInfo.supplierBankAccountDtos[0].accountOwner}}</span>
+                    <span>账号收款人</span>
+                </li>
+
+                <li class="list-group-item">
+                    <span class="pull-right">{{supplierDetail.supplierInfo.supplierBankAccountDtos[0] && supplierDetail.supplierInfo.supplierBankAccountDtos[0].bankName}}</span>
+                    <span>银行信息</span>
+                </li>
+
+                <li class="list-group-item">
+                    <span class="pull-right">{{supplierDetail.supplierInfo.shopContacts}}</span>
+                    <span>联系人</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="pull-right">{{supplierDetail.supplierInfo.shopContactTel}}</span>
+                    <span>电话</span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-12" style="padding:10px;font-size:15px"
+             ng-if="supplierDetail.supplierInfo.supplierBankAccountDtos[0] && (vm.isShowRealShop==true) &&( supplierDetail.customerInfo.accountNo !=supplierDetail.supplierInfo.supplierBankAccountDtos[0].accountNo)">
+            <span style="color:red">* 打款账号不一致!请认真核对关联账号</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-1" style="line-height: 24px;"><b><i style="color: red;">*</i>&nbsp&nbsp期货现货:</b></b></div>
+        <div class="col-sm-11">
+            <label class="marrig30">
+                <div class="iradio_square-green" style="position: relative;">
+                    <input type="radio" style="position: absolute; opacity: 0;" icheck ng-value="1"
+                           name="packingSlipSourceStateRequest.state" ng-model="vm.packingSlipSourceStateRequest.state"
+                           ng-checked="vm.packingSlipSourceStateRequest.state==1">
+                    <ins class="iCheck-helper"
+                         style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                </div>
+                现货
+            </label>
+            <label class="marrig30">
+                <div class="iradio_square-green" style="position: relative;">
+                    <input type="radio" icheck ng-model="vm.packingSlipSourceStateRequest.state" ng-value="2"
+                           style="position: absolute; opacity: 0;" name="packingSlipSourceStateRequest.state"
+                           ng-checked="vm.packingSlipSourceStateRequest.state==2">
+                    <ins class="iCheck-helper"
+                         style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                </div>
+                预付
+            </label>
+            <label class="marrig30">
+                <div class="iradio_square-green" style="position: relative;">
+                    <input type="radio" style="position: absolute; opacity: 0;" ng-value="3"
+                           name="packingSlipSourceStateRequest.state"
+                           icheck ng-model="vm.packingSlipSourceStateRequest.state"
+                           ng-checked="vm.packingSlipSourceStateRequest.state==3">
+                    <ins class="iCheck-helper"
+                         style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                </div>
+                期货
+            </label>
+        </div>
+    </div>
+
+    <div class="row" ng-if="vm.packingSlipSourceStateRequest.state==1">
+        <div class="col-sm-2" style="line-height: 28px;text-align: center"><b><i style="color: red;">*</i>&nbsp&nbsp是否为货到付款:</b>
+        </div>
+        <div class="col-sm-10">
+            <label class="marrig30">
+                <div class="iradio_square-green" style="position: relative;">
+                    <input type="radio" style="position: absolute; opacity: 0;" icheck ng-value="1"
+                           name="trueState" ng-model="vm.packingSlipSourceStateRequest.isCod">
+                    <ins class="iCheck-helper"
+                         style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                </div>
+                是
+            </label>
+            <label class="marrig30">
+                <div class="iradio_square-green" style="position: relative;">
+                    <input type="radio" icheck ng-model="vm.packingSlipSourceStateRequest.isCod" ng-value="0"
+                           style="position: absolute; opacity: 0;" name="trueState">
+                    <ins class="iCheck-helper"
+                         style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                </div>
+                否
+            </label>
+        </div>
+    </div>
+
+    <div class="row" ng-if="vm.packingSlipSourceStateRequest.state==2">
+        <div class="col-sm-2" style="line-height: 28px;text-align: center"><b><i style="color: red;">*</i>&nbsp&nbsp预付时长(单位/天):</b>
+        </div>
+        <div class="col-sm-3">
+            <input type="number" class="form-control" ng-model="vm.packingSlipSourceStateRequest.advanceTime"/>
+        </div>
+    </div>
+
+    <div class="row" ng-if="vm.packingSlipSourceStateRequest.state==3">
+        <div class="col-sm-2" style="line-height: 24px;text-align: center"><b><i style="color: red;">*</i>&nbsp&nbsp期货:</b>
+        </div>
+        <div class="col-sm-10">
+            <label class="marrig30">
+                <div class="iradio_square-green" style="position: relative;">
+                    <input type="radio" style="position: absolute; opacity: 0;" icheck ng-value="1"
+                           name="packingSlipSourceStateRequest.paymentSeq"
+                           ng-model="vm.packingSlipSourceStateRequest.paymentSeq" ng-change="chooseFalseStatus()">
+                    <ins class="iCheck-helper"
+                         style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                </div>
+                首款
+            </label>
+            <label class="marrig30">
+                <div class="iradio_square-green" style="position: relative;">
+                    <input type="radio" icheck ng-model="vm.packingSlipSourceStateRequest.paymentSeq" ng-value="2"
+                           style="position: absolute; opacity: 0;" name="packingSlipSourceStateRequest.paymentSeq"
+                           ng-change="chooseFalseStatus()">
+                    <ins class="iCheck-helper"
+                         style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                </div>
+                尾款
+            </label>
+            <span ng-show="vm.showAccountNum==1" style="margin-left: 20px;color:#009900" ng-click="changeTrade()">关联订单:  {{vm.packingSlipSourceStateRequest.previousPaymentTradeId}} ></span>
+            <span ng-show="vm.showAccountNum==2"
+                  style="color:red;margin-left: 20px">该用户没有关联的首单,请选择首款</span>
+        </div>
+    </div>
+
+
+    <!-- 短驳物流 -->
+    <div class="row">
+        <div class="col-sm-1" style="line-height: 24px;"><b><i style="color: red;">*</i>短驳物流：</b></div>
+        <div class="col-sm-11">
+            <label class="marrig30">
+                <div class="iradio_square-green" style="position: relative;">
+                    <input type="radio" name="needLogitics" icheck ng-value="true" ng-model="vm.needLogitics"
+                           ng-checked="true"/>
+                </div>
+                需要
+            </label>
+            <label class="marrig30">
+                <div class="iradio_square-green" style="position: relative;">
+                    <input type="radio" name="needLogitics" icheck ng-value="false" ng-model="vm.needLogitics"
+                           ng-checked="true"/>
+                </div>
+                不需要
+            </label>
+        </div>
+    </div>
+
+
+    <!-- 拉货地址 -->
+    <div class="row" ng-show="!!vm.needLogitics">
+        <div class="col-sm-1" style="line-height: 34px;"><b><i style="color: red;">*</i>拉货地址：</b></b></div>
+        <div class="col-sm-11">
+            <div class="input-icon right row" id="pullInSelect" style="height: 30px;">
+                <div class="col-sm-2">
+                    <select class="province form-control m-b"
+                            ng-disabled="notEditable"
+                            ng-change="changeProvince(1)"
+                            ng-model="vm.sendProvinceId"
+                            ng-options="province.id as province.name for province in provinceList">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="city form-control m-b"
+                            ng-disabled="notEditable"
+                            ng-change="changeCity(1)"
+                            ng-model="vm.sendCityId"
+                            ng-options="city.id as city.name for city in cityList1">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="area form-control m-b"
+                            ng-disabled="notEditable"
+                            ng-model="vm.sendDistrictId"
+                            ng-options="district.id as district.name for district in districtList1"
+                            >
+                        <option value="">请选择</option>
+                        <!-- 为什么value设置为空的时候,请选择没有显示出来 -->
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="vm.sendAddress" placeholder="请输入详细地址">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 退货地址 -->
+    <div class="row">
+        <div class="col-sm-1" style="line-height: 34px;"><b>退货地址：</b></b></div>
+        <div class="col-sm-11">
+            <div class="input-icon right row" id="returnSelect" style="height: 30px;">
+                <div class="col-sm-2">
+                    <select class="province form-control m-b"
+                            ng-disabled="notEditable"
+                            ng-change="changeProvince(2)"
+                            ng-model="vm.receiveProvinceId"
+                            ng-options="province.id as province.name for province in provinceList">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="city form-control m-b"
+                            ng-disabled="notEditable"
+                            ng-change="changeCity(2)"
+                            ng-model="vm.receiveCityId"
+                            ng-options="city.id as city.name for city in cityList2">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="area form-control m-b"
+                            ng-disabled="notEditable"
+                            ng-model="vm.receiveDistrictId"
+                            ng-options="district.id as district.name for district in districtList2"
+                            >
+                        <option value="">请选择</option>
+                        <!-- 为什么value设置为空的时候,请选择没有显示出来 -->
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="vm.receiveAddress" placeholder="请输入详细地址">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 纸管空差 -->
+    <div class="row" ng-if="vm.rootCategoryId == 1">
+        <div class="col-sm-1" style="line-height: 50px;"><b><i style="color: red;">*</i>纸管空差：</b></b></div>
+        <div class="col-sm-11">
+            <div class="col-sm-6">
+                <div style="padding-top: 10px;">
+                            <span>
+                                纸管：
+                                <input id="paperTube" type="text" class="form-control"
+                                       style="width: 100px; display:inline-block;"
+                                       ng-model="vm.paperTube" ng-disabled="vm.disablePaperTube==1"
+                                       ng-change="paperTubeChange()">
+                            </span>
+                            <span style="margin-right: 30px;">
+                                空差：
+                                <input type="text" id="weightShortFall" class="form-control"
+                                       style="width: 100px; display:inline-block;"
+                                       ng-model="vm.weightShortFall" ng-disabled="vm.disablePaperTube==1"
+                                       ng-change="paperTubeChange()">
+                            </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-11 col-push-sm-1">
+            <div class="col-sm-6">
+                <div style="padding-top: 10px;">
+                    <span>米差：</span>
+                    <input type="text" id="lengthShortFall" ng-disabled="vm.disablePaperTube==2" class="form-control"
+                           style="width: 100px; display:inline-block;" ng-model="vm.lengthShortFall"
+                           ng-change="paperTubeChange()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 码单明细 -->
+    <div class="row">
+        <div class="col-sm-1" style="line-height: 34px;"><b><i style="color: red;">*</i>码单明细：</b></b></div>
+        <div class="col-sm-11">
+            <!-- 面料 -->
+            <div class="mliao" ng-if="vm.rootCategoryId == 1">
+                <table class="table table-bordered" style="margin-bottom: 10px;">
+                    <thead>
+                    <tr>
+                        <th>操作</th>
+                        <th style="min-width: 100px;">颜色</th>
+                        <th>色号</th>
+                        <th>工艺</th>
+                        <th style="min-width: 100px;">类型</th>
+                        <th style="min-width: 240px;">数量明细</th>
+                        <th>数量合计</th>
+                        <th>数量单位</th>
+                        <th>链尚价</th>
+                        <th>采购价</th>
+                        <th>采购金额</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="sku in vm.detailList">
+                        <td>
+                            <button class="btn btn-danger btn-xs" ng-click="delDetail($index)">删除</button>
+                        </td>
+                        <td>
+                            <select ng-model="sku.colorName" class="colorSelect">
+                                <optgroup ng-repeat="x in newColorList" label="{{x.colorName}}" ng-style="x.colorName==='白色'?{color:'#ece7e8'}:{color:x.colorRGB}">
+                                    <option ng-value="x.colorName" style="color:#000">{{x.colorName}}</option>
+                                    <option ng-repeat="y in x.childColors" ng-value="y.colorName" style="color:#000">{{y.colorName}}</option>
+                                </optgroup>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" style="width: 80px;" class="form-control" ng-model="sku.colorNo">
+                        </td>
+                        <td>{{sku.crafts==''?"暂无":sku.crafts}}</td>
+                        <td>
+                            <select class="form-control" ng-model="sku.typeName" ng-change="changeUnit(sku)">
+                                <option value="样布">样布</option>
+                                <option value="大货">大货</option>
+                            </select>
+                        </td>
+                        <td class="table-cal">
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr ng-repeat="amountlist in rangeSku(sku) track by $index">
+                                    <td ng-repeat="amount in range(5) track by $index"><input type="text"
+                                                                                              class="form-control"
+                                                                                              ng-model="sku.amountList[$parent.$index*5 + $index]"
+                                                                                              ng-change="changeAmount(sku,$parent.$index,$index)">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" style="text-align: left; padding: 5px 10px; border: 0;">
+                                        <button class="btn btn-sm btn-primary btn-w-xs" ng-click="addAmount(sku)">
+                                            添加
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>{{sku.allAmount || ''}}</td>
+                        <td>{{sku.typeName=='大货'?vm.largeCargoMeasurementUnit:vm.swatchMeasurementUnit}}</td>
+                        <td>{{sku.standPrice||0}}</td>
+                        <td>
+                            <input type="text" style="width: 80px;" class="form-control"
+                                   ng-model="sku.procurementPrice" ng-change="calTotalFee(sku)">
+                        </td>
+                        <td>￥{{sku.procurementTotalFee || '0'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-sm btn-primary btn-w-xs" ng-click="addDetail()" ng-hide="true">添加颜色</button>
+                <span style="float: right; font-size: 16px; font-weight: 700;">采购金额合计：￥{{vm.totalPrice}}</span>
+            </div>
+            <!-- 辅料 -->
+            <div class="fliao" ng-if="vm.rootCategoryId == 2">
+                <table class="table table-bordered" style="margin-bottom: 10px;">
+                    <thead>
+                    <tr>
+                        <th>颜色</th>
+                        <th>规格</th>
+                        <th>工艺</th>
+                        <th>类型</th>
+                        <th>数量</th>
+                        <th>数量单位</th>
+                        <th>链尚价</th>
+                        <th>采购价</th>
+                        <th>采购金额</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="sku in vm.detailList">
+                        <td>
+                            <select ng-model="sku.colorName" class="colorSelect">
+                                <optgroup ng-repeat="x in newColorList" label="{{x.colorName}}" ng-style="x.colorName==='白色'?{color:'#ece7e8'}:{color:x.colorRGB}">
+                                    <option ng-value="x.colorName" style="color:#000">{{x.colorName}}</option>
+                                    <option ng-repeat="y in x.childColors" ng-value="y.colorName" style="color:#000">{{y.colorName}}</option>
+                                </optgroup>
+                            </select>
+                        </td>
+                        <td><input type="text" class="form-control" ng-model="sku.specification"></td>
+                        <td>{{sku.crafts==''?"暂无":sku.crafts}}</td>
+                        <td>
+                            <select class="form-control" ng-model="sku.typeName" ng-change="changeUnit(sku)">
+                                <option value="样布">样布</option>
+                                <option value="大货">大货</option>
+                            </select>
+                        </td>
+                        <td><input type="text" class="form-control" ng-model="sku.allAmount"
+                                   ng-change="calTotalFee(sku)"></td>
+                        <td>{{sku.typeName=='大货'?vm.largeCargoMeasurementUnit:vm.swatchMeasurementUnit}}</td>
+                        <td>{{sku.standPrice}}</td>
+                        <td>
+                            <input type="text" style="width: 80px;" class="form-control"
+                                   ng-model="sku.procurementPrice" ng-change="calTotalFee(sku)">
+                        </td>
+                        <td>￥{{sku.procurementTotalFee || '0'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-sm btn-primary btn-w-xs" ng-click="addDetail()" ng-hide="true">添加规格</button>
+                <span style="float: right; font-size: 16px; font-weight: 700;">采购金额合计：￥{{vm.totalPrice}}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 备注 -->
+    <div class="row">
+        <div class="col-sm-1" style="line-height: 34px;"><b>备注：</b></b></div>
+        <div class="col-sm-6">
+                <textarea name="comment" id="comment" cols="30" rows="10" class="form-control"
+                          ng-model="vm.memo"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-info" ng-click="relatedInquiryDetail()" ng-show="showInquireDetail">修改询价单</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">保存</button>
+        <div style="height:30px"></div>
+    </div>
+</div>

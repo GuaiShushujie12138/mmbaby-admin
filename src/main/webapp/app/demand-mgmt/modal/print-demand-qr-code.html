@@ -1,0 +1,120 @@
+<style type="text/css" id="style1">
+  .margin_left{
+    margin-left: 30px;
+  }
+  .by_left{
+
+  }
+  table {
+    font-size: 10pt;
+    font-weight: normal;
+    color: #000000 ;
+    text-decoration: none;
+    table-layout:fixed;
+    height: 180px;
+    width: 289px;
+  }
+  td {
+    font-size: 10pt;
+    font-weight: normal;
+    color: #000000 ;
+    text-decoration: none;
+    height: 6.6%;
+    padding-left: 4px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 22px;
+    border:solid 1px black;
+  }
+  .printfont{
+
+    font-size: 11pt;
+    font-weight: normal;
+    color: #000000 ;
+    text-decoration: none;
+
+  }
+</style>
+<script type="application/javascript">
+
+</script>
+<script language="javascript" type="text/javascript">
+  //以下为打印机代码
+  var LODOP; //声明为全局变量
+
+  //====获取LODOP对象的主过程：====
+  function getLodop(oOBJECT, oEMBED) {
+    var strCLodopInstall = "<br><font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='CLodopPrint_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>";
+    var strCLodopUpdate = "<br><font color='#FF00FF'>CLodop云打印服务需升级!点击这里<a href='CLodopPrint_Setup_for_Win32NT.exe' target='_self'>执行升级</a>,升级后请刷新页面。</font>";
+    var LODOP;
+    try {
+      var isIE = (navigator.userAgent.indexOf('MSIE') >= 0) || (navigator.userAgent.indexOf('Trident') >= 0);
+      try {
+        LODOP = getCLodop();
+      } catch (err) {
+      }
+      ;
+      if (!LODOP && document.readyState !== "complete") {
+        alert("C-Lodop没准备好，请稍后再试！");
+        return;
+      }
+      ;
+      if (!LODOP) {
+        if (isIE) {
+          document.write(strCLodopInstall);
+        } else
+          document.documentElement.innerHTML = strCLodopInstall + document.documentElement.innerHTML;
+        return;
+      } else {
+
+        if (CLODOP.CVERSION < "2.0.4.6") {
+          if (isIE) document.write(strCLodopUpdate); else
+            document.documentElement.innerHTML = strCLodopUpdate + document.documentElement.innerHTML;
+        }
+        ;
+        if (oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
+        if (oOBJECT && oOBJECT.parentNode) oOBJECT.parentNode.removeChild(oOBJECT);
+      }
+      ;
+      //===如下空白位置适合调用统一功能(如注册语句、语言选择等):===
+
+      //===========================================================
+      return LODOP;
+    } catch (err) {
+      alert("getLodop出错:" + err);
+    }
+    ;
+  };
+
+</script>
+
+
+<div class="modal-dialog no-margins">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+
+    <h4 class="modal-title">查看需求二维码</h4>
+  </div>
+  <div class="modal-body">
+    <div class="hr-line-dashed"></div>
+    <form id="form1" class="" >
+      <table border="1"
+             style="border-collapse:collapse;border:solid 1px;font-family: 'Microsoft YaHei' !important;"
+             bordercolor="#000000" >
+
+        <tr>
+          <td width="100%" ROWSPAN="4" name="qrUrl">
+            <img ng-src="{{qrUrl}}" width="100%" >
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+  </div>
+</div>
+
+

@@ -1,0 +1,28 @@
+<style type="text/css">
+  .wrapper.wrapper-content.ng-scope{
+    padding: 0;
+  }
+</style>
+
+<div class="wrapper wrapper-content">
+  <!-- header -->
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+
+    <h4 class="modal-title">
+      验布取消登记
+    </h4>
+  </div>
+  <!-- body -->
+  <div class="modal-body">
+    <!--  -->
+    <h4>取消原因</h4>
+    <textarea name="" id="" class="form-control" style="height: 80px;" ng-model="reason"></textarea>
+  </div>
+  <!-- footer -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-w-m btn-primary" ng-click="close()" ng-disabled="okBtnDisabled">确认取消</button>
+    <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">关闭
+    </button>
+  </div>
+</div>

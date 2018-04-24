@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>WEB打印控件LODOP的样例二:打印当前页面的内容</title>
+
+  <script src='http://10.17.41.199:8000/CLodopfuncs.js'></script>
+
+  <script type="application/javascript">
+
+    //====获取LODOP对象的主过程：====
+    function getLodop(oOBJECT, oEMBED) {
+      var strCLodopInstall = "<br><font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='CLodopPrint_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>";
+      var strCLodopUpdate = "<br><font color='#FF00FF'>CLodop云打印服务需升级!点击这里<a href='CLodopPrint_Setup_for_Win32NT.exe' target='_self'>执行升级</a>,升级后请刷新页面。</font>";
+      var LODOP;
+      try {
+        var isIE = (navigator.userAgent.indexOf('MSIE') >= 0) || (navigator.userAgent.indexOf('Trident') >= 0);
+        try {
+          LODOP = getCLodop();
+        } catch (err) {
+        }
+        ;
+        if (!LODOP && document.readyState !== "complete") {
+          alert("C-Lodop没准备好，请稍后再试！");
+          return;
+        }
+        ;
+        if (!LODOP) {
+          if (isIE) {
+            document.write(strCLodopInstall);
+          } else
+            document.documentElement.innerHTML = strCLodopInstall + document.documentElement.innerHTML;
+          return;
+        } else {
+
+          if (CLODOP.CVERSION < "2.0.4.6") {
+            if (isIE) document.write(strCLodopUpdate); else
+              document.documentElement.innerHTML = strCLodopUpdate + document.documentElement.innerHTML;
+          }
+          ;
+          if (oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
+          if (oOBJECT && oOBJECT.parentNode) oOBJECT.parentNode.removeChild(oOBJECT);
+        }
+        ;
+        //===如下空白位置适合调用统一功能(如注册语句、语言选择等):===
+
+        //===========================================================
+        return LODOP;
+      } catch (err) {
+        alert("getLodop出错:" + err);
+      }
+      ;
+    };
+
+  </script>
+</head>
+<body>
+
+<form id="form1">
+  <table border="1"   style="border-collapse:collapse;border:solid 1px;height: 50px;font-family: 'Microsoft YaHei' !important;" bordercolor="#000000" width="295px" >
+    <tr>
+      <td width="34%"   style="border:solid 1px black; height: 7%">序&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</td>
+      <td width="66%"  colspan="2" style="border:solid 1px black"></td>
+    </tr>
+    <tr>
+      <td  style="border:solid 1px black; height: 7%">编&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</td>
+      <td  style="border:solid 1px black">中-001</td>
+      <td style="border:solid 1px black" width="33%" ROWSPAN="5"></td>
+    </tr>
+    <tr>
+      <td  style="border:solid 1px black; height: 7%">品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</td>
+      <td  style="border:solid 1px black">日-スの</td>
+    </tr>
+    <tr>
+      <td style="border:solid 1px black; height: 7%">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区</td>
+      <td  style="border:solid 1px black">日-スの</td>
+    </tr>
+    <tr>
+      <td style="border:solid 1px black; height: 7%">采购顾问</td>
+      <td  style="border:solid 1px black">日-スの</td>
+    </tr>
+    <tr>
+      <td  style="border:solid 1px black; height: 7%">业&nbsp;&nbsp;务&nbsp;员</td>
+      <td  style="border:solid 1px black">日-スの</td>
+    </tr>
+    <tr>
+      <td style="border:solid 1px black; height: 7%">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注</td>
+      <td  colspan="2" style="border:solid 1px black">111111111111111111112</td>
+    </tr>
+  </table>
+</form>
+<a href="javascript:;" onclick="javascript:prn2_preview();">打印预览</a>
+
+<script language="javascript" type="text/javascript">
+  var LODOP; //声明为全局变量
+
+  function prn2_preview() {
+    CreateTwoFormPage();
+    LODOP.PREVIEW();
+  };
+
+  function CreateTwoFormPage() {
+    LODOP = getLodop();
+    //LODOP.PRINT_INIT("");
+    //LODOP.PRINT_INITA("0mm","0mm","80mm","50mm","打印控件功能演示_Lodop功能_自定义纸张1");
+    //LODOP.SET_PRINT_PAGESIZE(0, 800, 500,"CreateCustomPage");//设定纸张大小
+    LODOP.SET_PRINT_PAGESIZE(3,800, 500,'');
+
+
+    LODOP.ADD_PRINT_HTM("2mm", "1.5mm", "78.5mm", "50mm", document.getElementById("form1").innerHTML);
+    LODOP.SET_PRINT_STYLEA(0,"FontSize",15);
+    LODOP.ADD_PRINT_BARCODE(47,210,"32mm","32mm","QRCode","http://m.lianshang.com/item-sample/555555");
+    //LODOP.ADD_PRINT_BARCODE(130,434,168,146,"QRCode","1234567890版本7的最大值是122个字符123123");
+    //LODOP.ADD_PRINT_TEXT(319,58,500,30,"注：其中《表单一》按显示大小，《表单二》在程序控制宽度(285px)内自适应调整");
+  };
+
+</script>
+
+</body>
+</html>

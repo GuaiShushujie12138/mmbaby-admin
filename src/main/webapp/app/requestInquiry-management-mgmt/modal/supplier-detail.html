@@ -1,0 +1,127 @@
+<style>
+    .supper-title{
+        line-height: 48px;
+        font-size: 15px;
+        font-weight: 700;
+        text-align: right;
+    }
+    .supper-con{
+        line-height: 24px;
+        font-size: 14px;
+    }
+    .colRed{
+        color: red;
+    }
+</style>
+<div class="no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">供应商信息核对</h4>
+    </div>
+    <div class="modal-body" style="padding: 30px 50px;">
+        <!-- 真实卖家 -->
+        <div class="row">
+            <div class="col-sm-4 supper-title">真实卖家</div>
+            <div class="col-sm-8 supper-con">
+                <span>{{vm.customerInfo.shopName}}</span><br />
+                <span class="colRed">{{vm.supplierInfo.shopName}} (供应商信息)</span>
+            </div>
+        </div>
+        <!-- 供应商名称 -->
+        <div class="row">
+            <div class="col-sm-4 supper-title">供应商名称</div>
+            <div class="col-sm-8 supper-con">
+                <span>{{vm.customerInfo.shopName}}</span><br />
+                <span class="colRed">{{vm.supplierInfo.shopName}} (供应商信息)</span>
+            </div>
+        </div>
+        <!-- 联系人手机 -->
+        <div class="row">
+            <div class="col-sm-4 supper-title">联系人手机</div>
+            <div class="col-sm-8 supper-con">
+                <span>{{vm.customerInfo.contactMobile}}</span><br />
+                <span class="colRed">{{vm.supplierInfo.shopContactTel}} (供应商信息)</span>
+            </div>
+        </div>
+        <!-- 公司名称 -->
+        <div class="row">
+            <div class="col-sm-4 supper-title">公司名称</div>
+            <div class="col-sm-8 supper-con">
+                <span>{{vm.customerInfo.companyName}}</span><br />
+                <span class="colRed">{{vm.supplierInfo.shopCompanyName}} (供应商信息)</span>
+            </div>
+        </div>
+        <!-- 店铺名称 -->
+        <div class="row">
+            <div class="col-sm-4 supper-title">店铺名称</div>
+            <div class="col-sm-8 supper-con">
+                <span>{{vm.customerInfo.shopName}}</span><br />
+                <span class="colRed">{{vm.supplierInfo.shopName}} (供应商信息)</span>
+            </div>
+        </div>
+        <!-- 详细地址 -->
+        <div class="row">
+            <div class="col-sm-4 supper-title">详细地址</div>
+            <div class="col-sm-8 supper-con">
+                <span>{{vm.customerInfo.shopProvinceName + vm.customerInfo.shopCityName + vm.customerInfo.shopDistrictName + vm.customerInfo.shopAddress}}</span><br />
+                <span class="colRed">{{vm.supplierInfo.provinceName + vm.supplierInfo.cityName + vm.supplierInfo.areaName + vm.supplierInfo.shopAddress}} (供应商信息)</span>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+        <!-- 持卡人姓名 -->
+        <div class="row">
+            <div class="col-sm-4 supper-title">持卡人姓名</div>
+            <div class="col-sm-8 supper-con">
+                <span>{{vm.customerInfo.accountOwner}}</span><br />
+                <span class="colRed">{{vm.supplierInfo.supplierBankAccountDtos[0].accountOwner}} (供应商信息)</span>
+            </div>
+        </div>
+        <!-- 银行账号 -->
+        <div class="row">
+            <div class="col-sm-4 supper-title">银行账号</div>
+            <div class="col-sm-8 supper-con">
+                <span>{{vm.customerInfo.accountNo}}</span><br />
+                <span class="colRed">{{vm.supplierInfo.supplierBankAccountDtos[0].accountNo}} (供应商信息)</span>
+            </div>
+        </div>
+        <!-- 开户银行 -->
+        <div class="row">
+            <div class="col-sm-4 supper-title">开户银行</div>
+            <div class="col-sm-8 supper-con">
+                <span>{{vm.customerInfo.bankName}}</span><br />
+                <span class="colRed">{{vm.supplierInfo.supplierBankAccountDtos[0].bankName}} (供应商信息)</span>
+            </div>
+        </div>
+        <!-- 开户省份 -->
+        <div class="row">
+            <div class="col-sm-4 supper-title">开户省份</div>
+            <div class="col-sm-8 supper-con">
+                <span>{{vm.customerInfo.bankProvince}}</span><br />
+                <span class="colRed">{{vm.supplierInfo.supplierBankAccountDtos[0].bankProvinceName}} (供应商信息)</span>
+            </div>
+        </div>
+        <!-- 开户城市 -->
+        <div class="row">
+            <div class="col-sm-4 supper-title">开户城市</div>
+            <div class="col-sm-8 supper-con">
+                <span>{{vm.customerInfo.bankCity}}</span><br />
+                <span class="colRed">{{vm.supplierInfo.supplierBankAccountDtos[0].bankCityName}} (供应商信息)</span>
+            </div>
+        </div>
+        <!-- 开户支行 -->
+        <div class="row">
+            <div class="col-sm-4 supper-title">开户支行</div>
+            <div class="col-sm-8 supper-con">
+                <span>{{vm.customerInfo.bankFullName}}</span><br />
+                <span class="colRed">{{vm.supplierInfo.supplierBankAccountDtos[0].bankFullname}} (供应商信息)</span>
+            </div>
+        </div>
+    </div>
+    <!-- footer -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-danger" ng-click="cancel()">重新选择</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确认无误</button>
+    </div>
+</div>

@@ -1,0 +1,114 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <style type="text/css">
+    .form-control-static {
+      padding-top: 7px;
+    }
+  </style>
+
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+
+    <h4 class="modal-title">
+      生成样卡ID
+    </h4>
+  </div>
+  <div class="modal-body">
+    <div class="tabs-container">
+      <div class="panel panel-default">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label class="col-lg-3">样卡来源:</label>
+                <label class="col-lg-3">
+                  <input type="radio" name="sampleSource" value="1" ng-model="sample.create.sampleSource">
+                  推版
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="hr-line-dashed"></div>
+
+
+
+          <div class="row" ng-if="sample.create.sendType == 3">
+            <div class="hr-line-dashed"></div>
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label class="col-lg-3"><span style="color: red">*</span>选择持有人:</label>
+                <div class="col-lg-8">
+                  <select chosen class="col-lg-5 form-control"
+                          ng-model="sample.create.belongOperatorId"
+                          ng-options="item.id as item.realName for item in operatorList">
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hr-line-dashed"></div>
+
+          <div class="row" ng-if="!isRoute">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label class="col-lg-3"><span style="color: red">*</span>选择商品:</label>
+                <div class="col-lg-9">
+                  <a href="javascript:void(0);" class="col-lg-3" ng-click="selectItems()">请选择</a>
+                  <label class="col-lg-9" ng-if="item.showItem" ng-bind="item.itemName"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="row" ng-if="isRoute">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label class="col-lg-3"><span style="color: red">*</span>商品:</label>
+              <div class="col-lg-9">
+                <label class="col-lg-9" ng-bind="item.itemName"></label>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="hr-line-dashed"></div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label class="col-lg-3"><span style="color: red">*</span>卖家运营:</label>
+                <div class="col-lg-8">
+                  <!--<select chosen class="col-lg-5 form-control"
+                          ng-model="sample.create.sellerOperatorId"
+                          ng-options="item.id+','+item.regionId as item.realName for item in sellerOperatorList">
+                  </select>-->
+                  <select chosen class="col-lg-5 form-control"
+                          ng-model="sample.create.sellerOperator"
+                          ng-options="item as item.realName for item in operatorList">
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hr-line-dashed"></div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label class="col-lg-3"><span style="color: red">*</span>生成数量:</label>
+                <div class="col-lg-8">
+                  <input type="text" class="col-lg-5 form-control" placeholder="最多生成50个" ng-model="sample.create.count">
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-w-m btn-primary" ng-click="confirm()">确认生成并打印
+  </button>
+  <button ng-if="!isRoute" type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">关闭
+  </button>
+</div>
+</div>

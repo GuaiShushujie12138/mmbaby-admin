@@ -1,0 +1,257 @@
+<style>
+    #buttonSection {
+        text-align: right;
+    }
+    #addSection {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    table th {
+        min-width: 80px;
+    }
+</style>
+
+<div class="wrapper wrapper-content animated fadeInRight" id="gridcontroller">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <span class="label label-primary"><i class="fa fa-cloud"></i>查询条件</span>
+
+            <div class="ibox-tools dropdown " dropdown="">
+                <!--<a style="color: #1ab394;"> <i class="fa  fa-eraser"></i>清除条件</a>-->
+                <a class="chevron-up" style="color: #1ab394;"> <i class="fa fa-chevron-up"></i>展开更多</a>
+            </div>
+        </div>
+
+        <div class="ibox-content m-b-sm border-bottom">
+            <form class="form-horizontal" ng-submit="submit($event)">
+
+                <div class="row">
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <div class="input-icon right">
+                                    <input type="text" name="searchContent" placeholder="搜索商品ID、标题；真实卖家手机、店铺、商品货号"
+                                           class="form-control" ng-model="vm.searchContent"
+                                           >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">商品类型</label>
+                            <div class="col-lg-8">
+                                <div class="input-icon right">
+
+                                    <select class="col-lg-5 form-control" name="itemType"
+                                            ng-model="vm.itemType"
+                                            ng-options="item.id as item.name for item in vm.itemTypeList"
+                                            ng-change="changeItemType()"
+                                            data-op="equal">
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">报价业务员</label>
+                            <div class="col-lg-8">
+                                <select chosen class="col-lg-5 form-control" data-placeholder="选择业务员" name="quoteMan"
+                                        ng-model="vm.quoteManId"
+                                        ng-options="item.id as item.realName for item in vm.roleList"
+                                        data-op="equal">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">链尚货号</label>
+                            <div class="col-lg-8">
+                                <input name="lsIsbn" type="text" class="form-control" placeholder="仅支持流水号搜索" ng-model="vm.lsIsbn" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">合格</label>
+                            <div class="col-lg-8">
+                                <select  class="form-control" name="qualification"
+                                        ng-model="vm.qualification"
+                                        ng-options="item.id as item.name for item in vm.qualificationList"
+                                        data-op="equal">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">品名</label>
+                            <div class="col-lg-8">
+                                <select chosen class="form-control" data-placeholder="请选择品名" name="productName"
+                                        ng-model="vm.productNameId"
+                                        ng-options="item.valueId as item.name for item in vm.productNameList"
+                                        data-op="equal">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">审核状态</label>
+                            <div class="col-lg-8">
+                                <select class="form-control" name="itemStatus"
+                                        ng-model="vm.currentStatus"
+                                        ng-options="item.id as item.name for item in vm.itemStatusList"
+                                        data-op="equal">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">商品来源</label>
+                            <div class="col-lg-8">
+                                <select class="form-control" name="itemSource"
+                                        ng-model="vm.itemSource"
+                                        ng-options="item.id as item.name for item in vm.itemSourceList"
+                                        data-op="equal">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">创建时间</label>
+                            <div class="col-lg-8">
+                                <input data-op="between" date-range-picker name="pc_trade.create_time"
+                                       type="text" class="form-control date-picker"
+                                       id="createTime"
+                                       ng-model="vm.validateDateRange"
+                                       options="vm.opts"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">样卡ID</label>
+                            <div class="col-lg-8">
+                                <input name="sampleId" type="text" class="form-control" ng-model="vm.sampleId" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">所属大区</label>
+                            <div class="col-lg-8">
+                                <div class="input-icon right">
+
+                                    <select class="col-lg-5 form-control" name="district"
+                                            ng-change="changeRegion()"
+                                            ng-model="vm.district"
+                                            ng-options="item.id as item.name for item in vm.districtList"
+                                            data-op="equal">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">所属部门</label>
+                            <div class="col-lg-8">
+                                <div class="input-icon right">
+
+                                    <select class="col-lg-5 form-control" name="deptPath"
+                                            ng-model="vm.deptPath"
+                                            ng-options="item.id as item.name for item in vm.subDeptList"
+                                            data-op="equal">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">商品状态</label>
+                            <div class="col-lg-8">
+                                <select class="form-control" name="status"
+                                        ng-model="vm.status"
+                                        ng-options="item.id as item.name for item in vm.statusList"
+                                        data-op="equal">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-4  pull-right" id="buttonSection">
+                        <button class="btn btn-w-m btn-primary" type="submit" ng-click="search()"
+                                ng-disabled="queryBtnDisabled">
+                            搜索
+                        </button>
+
+                        <button class="btn btn-w-m btn-primary" ng-click="clear($event)"
+                                ng-disabled="queryBtnDisabled">
+                            清空
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="col-lg-8  pull-left" id="addSection">
+                    <button style="margin-right: 1em" class="btn btn-w-m btn-primary"
+                            ng-click="addItem()" ng-disabled="queryBtnDisabled" ng-if="vm.showAddBtn">
+                        添加新商品
+                    </button>
+                </div>
+                <div class="ibox-content">
+                    <div class="row" style="overflow:auto">
+                        <div class="col-sm-12">
+                            <table datatable="" scrollfixed="" dt-options="dtOptions"
+                                   dt-columns="dtColumns" dt-instance="dtInstance"
+                                   data-order='[[ 4, "desc" ]]'
+                                   class="table table-striped table-bordered table-hover table-valign">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

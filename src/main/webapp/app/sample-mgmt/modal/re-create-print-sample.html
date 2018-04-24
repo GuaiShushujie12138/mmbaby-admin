@@ -1,0 +1,55 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <style type="text/css">
+        .form-control-static {
+            padding-top: 7px;
+        }
+    </style>
+
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+
+        <h4 class="modal-title">
+            重新生成样卡ID并打印
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="tabs-container">
+            <div class="panel panel-default">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label class="col-lg-5"><span style="color: red">*</span>重新生成并打印的样卡列表</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hr-line-dashed"></div>
+
+                <div class="row" ng-repeat="sampleCode in selectedSampleCodes">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label class="col-lg-5">样卡Id</label>
+                            <span class="col-lg-7">{{sampleCode}}&nbsp;&nbsp;</span>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-w-m btn-primary" ng-click="confirm()">确认重新生成并打印
+    </button>
+    <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">关闭
+    </button>
+</div>
+</div>

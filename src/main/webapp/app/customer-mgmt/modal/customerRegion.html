@@ -1,0 +1,30 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">分配大区</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-warning">
+                        危险操作!更换大区后,系统会自动清洗客户所属的运营人员!
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-2" ng-repeat="region in modal.regionList">
+                        <div class="form-group">
+                            <label><input type="radio" name="region" value="{{region.code}}" ng-model="modal.region">{{region.name}}</label> &nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确定</button>
+    </div>
+</div>

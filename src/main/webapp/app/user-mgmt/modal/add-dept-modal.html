@@ -1,0 +1,41 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">新增{{title}}</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="row" ng-if="parentId>0">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">上级部门</label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right">
+                                <p class="form-control-static" ng-bind="parentDeptName"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">{{title}}名称</label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right">
+                                <input type="text" name="deptName" class="form-control"
+                                       ng-model="deptName">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确定</button>
+    </div>
+</div>

@@ -1,0 +1,319 @@
+<div class="modal-dialog modal-lg no-margins">
+
+    <style type="text/css">
+        .ibox-tools-self {
+            display: block;
+            float: none;
+            margin-top: 0;
+            position: relative;
+            padding-left: 6em;
+            text-align: left;
+        }
+
+        .hr-line-dashed-self {
+            border-top: 1px dashed #e7eaec;
+            color: #1cc09f;
+            background-color: #1cc09f;
+            height: 1px;
+            margin: 20px 0;
+        }
+
+        .alert-self {
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-warning-self {
+            color: #8a6d3b;
+            background-color: #fcf8e3;
+            border-color: #faebcc;
+        }
+
+        .audit_fail {
+            position: absolute;
+            float: right;
+            right: 0px;
+        }
+
+        .priceTable {
+            border: 1px solid #dcdada;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .priceTable th {
+            background-color: #eceeef;
+        }
+
+        .priceTable td, th {
+            padding: 10px 30px;
+            align-content: center;
+            font-size: 13px;
+            color: #676a6c;
+        }
+    </style>
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i
+                class="fa fa-times"></i></button>
+        <h4 class="modal-title">找版反馈--需求编号:{{demandId}}</h4>
+    </div>
+    <div class="modal-body">
+        <div class="wrapper-content animated fadeIn" style="padding: 0px 3px 15px">
+            <div class="ibox " ng-repeat="feedback in feedbackList">
+
+                <div class="ibox-title">
+                    <h5>{{$index+1}}</h5>
+
+                    <div class="ibox-tools-self">
+            <span ng-if="feedback.isNeedSchedule == 1 && feedback.replyId == 0" class="label label-danger"
+                  style="margin-right: 5px">待抢单</span>
+                        <span style="color: #0e9aef;padding-right: 20px;">{{feedback.feedbackUserName}}</span>
+                        <span>{{feedback.adminFeedbackTime}}</span>
+                    </div>
+                    <div class="audit_fail" ng-if="feedback.auditStatusCode==2">
+                        <img src="/img/audit_fail.png"/>
+                    </div>
+                </div>
+                <div class="ibox-content" ng-if="feedback.type == 1">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <uib-carousel class="td-carousel">
+                                <uib-slide ng-repeat="pic in feedback.originPicPath track by $index"
+                                           class="{{$index == 0 ? 'active':''}}"
+                                           data="{{$index}}">
+                                    <a href="{{pic}}" class="swipebox">
+                                        <img ng-src="{{pic}}"/>
+                                    </a>
+                                </uib-slide>
+                            </uib-carousel>
+                        </div>
+
+                        <div class="col-md-8  col-sm-offset-2 text-align-center">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+
+                                    <label class="col-sm-2 control-label" tooltip-placement="top"
+                                           uib-tooltip="绑定的抢单会自动为买家调样"><i
+                                            class="fa fa-info-circle black">绑定抢单：</i></label>
+
+                                    <div class="col-sm-6">
+                                        <select chosen class="col-md-6 form-control" name="replyId"
+                                                ng-model="replyAndFeedbackMap[feedback.feedbackId]"
+                                                ng-options="item.replyId as item.replyName for item in replyList">
+                                        </select>
+
+                                    </div>
+                                    <label class="col-md-3 control-label">
+                                        <a target="_blank"
+                                           ng-href="{{modal.itemDomain}}item/{{replyAndItemMap[replyAndFeedbackMap[feedback.feedbackId]]}}">查看该抢单商品</a>
+                                    </label>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">抢单：</label>
+
+                                    <div class="col-sm-10">
+                                        <div class="col-sm-12">
+                                            <label class="col-sm-4 control-label align-left">{{feedback.replyName}}</label>
+                                            <label class="col-sm-4 control-label align-left">店铺名：{{feedback.shopName}}</label>
+                                            <label class="col-sm-4 control-label align-left">联系电话：{{feedback.mobile}}</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">属性信息：</label>
+
+                                    <div class="col-sm-10">
+                                        <div class="col-sm-12">
+                                            <label class="col-sm-4 control-label align-left">货源状态:现货</label>
+                                            <label class="col-sm-4 control-label align-left">成分:{{feedback.ingredient}}</label>
+                                            <label class="col-sm-4 control-label align-left">克重:{{feedback.gramWeight}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"></label>
+
+                                    <div class="col-sm-10">
+                                        <div class="col-sm-12">
+                                            <label class="col-sm-4 control-label align-left">品名：{{feedback.itemName}}</label>
+                                            <label class="col-sm-4 control-label align-left">幅宽：{{feedback.width}}</label>
+                                            <label class="col-sm-4 control-label align-left">商品来源:{{feedback.itemSource}}：</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"></label>
+
+                                    <div class="col-sm-10">
+                                        <div class="col-sm-12">
+                                            <label class="col-sm-4 control-label align-left">样卡ID：{{feedback.sampleCode}}</label>
+
+                                            <label class="col-sm-8 control-label align-left">地址：{{feedback.address}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"></label>
+
+                                    <div class="col-sm-10">
+                                        <div class="col-sm-12">
+                                            <label class="col-sm-2 control-label align-left" ng-if="feedback.paperTube=='' &&
+                                            feedback.blankShort=='' && feedback.meterShort==''">纸管空差:</label>
+                                            <label class="col-sm-2 control-label align-left" ng-if="feedback.paperTube=='' &&
+                                            feedback.blankShort=='' && feedback.meterShort==''">{{feedback.weightShortfall}}</label>
+                                            <label class="col-sm-2 control-label align-left" ng-if="feedback.paperTube!='' ||
+                                            feedback.blankShort!=''|| feedback.meterShort!=''">空差米差:</label>
+                                            <label class="col-sm-8" ng-if="feedback.paperTube!='' ||
+                                            feedback.blankShort!=''|| feedback.meterShort!=''">
+                                                <div class="col-sm-12">
+                                                    <label class="col-sm-4 control-label align-left"
+                                                           ng-if="feedback.paperTube!=''">纸管:{{feedback.paperTube}}</label>
+                                                    <label class="col-sm-4 control-label align-left"
+                                                           ng-if="feedback.blankShort!=''">空差:{{feedback.blankShort}}</label>
+                                                    <label class="col-sm-4 control-label align-left"
+                                                           ng-if="feedback.meterShort!=''">米差:{{feedback.meterShort}}</label>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-9"></label>
+                                    <button ng-click="printQrCode(feedback.sampleId)">打印二维码</button>
+                                </div>
+                                <div ng-if="feedback.type==1">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" style="margin-top:40px">价格信息：</label>
+
+                                        <div class="col-sm-10">
+                                            <table ng-if="feedback.item.skuList.length!=0" border="1"
+                                                   class="priceTable">
+                                                <thead>
+                                                <tr>
+                                                    <th>颜色</th>
+                                                    <th>色号</th>
+                                                    <th>链尚大货价</th>
+                                                    <th>链尚样布价</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="sku in feedback.item.skuList">
+                                                    <td ng-hide="$index>0 && showMoreCol">{{sku.colorName}}</td>
+                                                    <td ng-hide="$index>0 && showMoreCol">{{sku.colorCode}}</td>
+                                                    <td ng-hide="$index>0 && showMoreCol">{{sku.largeCargoPrice}}
+                                                        元/{{feedback.largeCargoMeasurementUnit}}
+                                                    </td>
+                                                    <td ng-hide="$index>0 && showMoreCol">{{sku.swatchPrice}}
+                                                        元/{{feedback.swatchMeasurementUnit}}
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2"></label>
+
+                                            <div class="col-sm-10">
+                                                <a style="padding:10px" ng-click="alterShowStatus($event)">展开更多价格>></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">真实卖家：</label>
+                                    <a href='javascript:void(0)' ng-click="customerDetail(feedback.customerId)"
+                                       ng-if='feedback.realShopCompanyName' target="_blank"
+                                       class="col-sm-4 control-label align-left">{{feedback.realShopCompanyName}}</a>
+                                    <label class="col-sm-2 control-label" ng-if="!(!feedback.arrivalTime && feedback.hasInventory==0)">是否有货：</label>
+                                    <span class="col-sm-4 control-label align-left"
+                                          ng-if="!!feedback.arrivalTime && feedback.hasInventory==0">无货:预计到货时间:{{feedback.arrivalTimeStr}}</span>
+                                    <span class="col-sm-4 control-label align-left"
+                                          ng-if="feedback.hasInventory == 1">有货</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">备注：</label>
+
+                                    <div class="col-sm-6">
+                                           <textarea rows="4" cols="50"
+                                                     ng-model="remarkAndFeedbackMap[feedback.feedbackId]"
+                                                     ng-maxlength="100"/>
+                                    </div>
+
+
+                                    <label ng-if="feedback.auditStatusCode==2" class="col-sm-2 control-label"
+                                           tooltip-placement="right"
+                                           uib-tooltip="{{feedback.auditFailReason}}"><i
+                                            class="fa fa-info-circle black">不通过原因</i></label>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label"></label>
+
+                                    <div class="col-sm-6" ng-if="feedback.auditStatusCode==0">
+                                        <button type="button" class="btn btn-outline btn-danger"
+                                                ng-click="auditSuccess($event,feedback.feedbackId,feedback.demandId)"
+                                                ng-disabled="okBtnDisabled">审核通过
+                                        </button>
+
+                                        <button type="button" class="btn btn-outline btn-danger"
+                                                ng-click="auditFail($event,feedback.feedbackId,feedback.demandId)"
+                                                ng-disabled="okBtnDisabled">审核不通过
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed-self"></div>
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <span style="color: #0e9aef;margin-right: 20px">{{feedback.commentUserName}}</span>
+                            </div>
+                            <div class="col-md-8" ng-if="feedback.isMatch == 0 && feedback.commentTime != ''">
+                                <span style="color:red">不匹配。</span>
+                                <span style="padding-right: 5px">{{feedback.commentReason}}</span>
+                                <span>{{feedback.commentContent}}</span>
+                            </div>
+                            <div class="col-md-8" ng-if="feedback.isMatch == 1 && feedback.commentTime != ''"><span
+                                    style="color: #0e9aef">匹配</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="ibox-content" ng-if="feedback.type == 0">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <span style="color: red">找版失败</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <span style="margin-right: 10px">{{feedback.reason}}</span>
+                            <span>{{feedback.remark}}</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确认修改
+        </button>
+
+    </div>
+</div>

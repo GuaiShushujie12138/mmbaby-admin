@@ -1,0 +1,399 @@
+<style>
+    .modal-dialog {
+        width: 100%;
+    }
+    .width20 {
+        width: 20%;
+        float: left;
+        text-align: center;
+    }
+
+    .width15 {
+        width: 15%;
+        float: left;
+        text-align: center;
+    }
+    .width55 {
+        width: 55%;
+        float: left;
+        text-align: center;
+    }
+
+    .width40 {
+        width: 40%;
+        float: left;
+        text-align: center;
+    }
+
+    .width70 {
+        width: 70%;
+        float: left;
+        text-align: center;
+    }
+
+    .table-border {
+        border: 1px solid #ddd;
+    }
+
+    .table-head > div {
+        text-align: center;
+    }
+
+    .info {
+        background-color: #1876b4 !important;
+        color: #fff !important;
+    }
+
+    .active{
+        background-color: #d1dade;
+    }
+
+    .table-body {
+        display: flex;
+        display: -webkit-flex;
+        justify-content: center;
+        -webkit-justify-content: center;
+        align-items: center;
+        -webkit-align-items: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .bdr {
+        border-right: 1px solid #ddd;
+
+    }
+
+    .bdl {
+        border-left: 1px solid #ddd;
+
+    }
+
+    .bdt {
+        border-top: 1px solid #ddd;
+
+    }
+
+    .bdb {
+        border-bottom: 1px solid #ddd;
+    }
+
+
+    .img_list{
+        display: inline-block;
+        position: relative;
+        z-index: 3;
+        margin-right: 8px;
+        margin-bottom: 5px;
+    }
+    .img2 .img_list{
+        z-index: 2;
+    }
+    .img_list i.fa:before{
+        position: absolute;
+        z-index: 1;
+        right: -2px;
+        top: -6px;
+        cursor: pointer;
+        color: red;
+        display: none;
+    }
+    .img_list:hover i.fa:before{
+        display: inline-block;
+    }
+    .source_img{
+        display: none;
+        width: 300px;
+        position: absolute;
+        z-index: 99;
+        border: 3px solid #18a689;
+        left: -120px;
+        top: 80px;
+        background-color: #ffffff;
+    }
+    .icon_img{
+        width: 60px;
+        height: 60px;
+        border: 2px solid #ffffff;
+    }
+    .img_list:hover .source_img{
+        display: inline-block;
+    }
+    .img_list:hover .icon_img{
+        border: 2px solid #18a689;
+    }
+
+    #rollList td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    #rollList th {
+        text-align: center;
+    }
+
+</style>
+<div class="modal-dialog no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+
+        <h4 class="modal-title">发货</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label"><i style="color: red;">*</i>发货类型:</label>
+                <div class="col-lg-3">
+                    <select class="form-control"
+                            ng-model="tradeLogistics.deliveryType"
+                            ng-options="item.id as item.name for item in vm.deliveryTypeList"
+                    >
+                    </select>
+                </div>
+            </div>
+
+            <div ng-show="tradeLogistics.deliveryType === 10">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><i style="color: red;">*</i>物流公司:</label>
+                    <div class="col-lg-3">
+                        <select class="form-control" chosen
+                                ng-model="tradeLogistics.logisticsCompanyId"
+                                ng-change=""
+                                ng-options="item.id as item.name for item in vm.logisticsCompanyList"
+                        >
+                            <option value="">请选择物流公司</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">物流单号:</label>
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" ng-model="tradeLogistics.logisticsSn" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">物流凭证:</label>
+                <div class="col-lg-10">
+                    <div class="img">
+                        <span class="img_list" ng-repeat="img in tradeLogistics.logisticsPics track by $index">
+                            <a ng-href="{{img}}" target="_blank" title="点击图片查看大图">
+                                <img class="source_img" ng-src="{{img}}" alt="">
+                                <img class="icon_img" ng-src="{{img}}" alt="">
+                            </a>
+                            <i class="fa fa-times" ng-click="delimg($index)"></i>
+                        </span>
+                            <button class="btn btn-w-sm btn-primary" id="imgUploadIdCard"><i class="fa fa-upload"></i> 上传图片</button>
+                            <!--<span class="tips">(最多上传3张图片)</span>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">发货说明:</label>
+                <div class="col-lg-3">
+                    <textarea class="form-control" ng-model="tradeLogistics.logisticsRemark"></textarea>
+                </div>
+            </div>
+
+            <div ng-show="tradeLogistics.deliveryType === 10">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><i style="color: red;">*</i>收货人:</label>
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" ng-model="tradeLogistics.receiverName"  />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><i style="color: red;">*</i>联系电话:</label>
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" ng-model="tradeLogistics.receiverMobile"  />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><i style="color: red;">*</i>物流地址</label>
+                    <div class="col-lg-2">
+                        <select class="form-control"
+                                ng-model="tradeLogistics.receiverProvinceId"
+                                ng-change="getCityList(tradeLogistics.receiverProvinceId)"
+                                ng-options="item.id as item.name for item in vm.provinceList"
+                                data-op="equal">
+                            <option value=''>请选择省份 </option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <select class="form-control"
+                                ng-model="tradeLogistics.receiverCityId"
+                                ng-change="getAreaList(tradeLogistics.receiverCityId)"
+                                ng-options="item.id as item.name for item in vm.cityList"
+                                data-op="equal">
+                            <option value=''>请选择城市 </option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <select class="form-control"
+                                ng-model="tradeLogistics.receiverDistrictId"
+                                ng-options="item.id as item.name for item in vm.areaList"
+                                data-op="equal">
+                            <option value=''>请选择区</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><i style="color: red;">*</i>详细地址:</label>
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" ng-model="tradeLogistics.receiverAddress"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label"><i style="color: red;">*</i>选择发货数量</label>
+                <div class="col-lg-8 checkbox">
+                    <label>
+                        <input type="checkbox" ng-checked="isChecked" ng-model="isChecked" ng-change="changeAllRollAmount()">全选
+                    </label>
+                </div>
+            </div>
+
+            <table class="table table-bordered " id="rollList" ng-if="rootCategoryId === 1">
+                <thead>
+                    <tr>
+                        <th colspan="2">色号</th>
+                        <th colspan="2">颜色</th>
+                        <th colspan="2">工艺</th>
+                        <th colspan="5">码单明细</th>
+                        <th colspan="2">单位</th>
+                    </tr>
+                </thead>
+
+                <tbody ng-repeat="item in packingSlipDetail track by $index">
+                    <tr>
+                        <td colspan="2" rowspan="{{item.rollListLength}}">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="interpretation[$index]" ng-change="changeRollAmount($index)" value="">{{item.colorNo}}
+                                </label>
+                            </div>
+                        </td>
+                        <td colspan="2" rowspan="{{item.rollListLength}}">{{item.colorName}}</td>
+                        <td colspan="2" rowspan="{{item.rollListLength}}">{{item.crafts}}</td>
+                        <td colspan="1" ng-class="[{info: (rollItem.deliveryType === 30)},{active:(rollItem.deliveryType === 10 || rollItem.deliveryType === 20)}]" ng-repeat="rollItem in item.rollListFirst track by $index">
+                            <div class="checkbox">
+                                <label>
+                                    <input ng-if="rollItem.deliveryType === 0"
+                                           ng-change="changeThisRollAmount($parent.$parent.$index)"
+                                           type="checkbox"
+                                           ng-checked="rollItem.isChecked"
+                                           ng-model="rollItem.isChecked"
+                                           type="checkbox" value="">{{rollItem.rollAmount}}
+                                </label>
+                            </div>
+                        </td>
+                        <td  colspan="2" rowspan="{{item.rollListLength}}">{{item.measurementUnit}}</td>
+                    </tr>
+                    <tr ng-repeat="rollItem in item.rollListNext track by $index">
+                        <td colspan="1" ng-class="[{info: (rollItem.deliveryType === 30)},{active:(rollItem.deliveryType === 10 || rollItem.deliveryType === 20)}]" ng-repeat="rollItem in rollItem track by $index">
+                            <div class="checkbox">
+                                <label>
+                                    <input ng-if="rollItem.deliveryType === 0"
+                                           ng-change="changeThisRollAmount($parent.$parent.$index)"
+                                           type="checkbox"
+                                           ng-checked="rollItem.isChecked"
+                                           ng-model="rollItem.isChecked"
+                                           type="checkbox" value="">{{rollItem.rollAmount}}
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td colspan="13">
+                            <span class="label" style="background: #1876b4;color:#fff;">验布坊处理</span>
+                            <span class="label" style="background: #f5f5f5;">商家已发货</span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <table class="table table-bordered" id="rollList" ng-if="rootCategoryId === 2">
+                <thead>
+                    <tr>
+                        <th colspan="2">规格</th>
+                        <th colspan="2">工艺</th>
+                        <th colspan="5">码单明细</th>
+                        <th colspan="2">单位</th>
+                    </tr>
+                </thead>
+
+                <tbody ng-repeat="item in packingSlipDetail track by $index">
+                <tr>
+                    <td colspan="2" rowspan="{{item.rollListLength}}">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="interpretation[$index]" ng-change="changeRollAmount($index)" value="">{{item.specification}}
+                            </label>
+                        </div>
+                    </td>
+                    <td colspan="2" rowspan="{{item.rollListLength}}">{{item.crafts}}</td>
+                    <td colspan="1" ng-class="[{info: (rollItem.deliveryType === 30)},{active:(rollItem.deliveryType === 10 || rollItem.deliveryType === 20)}]" ng-repeat="rollItem in item.rollListFirst track by $index">
+                        <div class="checkbox">
+                            <label>
+                                <input ng-if="rollItem.deliveryType === 0"
+                                       ng-change="changeThisRollAmount($parent.$parent.$index)"
+                                       type="checkbox"
+                                       ng-checked="rollItem.isChecked"
+                                       ng-model="rollItem.isChecked"
+                                       type="checkbox" value="">{{rollItem.rollAmount}}
+                            </label>
+                        </div>
+                    </td>
+                    <td  colspan="2" rowspan="{{item.rollListLength}}">{{item.measurementUnit}}</td>
+                </tr>
+                <tr ng-repeat="rollItem in item.rollListNext track by $index">
+                    <td colspan="1" ng-class="[{info: (rollItem.deliveryType === 30)},{active:(rollItem.deliveryType === 10 || rollItem.deliveryType === 20)}]" ng-repeat="rollItem in rollItem track by $index">
+                        <div class="checkbox">
+                            <label>
+                                <input ng-if="rollItem.deliveryType === 0"
+                                       ng-change="changeThisRollAmount($parent.$parent.$index)"
+                                       type="checkbox"
+                                       ng-checked="rollItem.isChecked"
+                                       ng-model="rollItem.isChecked"
+                                       type="checkbox" value="">{{rollItem.rollAmount}}
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label"></label>
+                <div class="col-lg-5">
+
+                </div>
+            </div>
+
+        </form>
+
+
+
+
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="deliveryData()"
+                ng-disabled="okBtnDisabled">确定
+        </button>
+    </div>
+</div>

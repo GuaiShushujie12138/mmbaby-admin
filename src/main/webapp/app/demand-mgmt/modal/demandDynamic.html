@@ -1,0 +1,85 @@
+<div class="modal-dialog modal-lg no-margins">
+    <style type="text/css">
+        .top {
+            color: #1AB394;
+        }
+
+        .others {
+            color: grey;
+        }
+
+        .vertical-timeline-block-self {
+            position: relative;
+            margin: .1em 0;
+        }
+
+        .vertical-timeline-content-self {
+            position: relative;
+            margin-left: 60px;
+            background: white;
+            border-radius: .25em;
+            padding: .5em
+        }
+
+        .vertical-timeline-content-self p {
+            margin: .1em 0;
+            line-height: 1
+        }
+
+        .vertical-timeline-icon-self {
+            position: absolute;
+            top: 0;
+            left: 5px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 16px;
+            border: 3px solid #f1f1f1;
+            text-align: center;
+        }
+
+        .vertical-timeline-icon-self .navy-bg {
+            color: #1ab394
+        }
+
+        .vertical-timeline-icon-self .gray-bg {
+            color: #a7aaab
+        }
+    </style>
+    <div class="row animated fadeInRight">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i
+                            class="fa fa-times"></i></button>
+                    <h4 class="modal-title">需求进度--需求编号:{{demandId}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="ibox-content" id="ibox-content">
+
+                        <div ng-repeat="dynamic in dynamicList" id="vertical-timeline"
+                             class="vertical-container light-timeline">
+                            <div class="vertical-timeline-block-self">
+                                <div class="{{$index == 0 ? 'vertical-timeline-icon-self navy-bg' : 'vertical-timeline-icon-self gray-bg'}}">
+                                </div>
+
+                                <div class="vertical-timeline-content-self">
+                                    <p class="{{$index == 0 ? 'top' : 'others'}}"><span>{{dynamic.content}}</span>
+                                        <br/><br/>
+                                        <span>
+                                        {{dynamic.createTime}}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-block btn-outline btn-primary" ng-if="hasMore" ng-click="loadNextPage()">
+                            点击继续
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,98 @@
+<div class="modal-dialog no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">{{title}}</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="row" ng-if="modalRoleId>0">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">角色编号</label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right">
+                                <input type="text" name="roleId" placeholder="" class="form-control"
+                                       ng-model="modalRoleId" readonly="readonly">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">角色名称*</label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right">
+                                <input type="text" name="roleName" class="form-control"
+                                       ng-model="modalRoleName"  required　ng-minlength="3" ng-maxlength="20">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">权限范围*</label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right">
+                                <select class="form-control" name="userScope"
+                                        ng-model="modal.userScope"
+                                        ng-options="item.key+'' as item.value for item in userScopes"
+                                        data-op="equal">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">角色管理范围"</label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right">
+                                <select class="form-control" name="roleMgmtScope" ng-change = "change(roleMgmtScope)"
+                                        ng-model="roleMgmtScope" ng-options="item.key as item.value for item in roleMgmtScopes"
+                                        data-op="equal">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="isHas">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">角色管理备注</label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right">
+                                <p class="form-control-static" ng-bind="remark"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <label class="col-lg-4 control-label">角色描述</label>
+                        <div class="col-lg-8">
+                            <div class="input-icon right">
+                                <textarea type="" name="roleDesc" class="form-control"
+                                          ng-model="modalRoleDesc "/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确定</button>
+    </div>
+</div>

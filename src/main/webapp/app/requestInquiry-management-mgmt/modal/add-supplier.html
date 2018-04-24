@@ -1,0 +1,153 @@
+<style>
+    .supper-title{
+        line-height: 34px;
+        text-align: right;
+        font-size: 15px;
+    }
+    .supper-title i{
+        color: red;
+    }
+</style>
+<div class="no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">新增供应商</h4>
+    </div>
+    <div class="modal-body" style="padding: 30px 50px;">
+        <!-- 供应商名称 -->
+        <div class="row">
+            <div class="col-sm-3 supper-title">供应商名称<i>*</i></div>
+            <div class="col-sm-8 supper-con">
+                <input type="text" class="form-control" ng-model="vm.shopName" placeholder="请输入供应商名称" >
+            </div>
+        </div>
+        <!-- 联系人手机 -->
+        <div class="row">
+            <div class="col-sm-3 supper-title">联系人手机<i>*</i></div>
+            <div class="col-sm-8 supper-con">
+                <input type="text" class="form-control" ng-model="vm.shopContactTel" placeholder="请输入联系人手机">
+            </div>
+        </div>
+        <!-- 联系人 -->
+        <div class="row">
+            <div class="col-sm-3 supper-title">联系人<i>*</i></div>
+            <div class="col-sm-8 supper-con">
+                <input type="text" class="form-control" ng-model="vm.shopContacts" placeholder="请输入联系人" >
+            </div>
+        </div>
+        <!-- 公司名称 -->
+        <div class="row">
+            <div class="col-sm-3 supper-title">公司名称<i>*</i></div>
+            <div class="col-sm-8 supper-con">
+                <input type="text" class="form-control" ng-model="vm.shopCompanyName" placeholder="请输入公司名称">
+            </div>
+        </div>
+        <!-- 公司地址 -->
+        <div class="row">
+            <div class="col-sm-3 supper-title">公司地址<i>*</i></div>
+            <div class="col-sm-8 supper-con" style="padding: 0;">
+                <div class="col-sm-4">
+                    <select class="province form-control m-b"
+                            ng-disabled="notEditable"
+                            ng-change="changeProvince(1)"
+                            ng-model="vm.province"
+                            ng-options="province.id as province.name for province in provinceList">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <select class="city form-control m-b"
+                            ng-disabled="notEditable"
+                            ng-change="changeCity(1)"
+                            ng-model="vm.city"
+                            ng-options="city.id as city.name for city in cityList1">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <select class="area form-control m-b"
+                            ng-disabled="notEditable"
+                            ng-model="vm.area"
+                            ng-options="district.id as district.name for district in districtList1">
+                        <option value="">请选择</option> <!-- 为什么value设置为空的时候,请选择没有显示出来 -->
+                    </select>
+                </div>
+                <div class="col-sm-12">
+                    <textarea style="height: 70px;" name="shopAddress" class="form-control" ng-model="vm.shopAddress" placeholder="请输入详细地址"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+        <!-- 持卡人姓名 -->
+        <div class="row">
+            <div class="col-sm-3 supper-title">持卡人姓名<i>*</i></div>
+            <div class="col-sm-8 supper-con">
+                <input type="text" class="form-control" ng-model="vm.bankData.accountOwner" placeholder="请输入持卡人姓名">
+            </div>
+        </div>
+        <!-- 银行账号 -->
+        <div class="row">
+            <div class="col-sm-3 supper-title">银行账号<i>*</i></div>
+            <div class="col-sm-8 supper-con">
+                <input type="tel" class="form-control" ng-model="vm.bankData.accountNo" placeholder="请输入银行账号" >
+            </div>
+        </div>
+        <!-- 开户银行 -->
+        <div class="row">
+            <div class="col-sm-3 supper-title">开户银行<i>*</i></div>
+            <div class="col-sm-8 supper-con">
+                <select chosen class="area form-control m-b"
+                        ng-model="vm.bankData.bankId"
+                        ng-change="changeBankSubAll()"
+                        ng-options="bank.bankId as bank.bankName for bank in bankList">
+                    <option value="">请选择</option> <!-- 为什么value设置为空的时候,请选择没有显示出来 -->
+                </select>
+            </div>
+        </div>
+        <!-- 开户省份 -->
+        <div class="row">
+            <div class="col-sm-3 supper-title">开户省份<i>*</i></div>
+            <div class="col-sm-8 supper-con">
+                <select class="province form-control m-b"
+                        ng-disabled="notEditable"
+                        ng-change="changeProvince(2)"
+                        ng-model="vm.bankData.bankProvince"
+                        ng-options="province.id as province.name for province in provinceList">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+        <!-- 开户城市 -->
+        <div class="row">
+            <div class="col-sm-3 supper-title">开户城市<i>*</i></div>
+            <div class="col-sm-8 supper-con">
+                <select class="city form-control m-b"
+                        ng-disabled="notEditable"
+                        ng-change="changeBankSubAll()"
+                        ng-model="vm.bankData.bankCity"
+                        ng-options="city.id as city.name for city in cityList2">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+        <!-- 开户支行 -->
+        <div class="row">
+            <div class="col-sm-3 supper-title">开户支行<i>*</i></div>
+            <div class="col-sm-8 supper-con">
+                <select chosen class="city form-control m-b"
+                        ng-disabled="notEditable"
+                        ng-model="vm.bankData.bankFullname"
+                        ng-options="bank.bankSubName as bank.bankSubName for bank in subBankList">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <!-- footer -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">关闭</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确认添加</button>
+    </div>
+</div>

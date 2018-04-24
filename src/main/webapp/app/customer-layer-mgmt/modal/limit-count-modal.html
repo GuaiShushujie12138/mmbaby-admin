@@ -1,0 +1,91 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+    <h4 class="modal-title">限额</h4>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <div ng-repeat="limit in limitConditions">
+        <div ng-bind="mark=$index" style="display: none"></div>
+        <div class="row" style="background-color: #f2f2f2">
+          <div class="row">
+            <div class="col-sm-2">
+              <img src="img/sub.png" ng-click="subCondition($index)" width="30" height="30"/>
+            </div>
+            <div class="col-sm-2">
+              <label class="col-sm-1 control-label">限额条件</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-3">
+              <label class="col-sm-1 control-label" style="color: #0e9aef">适用范围：</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2" ng-repeat="layer in modal.layerList">
+              <div class="form-group">
+                <label><input type="checkbox" name="{{layer.name}}" value="{{layer.id}}"
+                              ng-checked="isSelected(layer.id)" ng-click="updateSelection($event,layer.id)">{{layer
+                  .name}}</label> &nbsp;
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="col-lg-4 control-label" style="color: #0e9aef">限额方式</label>
+                <div class="col-lg-8">
+                  <label><input type="radio" name="limitType" icheck value="false"
+                                ng-model="modal.limitTypeMap[$index]" ng-checked="true" required/>分别限额</label>
+                  <label><input type="radio" name="limitType" icheck value="false"
+                                ng-model="modal.limitTypeMap[$index]"/>总数限额</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="col-lg-4 control-label" style="color: #0e9aef">限额数量</label>
+              <div class="col-lg-8">
+                <div class="input-icon right">
+                  <input type="number" name="limitCount" placeholder="请输入数字"
+                         class="form-control" ng-model="modal.limitNumMap[$index]">
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-3">
+              <label class="col-sm-1 control-label" style="color: #0e9aef">生效角色：</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2" ng-repeat="role in modal.roleList">
+              <div class="form-group">
+                <label><input type="radio" name="role" ng-model="modal.roleIdMap[mark]">{{layer
+                  .name}}</label> &nbsp;
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-5">
+          <img src="img/greyAdd.png" ng-click="addLimitCondition()" width="30" height="30"/>
+          <label class="col-sm-3 control-label">新增限额条件</label>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+    <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确定</button>
+  </div>
+</div>

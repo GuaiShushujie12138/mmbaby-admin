@@ -1,0 +1,621 @@
+<div class="modal-dialog modal-lg no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">
+            客户详情:<label class="red padding_class">{{info.customerId}}</label>
+            <label ng-if="info.isBuyer == 1">角色:</label>
+            <label class="label label-danger padding_class" ng-if="info.isBuyer == 1">买家</label>
+            <label class="label label-danger padding_class" ng-if="info.isSeller == 1">卖家</label>
+
+            <label class="red">{{extralData.customerStatus}}</label>
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="wrapper-content animated fadeIn" style="padding: 0px 3px 15px">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tabs-container">
+
+                        <uib-tabset>
+                            <uib-tab heading="客户基本信息">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">(CRM)客户ID :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{info.customerId}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">(链尚)会员ID :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{info.bindUserId}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">注册手机号 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{info.mobile}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">用户名 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{extralData.customerName}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">绑定邮箱 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{extralData.BindEmail}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">客户标签 :</label>
+                                                <div class="col-md-7">
+                                                    <span ng-repeat="tag in info.tags"><label class="label btn-primary" >{{tag}}</label></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">身份标签 :</label>
+                                                <div class="col-md-7">
+                                                    <label ng-if="info.isBuyer == 1" class="label btn-primary" >买家 </label>
+                                                    <label ng-if="info.isSeller == 1" class="label btn-primary" >卖家 </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">买家等级 :</label>
+                                                <div class="col-md-7">
+                                                    {{info.buyerLevelName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">卖家等级 :</label>
+                                                <div class="col-md-7" ng-if="info.isSeller == 1">
+                                                    {{info.sellerLevelName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">所属大区 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{info.regionName}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">分配状态 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{extralData.customerRel}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">开店状态 :</label>
+                                                <div class="col-md-7" ng-switch on="info.isOpenShop">
+                                                    <span ng-switch-when="0">未开店</span>
+                                                    <span ng-switch-when="1">已开店</span>
+                                                    <span ng-switch-default>未知</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">认证状态 :</label>
+                                                <div class="col-md-7" ng-switch on="info.authStatus">
+                                                    <span ng-switch-when="0">未认证</span>
+                                                    <span ng-switch-when="1">提审中</span>
+                                                    <span ng-switch-when="2">审核通过</span>
+                                                    <span ng-switch-when="3">审核拒绝</span>
+                                                    <span ng-switch-default>未知</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">组织形式 :</label>
+                                                <div class="col-md-7" ng-switch on="info.shopType">
+                                                    <span ng-switch-when="1">公司</span>
+                                                    <span ng-switch-when="2">个人</span>
+                                                    <span ng-switch-default>未知</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">客户介绍 :</label>
+                                                <div class="col-md-7">
+                                                    {{info.description}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label">卖家主营 :</label>
+                                                <div class="col-md-10">
+                                                    <span>{{info.businessNamesContent}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label">买家主需 :</label>
+                                                <div class="col-md-10">
+                                                    <span>{{info.needNamesContent}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label">客户来源 :</label>
+                                                <div class="col-md-10">
+                                                    <span>{{info.sourceTypeName}}</span>
+                                                </div>
+                                                <!--<div ng-if='info.sourceType == 900'class="col-md-10">-->
+                                                    <!--<span>{{info.sourceTypeName + ' - ' + info.sourceTypeOther  }}</span>-->
+                                                <!--</div>-->
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label">买家主营 :</label>
+                                                <div class="col-md-10">
+                                                    <span>{{info.buyerBusinessNamesContent}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row" ng-if="canBankInfo">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">银行户名 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{extralData.bankUser}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">开户支行 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{extralData.bankFullName}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">银行账号 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{extralData.bankNo}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<div class="hr-line-dashed"></div>-->
+                                    <!--<div class="row">-->
+                                        <!--<div class="col-xs-12">-->
+                                            <!--<div class="form-group">-->
+                                                <!--<label class="col-md-2 control-label">总部回访信息 :</label>-->
+                                                <!--<div class="col-md-10">-->
+
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                </div>
+                            </uib-tab>
+                            <uib-tab heading="联系人信息">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">联系人姓名 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{info.contactName}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">联系人电话 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{info.contactMobile}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">身份证 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{info.identityCardNo}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">联系人邮箱 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{info.email}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">QQ :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{info.qq}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">微信 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{info.weixin}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">传真 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{info.fax}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">部门 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{info.department}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">职位 :</label>
+                                                <div class="col-md-7">
+                                                    <span>{{info.position}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab heading="公司信息">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">公司名称 :</label>
+                                                <div class="col-md-6">
+                                                    <span>{{info.companyName}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">公司电话 :</label>
+                                                <div class="col-md-6">
+                                                    <span>{{info.companyPhone}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">营业执照 :</label>
+                                                <div class="col-md-6">
+                                                    <span>{{info.licenseNo}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <!--<div class="col-xs-4">-->
+                                            <!--<div class="form-group">-->
+                                                <!--<label class="col-md-6 control-label">员工人数 :</label>-->
+                                                <!--<div class="col-md-6">-->
+                                                    <!--<span>{{info.membersNum}}</span>&nbsp;-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">工厂规模 :</label>
+                                                <div class="col-md-6">
+                                                    <span>{{info.companyScaleName}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">公司所在地 :</label>
+                                                <div class="col-md-6">
+                                                    <span>{{info.provinceName}} {{info.cityName}} {{info.districtName}} {{info.address}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">经营模式 :</label>
+                                                <div class="col-md-6">
+                                                    <span>{{info.companyNatureName}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">主营行业 :</label>
+                                                <div class="col-md-6">
+                                                    <span>{{info.companyClassName}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">年产值 :</label>
+                                                <div class="col-md-6">
+                                                    <span>{{info.companyOutputValueName}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">公司属性 :</label>
+                                                <div class="col-md-6">
+                                                    <span>{{info.companyTypeName}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab heading="店铺信息">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">店铺名称 :</label>
+                                                <div class="col-md-6">
+                                                    <span>{{info.shopName}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">店铺所在地 :</label>
+                                                <div class="col-md-6">
+                                                    <span>{{rowObj.shopAddress}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">主营产品 :</label>
+                                                <div class="col-md-6">
+                                                    <span>{{info.shopClassName}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">店铺简介 :</label>
+                                                <div class="col-md-6">
+                                                    <span>{{info.shopRemark}}</span>&nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab heading="图片信息">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-4" ng-if="info.licensePic != ''">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">
+                                                    <span>营业执照图片</span>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <img ng-src="{{info.licensePic}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4" ng-if="info.businessCardPic != ''">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">
+                                                    <span>商家名片图片</span>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <img ng-src="{{info.businessCardPic}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4" ng-if="info.shopPic != ''">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">
+                                                    <span>门店招牌图片</span>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <img ng-src="{{info.shopPic}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-4" ng-if="info.contractPic != ''">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">
+                                                    <span>合同图片</span>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <img ng-src="{{info.contractPic}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4" ng-if="info.identityCardPic != ''">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">
+                                                    <span>身份证图片</span>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <img ng-src="{{info.identityCardPic}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4" ng-if="info.handIdentityCardPic != ''">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">
+                                                    <span>手持身份证图片</span>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <img ng-src="{{info.handIdentityCardPic}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-4" ng-if="info.shopLogo != ''">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">
+                                                    <span>店铺LOGO</span>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <img ng-src="{{info.shopLogo}}" style="max-width:300px;max-height:300px;margin:0 auto;display:block;width:100%;height:100%;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab heading="客户日志">
+                                <div class="panel-body" ng-controller="CustomerLogCtrl">
+                                    <div class="ibox-content" style="border-top-width: 0px; padding-top: 0px;">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table datatable="" width="100%" dt-options="dtOptions"
+                                                       dt-columns="dtColumns"
+                                                       dt-instance="dtInstance"
+                                                       class="table table-striped table-bordered table-hover" data-order='[[0, "desc" ]]'>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab heading="客户拜访记录">
+                                <div class="panel-body" ng-controller="CustomerVisitRecordCtrl">
+                                    <div class="ibox-content" style="border-top-width: 0px; padding-top: 0px;">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table datatable="" width="100%" dt-options="dtOptions"
+                                                       dt-columns="dtColumns"
+                                                       dt-instance="dtInstance"
+                                                       class="table table-striped table-bordered table-hover" data-order='[[3, "desc" ]]'>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab heading="客户回访记录">
+                                <div class="panel-body" ng-controller="CustomerVisitBackCtrl">
+                                    <div class="ibox-content" style="border-top-width: 0px; padding-top: 0px;">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table datatable="" width="100%" dt-options="dtOptions"
+                                                       dt-columns="dtColumns"
+                                                       dt-instance="dtInstance"
+                                                       class="table table-striped table-bordered table-hover" data-order='[[6, "desc" ]]'>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="cancel()">取消</button>
+    </div>
+</div>
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>

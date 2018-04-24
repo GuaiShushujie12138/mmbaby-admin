@@ -1,0 +1,45 @@
+#ignore target under current directory and all subdirectories:
+target/
+*/target/
+test-output/
+*/test-output/
+/node_modules/
+*/node_modules/
+/src/main/webapp/dist/
+/src/main/webapp/dist/script/
+
+#ignore settings & gitignore file
+.settings/
+*/.settings/
+.springBeans
+*/.springBeans
+
+#ignore svn files
+.svn
+*/.svn
+
+.project
+
+.metadata
+
+*/.project
+
+.classpath
+*/.classpath
+
+.data/
+*/.data/
+*~
+
+.idea/
+*.iml
+
+#logs
+*/*/logs/
+
+#ignore mac temp file
+.DS_Store
+*/*/.DS_Store
+
+
+#npm install merge-stream gulp-concat gulp-rename gulp-uglify gulp-order gulp-ng-annotate  gulp-ngmin gulp-strip-debug

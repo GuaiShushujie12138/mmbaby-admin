@@ -1,0 +1,17 @@
+<div class="modal-dialog no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">{{typeText}}</h4>
+    </div>
+    <div class="modal-body" style="padding: 0 30px;">
+        <iframe frameborder="0" ng-src="{{jumpUrl}}" style={{iframeStryle}}></iframe>
+    </div>
+</div>
+<style>
+    .item-iframe .modal-dialog{
+        width: 100%;
+    }
+    .item-iframe>.modal-dialog{
+        width: 96%;
+    }
+</style>

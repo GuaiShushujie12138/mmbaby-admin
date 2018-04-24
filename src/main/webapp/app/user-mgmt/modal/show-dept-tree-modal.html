@@ -1,0 +1,26 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">组织架构树</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-warning">
+                   请选择一个部门,不能是根节点
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div js-tree="treeConfig" ng-model="treeData" tree="treeInstance" should-apply="true"></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确定</button>
+    </div>
+</div>

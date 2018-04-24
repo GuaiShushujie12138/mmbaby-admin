@@ -1,0 +1,29 @@
+<style>
+    .supper-title{
+        line-height: 34px;
+        text-align: right;
+        font-size: 15px;
+    }
+    .supper-title i{
+        color: red;
+    }
+</style>
+<div class="no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">关联期货订单</h4>
+    </div>
+    <div class="modal-body" style="padding: 30px 50px;">
+       <div class="row" ng-repeat="trade in tradeList">
+        <div class="iradio_square-green" style="position: relative;">
+            <input type="radio" name="relatedTrade" icheck ng-value="{{trade.tradeId}}" class="tradeRadio"  ng-model="vm.relatedTrade" />
+        </div>
+         <span style="line-height: 24px;">{{trade.tradeId}}</span>
+       </div>
+     </div>
+    <!-- footer -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">关闭</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确认添加</button>
+    </div>
+</div>

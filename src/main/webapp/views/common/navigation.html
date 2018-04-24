@@ -1,0 +1,33 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul side-navigation class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element" dropdown>
+                    <img alt="image" class="img-circle" src="img/profile_small.jpg"/>
+                    <a class="dropdown-toggle" dropdown-toggle href>
+                        <span class="clear">
+                            <span class="block m-t-xs">
+                                <strong class="font-bold">怪蜀黍母婴网 <!-- <b class="caret"></b> --></strong>
+                            </span>
+                        </span>
+                    </a>
+                    <!-- <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="../login.html">Logout</a></li>
+                    </ul> -->
+                </div>
+                <div class="logo-element">
+                    <a href="#">Admin</a>
+                </div>
+            </li>
+            <li ng-class="{active: $state.includes('home')}">
+                <a href=""><i class="fa fa-adn"></i> <span class="nav-label">页面管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('home')}">
+                    <li ui-sref-active="active"><a ui-sref="home.product">页面资源管理<span class="label label-info pull-right">NEW</span></a></li>
+                    <li ui-sref-active="active"><a ui-sref="ad-templ-mgmt.ad-templ-query">模板管理<span class="label label-info pull-right">NEW</span></a></li>
+                </ul>
+            </li>
+
+
+        </ul>
+    </div>
+</nav>

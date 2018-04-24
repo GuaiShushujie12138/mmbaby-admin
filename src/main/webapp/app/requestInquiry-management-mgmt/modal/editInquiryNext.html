@@ -1,0 +1,131 @@
+<style>
+    .isTrue {
+        background-color: rgba(25, 190, 107, 0.5);
+
+    }
+
+    .isFalse {
+        background-color: rgba(255, 153, 0, 0.45);
+
+    }
+
+    .hr-line{
+        color: #ffffff;
+        background-color: #ffffff;
+        height: 8px;
+    }
+    .inquiryModel{
+        padding-top: 10px;
+    }
+</style>
+<div class="modal-dialog no-margins">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h4 class="modal-title">修改询价单</h4>
+    </div>
+    <div class="modal-body" style="background-color:#f6f6f6;font-family:黑体;height:600px;overflow-y:auto;">
+        <div class="row">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row">
+                        <img src="/img/watch_production.png" style="width:30px;height:30px;vertical-align:text-bottom">
+                        <span style="display:inline-block">商品ID:</span>
+                        <span ng-bind="inquiryDetail.itemId"></span>
+                        <img style="width:30px;vertical-align: baseline;" ng-if="inquiryDetail.hotItem"
+                             ng-src="../../img/hotItem.png">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span>供应商:</span>
+                            <span ng-bind="inquiryDetail.supplierName"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>供应商电话:</span>
+                            <span ng-bind="inquiryDetail.mobile"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>供应商联系人:</span>
+                            <span ng-bind="inquiryDetail.contactName"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>品名:</span>
+                            <span ng-bind="inquiryDetail.productName"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row">
+                        <img src="/img/watch_edit.png" style="width:30px;height:30px;vertical-align:text-bottom">
+                        <h4 style="display:inline-block">询价单信息</h4>
+                    </div>
+
+                    <div class="row inquiryModel"  ng-repeat="inquiry in inquiryDetail.detailDtoList" ng-class="{true: 'isTrue', false: 'isFalse'}[inquiry.isFalse]">
+                        <div class="row" style="font-size:12px;margin-left:5px">
+                            <div class="col-sm-12">
+                                <span>询价单id:</span>
+                                <span ng-bind="inquiry.requestInquiryId"></span>
+                            </div>
+                        </div>
+                        <div class="row" ng-repeat="request in inquiry.requestInquiryDetailDtoList"
+                             style="margin-left:5px">
+                            <div class="col-sm-12 all_common" data-dto="{{request}}">
+                                <span>{{$index+1}}</span>
+                                <span ng-if="inquiryDetail.rootCategoryId==1">色号:</span>
+                                <span ng-if="inquiryDetail.rootCategoryId==2">规格:</span>
+                                <span ng-if="inquiryDetail.rootCategoryId==1">{{request.colorNo}}</span>
+                                <span ng-if="inquiryDetail.rootCategoryId==2">{{request.specification}}</span>
+                                <span>工艺:</span>
+                                <span ng-if="request.crafts.length!=0" ng-repeat="x in request.crafts">{{x}}&nbsp</span>
+                                <span ng-if="request.crafts.length==0">无&nbsp</span>
+                                <span>意向价:</span>
+                                <span ng-bind="request.intentionalPrice  + '元/' + request.measurementUnit"></span>
+                                <span>链尚价:</span>
+                                <span ng-bind="request.lianShangPrice  + '元/' + request.newMeasurementUnit"></span>
+                                <span ng-if="!request.flagVersion">(无工艺)</span>
+                                <span ng-if="!request.flagPrice">(无价格)</span>
+                                <span>数量:</span>
+                                <span ng-bind="request.amount  + request.measurementUnit"></span>
+                                <span ng-if="request.inventoryStatus!=undefined">库存:</span>
+                                <span ng-if="request.inventoryStatus!=undefined">{{request.inventoryStatus == 1? '有货':request.inventoryStatus == 2?'足货':'无货'}}</span>
+                                <span ng-if="request.inventory!=undefined && request.inventoryStatus==1">{{request.inventory + request.newMeasurementUnit}}</span>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px">
+                            <div class="col-sm-12">
+                                <div class="col-sm-10">
+                                    <input class="form-control common" placeholder="备注:">
+                                </div>
+                                <button class="btn btn-sm btn-primary" data-id="{{inquiry.requestInquiryId}}"
+                                        ng-click="submitFeedback($event)">提交反馈
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px">
+                            <div class="col-sm-12">
+                                <div class="ibox float-e-margins" style="margin-bottom:0px">
+                                    <div class="ibox-tools dropdown " dropdown="" style="margin-right:10px">
+                                        <a class="chevron-up" style="color: #FF5722;"
+                                           data-id="{{inquiry.requestInquiryId}}"
+                                           ng-click="getHistoryFeedback($event)"> <i class="fa fa-chevron-up"></i>展开历史询价备注信息</a>
+                                    </div>
+                                    <div class="ibox-content" style="border-color:#fff;display: none">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-warning" ng-click="cancel()">上一步</button>
+        <button type="button" id="closeButton" class="btn btn-w-sm btn-default" ng-click="ok()" disabled>关闭</button>
+    </div>
+</div>

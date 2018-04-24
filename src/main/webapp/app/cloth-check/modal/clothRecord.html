@@ -1,0 +1,714 @@
+<style type="text/css">
+  .clothRecordCon .panel-body{
+    line-height: 34px;
+  }
+  .clothRecordCon .col-sm-4 .col-sm-4{
+    padding: 0;
+  }
+  #cxSelect select{
+    margin-right: 8px;
+  }
+  .table th,td{
+    vertical-align: middle!important;
+  }
+  .table-cal{
+    padding: 0!important;
+  }
+  .table-cal .table{
+    margin: 0;
+    border: 0;
+  }
+  .table-cal .table td{
+    padding: 0;
+    border-top: 0;
+    border-right: 0;
+    text-align: center;
+    line-height: 34px;
+    width: 20%;
+  }
+  .table-cal .table tr td:first-of-type {
+    border-left: 0;
+  }
+  .table-cal .table tr:last-of-type td {
+    border-bottom: 0;
+  }
+  .table td{
+    text-align: center;
+  }
+  .table label{
+    margin-bottom: 0;
+    font-weight: 400;
+  }
+  .table .cancel{
+    background: #f0f0f0;
+  }
+</style>
+
+<div class="wrapper wrapper-content">
+  <!-- header -->
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+
+    <h4 class="modal-title">
+      验布登记
+    </h4>
+
+    <button class="btn btn-primary btn-w-sm pull-right" style="margin-top:-20px;margin-right:20px;"
+            data-ng-click="directToPlan()">验布动态
+    </button>
+  </div>
+  <!-- body -->
+  <div class="modal-body clothRecordCon">
+    <!-- 送检信息 -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="label label-primary"><i class="fa fa-cloud"></i>送检信息</span>
+        </div>
+        <div class="panel-body">
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>验布坊:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <select class="col-sm-8 form-control ng-pristine ng-untouched ng-valid ng-not-empty"
+                        name="clothStoreId"
+                        ng-model="modal.order.clothStoreId"
+                        ng-change="changeClothStore()"
+                        ng-options="clothStore.id as clothStore.name for clothStore in modal.clothStoreList"
+                >
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>所属市场:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <select class="col-sm-8 form-control ng-pristine ng-untouched ng-valid ng-not-empty"
+                        name="marketId"
+                        ng-model="modal.order.marketId"
+                        ng-options="market.id as market.marketName for market in modal.marketList"
+                >
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>真实商户名:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <input type="text" name="realCustomerName" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength" ng-model="modal.order.realCustomerName">
+              </div>
+            </div>
+          </div>
+          <div class="hr-line"></div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>真实商户手机:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <input type="tel" maxlength="11" name="realCustomerMobile" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength" ng-model="modal.order.realCustomerMobile">
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>送检方式:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <select class="col-sm-8 form-control ng-pristine ng-untouched ng-valid ng-not-empty"
+                        name="customerType"
+                        ng-model="modal.order.customerType"
+                        ng-options="customerType.id as customerType.name for customerType in modal.customerTypeList"
+                >
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-4" ng-hide="modal.order.customerType == 4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  预计到货时间:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <input type="datetime"
+                       name="estimatedDeliveryTime"
+                       class="form-control date-picker"
+                       date-time
+                       view="date"
+                       ng-model="modal.order.estimatedDeliveryTime"/>
+              </div>
+            </div>
+
+
+          </div>
+          <div class="hr-line"></div>
+
+          <!-- 拉货信息 -->
+          <div class="pull-in" ng-show="modal.order.customerType == 4">
+            <div class="row">
+
+              <div class="col-sm-4" ng-show="modal.order.customerType == 4">
+                <div class="col-sm-4" style="text-align:right">
+                  <label>
+                    <span style="color:red;">*</span>拉货时间:
+                  </label>
+                </div>
+                <div class="col-sm-8">
+                  <input type="datetime"
+                         name="pullInTime"
+                         class="form-control date-picker"
+                         date-time
+                         view="date"
+                         ng-model="modal.order.pullInTime"/>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="col-sm-4" style="text-align:right">
+                  <label>
+                    <span style="color:red;">*</span>拉货联系人:
+                  </label>
+                </div>
+                <div class="col-sm-8">
+                  <input type="text" name="pullInContact" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength" ng-model="modal.order.pullInContact">
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <div class="col-sm-4" style="text-align:right">
+                  <label>
+                    <span style="color:red;">*</span>拉货联系电话:
+                  </label>
+                </div>
+                <div class="col-sm-8">
+                  <input type="tel" maxlength="11" name="pullInTel" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength" ng-model="modal.order.pullInTel">
+                </div>
+              </div>
+            </div>
+            <div class="hr-line"></div>
+
+            <div class="row">
+              <div class="col-sm-8">
+                <div class="col-sm-2" style="text-align:right; padding: 0;">
+                  <label>
+                    <span style="color:red;">*</span>拉货地址:
+                  </label>
+                </div>
+                <div class="col-sm-10">
+                  <textarea name="pullInAddress" id="" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" rows="3" ng-model="modal.order.pullInAddress"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!--码单信息-->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="label label-primary"><i class="fa fa-cloud"></i>码单信息</span>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="col-sm-2" style="text-align:right">
+                <label>
+                  <span style="color:black;">空差：</span>
+                </label>
+              </div>
+              <div class="col-sm-2">
+                <input type="text" class="form-control" ng-model="modal.psInfo.weightShortString" readonly="true">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="col-sm-2" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>码单图片:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <div ng-repeat="img in modal.packingSlipInfo.packingSlipImageUrls" style="width: 80px; height: 80px; float: left; margin-right: 10px;">
+                  <a ng-href="{{img}}" target="_blank">
+                    <img ng-src="{{img}}"
+                         alt=""
+                         style="width: 80px; height: 80px;"
+                    >
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hr-line"></div>
+        </div>
+      </div>
+
+    <!-- 验布商品信息 -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="label label-primary"><i class="fa fa-cloud"></i>验布商品信息</span>
+        </div>
+        <div class="panel-body" ng-repeat="item in modal.detail.itemList">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>商品名称:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <input type="text" name="itemName" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength" ng-model="item.itemName">
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>品名:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <select chosen class="form-control" data-placeholder="请选择品名" name="productName"
+                        ng-model="item.productId"
+                        ng-change="changeProductName(item)"
+                        ng-options="productName.valueId as productName.name for productName in productNameList"
+                        data-op="equal">
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>商品货号:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <input type="text" name="needCheckRollQuantity" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength" ng-model="item.lsItemCode" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="hr-line"></div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>面料结构:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <select class="col-sm-8 form-control ng-pristine ng-untouched ng-valid ng-not-empty"
+                        name="FABRIC_STRUCTURE"
+                        ng-model="item.fabricStructure"
+                        ng-options="fabricStructure.valueId as fabricStructure.name for fabricStructure in modal.FABRIC_STRUCTURE.values"
+                >
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>颜色:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <select chosen class="form-control" data-placeholder="请选择颜色" name="color"
+                        ng-model="item.colorName"
+                        ng-options="color.name as color.name for color in modal.COLOR.values"
+                        data-op="equal">
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>验布类型:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <select class="col-sm-8 form-control ng-pristine ng-untouched ng-valid ng-not-empty"
+                        name="ClothOrderTypeEnum"
+                        ng-model="item.orderType"
+                        ng-options="orderType.code as orderType.name for orderType in modal.ClothOrderTypeEnum"
+                >
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="hr-line"></div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>验布方式:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <select class="col-sm-8 form-control ng-pristine ng-untouched ng-valid ng-not-empty"
+                        name="CheckTypeEnum"
+                        ng-model="item.checkType"
+                        ng-change="calNeedRoll(item)"
+                        ng-options="checkType.type as checkType.name for checkType in modal.CheckTypeEnum"
+                >
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>商品总卷数:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <input type="text" name="expectRollQuantity" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength" ng-model="item.expectRollQuantity" readonly ng-change="calNeedRoll(item)">
+              </div>
+            </div>
+
+            <div class="col-sm-4" ng-show="item.checkType==2">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>商品抽检数:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <input type="text" name="needCheckRollQuantity" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength" ng-model="item.needCheckRollQuantity">
+              </div>
+            </div>
+
+
+          </div>
+          <div class="hr-line"></div>
+          <div class="row" ng-if="item.refundStatistics.length > 0">
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  退换货分析:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <select class="col-sm-8 form-control ng-pristine ng-untouched ng-valid ng-not-empty"
+                        name="refundStatiste"
+                        ng-change="changeRefundStatiste(item)"
+                        ng-model="item.refundStatiste"
+                        ng-options="refundStatiste.type as refundStatiste.typeName for refundStatiste in item.refundStatistics"
+                >
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-8" style="color: red;" ng-show="!!item.avgRefundRate">
+              平均退换货率：{{item.avgRefundRate}}；平均品质扣分：{{item.avgQualityDeduct}}。
+            </div>
+          </div>
+          <div class="hr-line"></div>
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="col-sm-2" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>商品图片:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <div ng-repeat="img in item.itemImage" style="width: 80px; height: 80px; float: left; margin-right: 10px;">
+                  <a ng-href="{{img}}" target="_blank">
+                  <img ng-src="{{img}}"
+                       alt=""
+                       style="width: 80px; height: 80px;"
+                  >
+                  </a>
+                </div>
+                <div ng-repeat="img in item.variableItemImage" style="width: 80px; height: 80px; float: left; margin-right: 10px;">
+                  <a ng-href="{{img}}" target="_blank">
+                    <img ng-src="{{img}}"
+                         alt=""
+                         style="width: 80px; height: 80px;"
+                    >
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="col-sm-2" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>送检明细:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <label><input type="checkbox"
+                              ng-model="item.psRollInfosCheckAll"
+                              ng-change="checkAllFunc(item)"
+                              ng-true-value="1"
+                              ng-false-value="0"
+                > 全选</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="col-sm-2" style="text-align:right">
+              </div>
+              <div class="col-sm-10">
+                <table class="table table-bordered">
+                  <thead>
+                  <tr>
+                    <th style="text-align: center;">{{item.rootCategoryId==1?"色号":"规格"}}</th>
+                    <th style="text-align: center;">码单明细</th>
+                    <th style="text-align: center;">单位</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="PSitem in item.psRollInfos">
+                    <td><label><input type="checkbox"
+                                      ng-model="PSitem.check"
+                                      ng-true-value="1"
+                                      ng-false-value="0"
+                                      ng-change="checkRow(PSitem,item)"
+                    > {{item.rootCategoryId==1?PSitem.colorNo:PSitem.specification}}</label></td>
+                    <td class="table-cal">
+                      <table class="table table-bordered">
+                        <tbody>
+                        <tr ng-repeat="psList in PSitem.detailRollList track by $index">
+                          <td ng-repeat="ps in psList track by $index" ng-class="{'cancel':(ps.deliveryType != 0 && ps.deliveryType != 30 && ps.deliveryType != undefined)}">
+                            <label ng-if="ps.rollAmount">
+                              <input type="checkbox"
+                                     ng-if="ps.deliveryType == 0 || ps.deliveryType == 30"
+                                     ng-model="ps.check"
+                                     ng-true-value="1"
+                                     ng-false-value="0"
+                                     ng-change="changeCheck(item)"
+                              >
+                              {{ps.rollAmount}}
+                            </label>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>{{PSitem.measurementUnit}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- 物流信息 -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="label label-primary"><i class="fa fa-cloud"></i>物流信息</span>
+        </div>
+        <div class="panel-body">
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>要求发货时间:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <select class="col-sm-8 form-control ng-pristine ng-untouched ng-valid ng-not-empty"
+                        name="requireCompletionType"
+                        ng-model="modal.order.requireCompletionType"
+                        ng-options="requireCompletionType.type as requireCompletionType.name for requireCompletionType in modal.requireCompletionTypeList"
+                >
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-2" ng-show="modal.order.requireCompletionType == 3">
+              <input type="datetime"
+                     name="requireCompletionTime"
+                     class="form-control date-picker"
+                     date-time
+                     view="date"
+                     ng-model="modal.order.requireCompletionTime"/>
+            </div>
+            <div class="col-sm-4" ng-show="modal.order.requireCompletionType == 1">
+              <label>
+                <span style="color:red;">*</span>验布未完成直接发货:
+              </label>
+              <label style="line-height: 0; margin-left: 20px;">
+                <div class="iradio_square-green">
+                  <input icheck="" type="radio" name="canDirectDeliver" ng-model="modal.order.canDirectDelivery" ng-value="true" ng-checked="true" class="ng-untouched ng-valid ng-dirty">
+                </div>
+                是
+              </label>
+              <label style="line-height: 0; margin-left: 20px;">
+                <div class="iradio_square-green">
+                  <input icheck="" type="radio" name="canDirectDeliver" ng-model="modal.order.canDirectDelivery" ng-value="false" ng-checked="false" class="ng-untouched ng-valid ng-dirty">
+                </div>
+                否
+              </label>
+            </div>
+            <div class="col-sm-4">
+              <label for="expedited">
+                <input id="expedited" ng-checked="modal.order.isVip" type="checkbox"> 加急
+              </label>
+            </div>
+          </div>
+          <div class="hr-line"></div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>提货方式:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <select class="col-sm-8 form-control ng-pristine ng-untouched ng-valid ng-not-empty"
+                        name="ClothLogisticsTypeEnum"
+                        ng-model="modal.order.logisticsTypeId"
+                        ng-options="customerType.code as customerType.name for customerType in modal.ClothLogisticsTypeEnum"
+                >
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-4" ng-show="modal.order.logisticsTypeId == 2">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>物流公司:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <select class="col-sm-8 form-control ng-pristine ng-untouched ng-valid ng-not-empty"
+                        name="logisticsCompanyList"
+                        ng-model="modal.logistics.logisticsCompanyId"
+                        ng-change="changeLogistics()"
+                        ng-options="logistics.companyId as logistics.companyName for logistics in modal.logisticsCompanyList"
+                >
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-4" ng-show="modal.order.logisticsTypeId == 2">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>物流联系方式:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <input type="text" name="mobiles" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength" ng-model="modal.logistics.logisticsMobile">
+              </div>
+            </div>
+          </div>
+          <div class="hr-line"></div>
+
+          <div class="row" ng-show="modal.order.logisticsTypeId == 2">
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>收货人:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <input type="text" name="buyerName" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength" ng-model="modal.logistics.buyerName">
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="col-sm-4" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>收货人联系方式:
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <input type="text" name="mobiles" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength" ng-model="modal.logistics.mobile">
+              </div>
+            </div>
+          </div>
+          <div class="hr-line"></div>
+          <div class="row" ng-show="modal.order.logisticsTypeId == 2">
+            <div class="col-sm-8">
+              <div class="col-sm-2" style="text-align:right">
+                <label>
+                  <span style="color:red;">*</span>收货地址:
+                </label>
+              </div>
+              <div class="col-sm-10">
+                <div class="input-icon right" id="cxSelect" style="height: 34px; margin-bottom: 10px;">
+                  <div class="col-lg-4" style="padding-left: 0;">
+                    <select class="province form-control "
+                            ng-disabled="notEditable"
+                            ng-change="changeProvince()"
+                            ng-model="modal.logistics.provinceId"
+                            ng-options="province.id as province.name for province in provinceList">
+                      <option value="">请选择</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-4">
+                    <select class="city form-control "
+                            ng-disabled="notEditable"
+                            ng-change="changeCity()"
+                            ng-model="modal.logistics.cityId"
+                            ng-options="city.id as city.name for city in cityList">
+                      <option value="">请选择</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-4">
+                    <select class="area form-control "
+                            ng-disabled="notEditable"
+                            ng-model="modal.logistics.districtId"
+                            ng-options="district.id as district.name for district in districtList"
+                    >
+                      <option value="">请选择</option> <!-- 为什么value设置为空的时候,请选择没有显示出来 -->
+                    </select>
+                  </div>
+                </div>
+                <textarea name="address" id="address" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" rows="3"  ng-model="modal.logistics.address"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="hr-line" style="height: 5px;"></div>
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="col-sm-2" style="text-align:right">
+                <label>
+                  备注:
+                </label>
+              </div>
+              <div class="col-sm-10">
+                <textarea name="remark" id="remark" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" rows="3" ng-model="modal.order.remark"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <!-- footer -->
+  <div class="modal-footer">
+    <button ng-show="clothType!=3" type="button" class="btn btn-w-m btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确认</button>
+    <!--<button type="button" class="btn btn-w-m btn-primary" ng-click="showClothdynamic()" ng-disabled="okBtnDisabled">验布坊动态</button>-->
+    <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">关闭
+    </button>
+  </div>
+</div>

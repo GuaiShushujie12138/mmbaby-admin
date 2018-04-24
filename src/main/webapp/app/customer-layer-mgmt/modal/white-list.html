@@ -1,0 +1,23 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-label="Close"><i class="fa fa-times"></i></button>
+    <h4 class="modal-title">白名单客户</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="row">
+                    <div  class="col-md-2 customerTagClass" ng-repeat="userId in modal.whiteList track by $index">
+                        <input type="text" style="width: 75%;border-radius:3px;" ng-model="whiteMap[$index]"/>
+                        <button type="button" class="close" ng-click="delete($index)" aria-label="Close"><i
+                            class="fa fa-times-circle"></i></button>
+                    </div>
+                    <button type="button" class="btn btn-primary dim" ng-click="add($event)"><i
+                        class="fa fa-plus-square"></i></button>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-w-sm btn-white" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-w-sm btn-primary" ng-click="ok()" ng-disabled="okBtnDisabled">确定</button>
+    </div>
+</div>

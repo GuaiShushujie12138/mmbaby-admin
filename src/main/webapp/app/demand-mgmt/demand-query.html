@@ -1,0 +1,400 @@
+<style>
+    .alert-self {
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        padding-left: 30px;
+    }
+
+    .tooltip {
+        width: 200px;
+    }
+
+</style>
+
+<div class="wrapper wrapper-content animated fadeInRight" id="gridcontroller">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <span class="label label-primary"><i class="fa fa-cloud"></i>查询条件</span>
+            <span ng-if="vm.canSeeDemandNum" style="margin-left: 20px;position: relative;">
+                <span style="color: red;">{{modal.notInPrivateDemandNum[0].name}}</span>近30天
+                <button ng-click="getNotInPrivateDemands(modal.notInPrivateDemandNum[0].code)" style="color: red;font-size: medium;font-weight: bold">
+                    {{modal.notInPrivateDemandNum ==null?0:modal.notInPrivateDemandNum[0].num}}
+                </button>个需求无人找版
+                <button class="btn  btn-link" type="button" tooltip-placement="right"
+                        uib-tooltip="近30天 优先采购区域为{{modal.notInPrivateDemandNum[0].name}} {{modal.notInPrivateDemandNum[0].name}}供给部无人找版 需求状态为采购中的需求"><i
+                        class="fa fa-info-circle red"></i>
+                </button>
+            </span>
+
+            <span ng-if="vm.canSeeDemandNum" style="margin-left: 20px;position: relative">
+                <span style="color: blue;">{{modal.notInPrivateDemandNum[1].name}}</span>近30天
+                <button ng-click="getNotInPrivateDemands(modal.notInPrivateDemandNum[1].code)" style="color: blue;font-size: medium;font-weight: bold">
+                   {{modal.notInPrivateDemandNum ==null?0:modal.notInPrivateDemandNum[1].num}}
+                </button>个需求无人找版
+                <button class="btn  btn-link" type="button" tooltip-placement="right"
+                        uib-tooltip="近30天 优先采购区域为{{modal.notInPrivateDemandNum[1].name}} {{modal.notInPrivateDemandNum[1].name}}供给部无人找版 需求状态为采购中的需求"><i
+                        class="fa fa-info-circle red"></i>
+                </button>
+            </span>
+        </div>
+
+        <div class="ibox-content m-b-sm border-bottom">
+
+            <!--<div ng-if="vm.canSeeDemandNum" class="col-sm-12">-->
+            <!--<div class="alert-self alert-info">-->
+            <!--近30天 <button ng-click="getNotInPrivateDemands()"-->
+            <!--style="color: red;font-size: medium;font-weight: bold">-->
+            <!--{{modal.notInPrivateDemandNum ==null?0:modal.notInPrivateDemandNum}}</button>个需求本区无人找版-->
+            <!--<button class="btn  btn-link" type="button" tooltip-placement="top"-->
+            <!--uib-tooltip="2017年3月10日后近30天，优先采购区域在本区的，本区未分配或抢入的需求数"><i-->
+            <!--class="fa fa-info-circle red"></i></button>-->
+            <!--</div>-->
+            <!--</div>-->
+            <form class="form-horizontal" ng-submit="submit()">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">需求编号</label>
+                            <div class="col-lg-8">
+                                <input type="text" value="" ng-model="vm.demandIdStr"
+                                       placeholder="精准匹配" class="form-control" name="d.demand_id"
+                                       data-op="equal">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">需求人手机号</label>
+                            <div class="col-lg-8">
+                                <input type="text" value="" ng-model="vm.userMobile"
+                                       placeholder="请输入手机号" class="form-control"
+                                       name="d.user_contact_mobile" data-op="equal">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label" for="status">需求状态</label>
+                            <div class="col-lg-8">
+
+                                <select id="status" class="form-control" name="d.status"
+                                        ng-model="vm.auditStatusStr"
+                                        ng-options="item.key+'' as item.value for item in modal.auditStatus"
+                                        data-op="equal">
+                                    <option value="">所有</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!--<div class="col-sm-4">-->
+                    <!--<div class="form-group issue_data">-->
+                    <!--<label class="col-lg-4 control-label">发布日期</label>-->
+                    <!--<div class="col-lg-8">-->
+                    <!--<input date-range-picker name="d.create_time" type="text"-->
+                    <!--class="form-control date-picker"-->
+                    <!--ng-model="vm.validateDateRange" clearable="true"-->
+                    <!--readonly="readonly" options="vm.opts" data-op="between"/>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">抢单类型</label>
+                            <div class="col-lg-8">
+                                <select class="col-lg-5 form-control" ng-model="vm.replyTypeStr"
+                                        name="replyTimes" data-op="equal">
+                                    <option value="">所有</option>
+                                    <option value="0">未抢单</option>
+                                    <option value="1">已抢单</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">优先采购区域</label>
+                            <div class="col-lg-8">
+
+                                <select class="form-control" name="de.purchase_area"
+                                        ng-model="vm.purchaseArea"
+                                        ng-options="item.key+'' as item.value for item in modal.purchaseArea"
+                                        data-op="like">
+                                    <option value="">所有</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">用户名</label>
+                            <div class="col-lg-8">
+                                <input type="text" value="" placeholder="模糊匹配" class="form-control"
+                                       name="u.user_name" ng-model="vm.userName" data-op="like">
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">是否代发</label>
+                            <div class="col-lg-8">
+                                <select class="col-lg-5 form-control" ng-model="vm.isReplace"
+                                        data-op="equal" name="isReplace">
+                                    <option value="">所有</option>
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">客户对应销售</label>
+                            <div class="col-lg-8">
+
+                                <select chosen class="col-lg-5 form-control" name="lcr.user_id"
+                                        ng-model="vm.crmBuyerId"
+                                        ng-options="item.id+'' as item.realName for item in buyerOperatorList"
+                                        data-op="equal">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">有无实样</label>
+                            <div class="col-lg-8">
+                                <select class="col-lg-5 form-control" ng-model="vm.hasModel"
+                                        data-op="equal" name="modelType">
+                                    <option value="">所有</option>
+                                    <option value="1">无样</option>
+                                    <option value="0">有样</option>
+                                    <option value="2">销售拿样</option>
+                                    <option value="3">买家寄样</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">是否收样</label>
+                            <div class="col-lg-8">
+                                <select class="col-lg-5 form-control" ng-model="vm.receiveSample"
+                                        data-op="equal" name="de.receive_sample">
+                                    <option value="">所有</option>
+                                    <option value="0">未收样</option>
+                                    <option value="1">已收样</option>
+                                    <option value="2">未收到实样</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">待抢单</label>
+                            <div class="col-lg-8">
+                                <select class="col-lg-5 form-control" ng-model="vm.reply"
+                                        data-op="equal" name="de.reply">
+                                    <option value="">所有</option>
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">需求来源</label>
+                            <div class="col-lg-8">
+
+                                <select chosen class="col-lg-5 form-control" name="de.source_code"
+                                        ng-model="vm.sourceCode"
+                                        ng-options="item.sourceCode+'' as item.sourceName for item in vm.demandSourceOptions"
+                                        data-op="equal">
+                                    <option value=''>所有</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">客户是否可见</label>
+                            <div class="col-lg-8">
+                                <select class="col-lg-5 form-control" ng-model="vm.outHide"
+                                        data-op="equal" name="d.out_hide">
+                                    <option value="-1">全部</option>
+                                    <option value="">可见</option>
+                                    <option value="1">不可见</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">找版人数</label>
+                            <div class="col-lg-8">
+                                <select class="col-lg-5 form-control" ng-model="vm.pickUserCount"
+                                        data-op="equal" name="pickUserCount">
+                                    <option value="">所有</option>
+                                    <option value="1">无人找版</option>
+                                    <option value="2">有人找版，无本区人找版</option>
+                                    <option value="3">有本区人找版</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">评价找版数</label>
+                            <div class="col-lg-8">
+                                <select class="col-lg-5 form-control" ng-model="vm.commentPickCount"
+                                        data-op="equal" name="commentPickCount">
+                                    <option value="">所有</option>
+                                    <option value="1">无评价</option>
+                                    <option value="2">有匹配成功的评价</option>
+                                    <option value="3">有匹配且匹配全失败</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">时间类型</label>
+                            <div class="col-lg-8">
+                                <label><input type="radio" name="isAudit" icheck value="false"
+                                              ng-model="vm.auditSwitch" ng-checked="true" required/>发布时间</label>
+                                <label><input type="radio" name="isAudit" icheck value="true"
+                                              ng-model="vm.auditSwitch"/>审核时间</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" ng-if="vm.auditSwitch == 'false'">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">有效日期</label>
+                            <div class="col-lg-8">
+                                <input data-op="between" date-range-picker name="d.create_time"
+                                       type="text" class="form-control date-picker"
+                                       ng-model="vm.validateDateRange" readonly="readonly"
+                                       options="vm.opts"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" ng-if="vm.auditSwitch == 'true'">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">有效日期</label>
+                            <div class="col-lg-8">
+                                <input data-op="between" date-range-picker name="d.audit_time"
+                                       type="text" class="form-control date-picker"
+                                       ng-model="vm.validateDateRange" readonly="readonly"
+                                       options="vm.opts"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">找版反馈数</label>
+                            <div class="col-lg-8">
+                                <select class="col-lg-5 form-control" ng-model="vm.feedbackCount"
+                                        data-op="equal" name="feedbackCount">
+                                    <option value="">所有</option>
+                                    <option value="1">无反馈</option>
+                                    <option value="2">有成功找版反馈</option>
+                                    <option value="3">有反馈且找版全失败</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">找版审核</label>
+                            <div class="col-lg-8">
+                                <select class="col-lg-5 form-control"
+                                        data-op="equal" name="pickAudit">
+                                    <option value="">全部</option>
+                                    <option value="0">有待审核</option>
+                                    <option value="1">有审核通过</option>
+                                    <option value="2">有审核不通过</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="col-lg-8 pull-right">
+                            <button class="btn btn-success" type="submit"
+                                    ng-disabled="queryBtnDisabled">搜索
+                            </button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="btn btn-success" type="button" data-ng-click="clear()">
+                                清空
+                            </button>
+
+                            <button style="display: none" class="btn btn-success"
+                                    type="button" data-ng-click="closeTimer()">
+                                关闭刷新
+                            </button>
+
+                            <button style="display: none" class="btn btn-success" type="button"
+                                    data-ng-click="openTimer()">
+                                开启刷新
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row" style="overflow-x:auto">
+                        <div class="col-sm-12">
+                            <table datatable="" scrollfixed="" dt-options="dtOptions" dt-columns="dtColumns"
+                                   dt-instance="dtInstance" data-order='[[ 15, "desc" ]]'
+                                   class="table table-striped table-bordered table-hover table-valign">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,326 @@
+<div class="panel-body">
+    <div class="row m-b-lg">
+        <div class="col-md-2 text-align-center" >
+            <uib-carousel class="td-carousel" >
+                <uib-slide ng-repeat="pic in picArr" class="{{$index == 0 ? 'active':''}}" data="{{$index}}">
+                    <a href="{{pic}}" class="swipebox">
+                        <img ng-src="{{pic}}" />
+                    </a>
+                </uib-slide>
+            </uib-carousel>
+
+            <!--<div class="row m-b-md" ng-repeat="pic in picArr">-->
+            <!--<a href="{{pic}}@300w_600h" target="_blank" title="{{pic}}"-->
+            <!--data-gallery=""><img ng-src="{{pic}}@150w_150h"/></a>-->
+            <!--</div>-->
+
+            <div class="row m-b-md text-align-center">
+                <span class="col-ms-2">描述：</span>
+                <span class="col-ms-10" style="word-wrap:break-word;word-break:break-all">{{demandBean.description}}</span>
+            </div>
+            <div class="row m-b-md text-align-center">
+                <span class="col-ms-2">价格：</span>
+                <span class="col-ms-10"><label class="label label-primary">{{demandBean.minPrice + ' - ' + demandBean.maxPrice}}</label></span>
+            </div>
+
+            <div class="row m-b-md text-align-center">
+                <span class="col-ms-2">标签：</span>
+                <span class="col-ms-10" >
+                    <span class="col-ms-2" style="margin-right: 2em " ng-repeat="itemtag in itemTags" >
+                        <div ng-if="itemtag!=''">
+
+                            <label class="label label-danger">{{itemtag}} </label>
+                        </div>
+                    </span>
+                </span>
+            </div>
+
+            <div class="row m-b-md text-align-center">
+                <span class="col-ms-2">需求评分：</span>
+                <span class="col-ms-10" style="font-size: 50px;font-weight: bold; color: red;">{{demandBean.score}}</span>
+            </div>
+        </div>
+        <div class="col-md-8  col-sm-offset-2 text-align-center">
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">面料类型 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.categoryNames}}
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">采购数量 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.purchaseQty}}
+                        <label ng-bind="demandBean.purchaseQtyUnit"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">品种 :</label>
+
+                    <div class="col-md-7" ng-repeat="itemPropsRow in itemProps">
+                        <div ng-if="itemPropsRow.pidName=='品种'">
+                            {{itemPropsRow.vidNames}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">会员ID :</label>
+                    <div class="col-md-7">
+                        {{demandBean.userId}}
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">工艺 :</label>
+                    <div class="col-md-7" ng-repeat="itemPropsRow in itemProps">
+                        <div ng-if="itemPropsRow.pidName=='工艺'">
+                            {{itemPropsRow.vidNames}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">用户名 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.belongUserName}}
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">门幅 :</label>
+                    <div class="col-md-7" ng-repeat="itemPropsRow in itemProps">
+                        <div ng-if="itemPropsRow.pidName=='门幅'">
+                            {{itemPropsRow.vidNames}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">代发人 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.crmUserName}}
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">基本参数 :</label>
+                    <div class="col-md-7" ng-repeat="itemPropsRow in itemProps">
+                        <div ng-if="itemPropsRow.pidName =='基本参数'">
+                            {{itemPropsRow.vidNames}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">买家联系电话 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.contactMobile}}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">规格 :</label>
+                    <div class="col-md-7" ng-repeat="itemPropsRow in itemProps">
+                        <div ng-if="itemPropsRow.pidName=='规格'">
+                            {{itemPropsRow.vidNames}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">分配次数 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.dispatchTimes}}
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">成分 :</label>
+                    <div class="col-md-7" ng-repeat="itemPropsRow in itemProps">
+                        <div ng-if="itemPropsRow.pidName=='成分'">
+                            {{itemPropsRow.vidNames}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">找版人数 :</label>
+                    <div class="col-md-7">
+                        {{pickCount}}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">用途 :</label>
+                    <div class="col-md-7" ng-repeat="itemPropsRow in itemProps">
+                        <div ng-if="itemPropsRow.pidName =='用途'">
+                            {{{itemPropsRow.vidNames}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">推送次数 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.pushTimes}}
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">采购用途 :</label>
+                    <div class="col-md-7">
+
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">审核拒绝原因 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.refuseRemark}}
+                    </div>
+                </div>
+
+                <!--<div class="col-xs-6">-->
+                    <!--<label class="col-md-5 control-label">抢单次数 :</label>-->
+                    <!--<div class="col-md-7">-->
+                        <!--{{demandBean.replyTimes}}-->
+                    <!--</div>-->
+                <!--</div>-->
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">需求状态 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.statusName}}
+                    </div>
+                </div>
+
+                <div class="col-xs-6" ng-if="demandBean.cancelReason != null && demandBean.cancelReason != ''">
+                    <label class="col-md-5 control-label">取消原因 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.cancelReason}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">需求来源 :</label>
+                    <div class="col-md-7">
+                        {{sourceName}}
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">发布时间 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.createTime}}
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">有效期 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.leftDay}}
+                        <label class="control-label">(天)</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">收货地址 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.receiveArea}}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">买家运营 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.buyerRunner}}
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">优先采购区域 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.purchaseArea}}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">归属大区 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.regionName}}
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">链尚网是否显示 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.outHide == 1?'否':'是'}}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="col-md-5 control-label">有无实样 :</label>
+                    <div class="col-md-7">
+                        {{demandBean.hasModel}}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
